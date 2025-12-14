@@ -1,3 +1,18 @@
+// EmailJS yapılandırması
+// ÖNEMLI: Aşağıdaki bilgileri kendi EmailJS hesabınızdan alın
+const EMAILJS_CONFIG = {
+    serviceID: 'YOUR_SERVICE_ID',      // EmailJS Service ID
+    templateID: 'YOUR_TEMPLATE_ID',    // EmailJS Template ID
+    publicKey: 'YOUR_PUBLIC_KEY'       // EmailJS Public Key
+};
+
+// EmailJS'i başlat
+(function() {
+    if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY') {
+        emailjs.init(EMAILJS_CONFIG.publicKey);
+    }
+})();
+
 // Kullanıcı sayacı ve yorum sistemi
 
 // Sayfa yüklendiğinde ziyaretçi sayısını artır
@@ -113,6 +128,33 @@ function submitFeedback(event) {
         comment: comment,
         date: new Date().toLocaleString('tr-TR')
     };
+    
+    // Email bildirimi gönder (EmailJS yapılandırılmışsa)
+    if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY') {
+        const typeLabels = {
+            'genel': 'Genel Yorum',
+            'oneri': 'Öneri',
+            'hata': 'Hata Bildirimi',
+            'tesekkur': 'Teşekkür'
+        };
+        
+        const templateParams = {
+            user_name: userName,
+            user_email: userEmail || 'Belirtilmedi',
+            rating: '★'.repeat(rating) + '☆'.repeat(5 - rating),
+            feedback_type: typeLabels[feedbackType],
+            comment: comment,
+            date: newComment.date,
+            website: 'Maaş Hesaplama by Göksel'
+        };
+        
+        emailjs.send(EMAILJS_CONFIG.serviceID, EMAILJS_CONFIG.templateID, templateParams)
+            .then(function(response) {
+                console.log('Email başarıyla gönderildi!', response.status, response.text);
+            }, function(error) {
+                console.log('Email gönderilemedi:', error);
+            });
+    }
     
     // Yorumları kaydet
     let comments = JSON.parse(localStorage.getItem('userComments') || '[]');
