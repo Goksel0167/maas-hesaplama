@@ -12,8 +12,8 @@ Kullanıcılar yorum yaptığında email bildirimi almak için aşağıdaki adı
 
 1. Dashboard'da **"Email Services"** sekmesine gidin
 2. **"Add New Service"** butonuna tıklayın
-3. Gmail, Outlook veya başka bir email sağlayıcısı seçin
-4. Email hesabınızı bağlayın
+3. **Gmail** seçin (gcapkin82@gmail.com için)
+4. Gmail hesabınızla (gcapkin82@gmail.com) bağlanın
 5. **Service ID**'yi kopyalayın (örn: `service_abc123`)
 
 ## 📝 Adım 3: Email Template Oluşturun
@@ -23,6 +23,12 @@ Kullanıcılar yorum yaptığında email bildirimi almak için aşağıdaki adı
 3. Template içeriğini aşağıdaki gibi oluşturun:
 
 ### Template İçeriği:
+
+**To Email (Kime):**
+```
+{{to_email}}
+```
+*Bu alan otomatik olarak gcapkin82@gmail.com olarak gelecek*
 
 **Subject (Konu):**
 ```
@@ -60,11 +66,14 @@ Kullanıcılar yorum yaptığında email bildirimi almak için aşağıdaki adı
 
 ```javascript
 const EMAILJS_CONFIG = {
-    serviceID: 'service_abc123',      // Adım 2'den aldığınız Service ID
-    templateID: 'template_xyz789',    // Adım 3'ten aldığınız Template ID
-    publicKey: 'abcdefghijk123456'    // Adım 4'ten aldığınız Public Key
+    serviceID: 'service_abc123',       // Adım 2'den aldığınız Service ID
+    templateID: 'template_xyz789',     // Adım 3'ten aldığınız Template ID
+    publicKey: 'abcdefghijk123456',    // Adım 4'ten aldığınız Public Key
+    toEmail: 'gcapkin82@gmail.com'     // ✅ Zaten ayarlanmış!
 };
 ```
+
+**ÖNEMLİ:** Sadece ilk 3 değeri (serviceID, templateID, publicKey) güncellemeniz yeterli. Email adresi zaten `gcapkin82@gmail.com` olarak ayarlanmış.
 
 ## ✅ Adım 6: Test Edin
 
@@ -75,7 +84,7 @@ const EMAILJS_CONFIG = {
 
 ## 📊 Email İçeriği
 
-Her yorum için şu bilgileri içeren bir email alacaksınız:
+Her yorum için **gcapkin82@gmail.com** adresine şu bilgileri içeren bir email alacaksınız:
 
 - ✅ Kullanıcı Adı
 - ✅ Kullanıcı Email (varsa)
@@ -98,9 +107,10 @@ Her yorum için şu bilgileri içeren bir email alacaksınız:
 - Tırnak işaretleri içinde olduğundan emin olun
 
 ### Gmail ile çalışmıyor?
-1. Gmail hesabınızda "Less secure app access" ayarını açın
-2. Veya Gmail App Password oluşturun
-3. EmailJS'de servisi yeniden bağlayın
+1. **gcapkin82@gmail.com** hesabınızda "2-Step Verification" açın
+2. "App Passwords" oluşturun (Google Account > Security > App Passwords)
+3. EmailJS'de servisi bu App Password ile yeniden bağlayın
+4. Alternatif: Gmail'de "Less secure app access" ayarını açın (önerilmez)
 
 ## 💡 İpuçları
 

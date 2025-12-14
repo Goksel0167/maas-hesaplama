@@ -1,9 +1,10 @@
 // EmailJS yapılandırması
-// ÖNEMLI: Aşağıdaki bilgileri kendi EmailJS hesabınızdan alın
+// Bildirimler gcapkin82@gmail.com adresine gönderilecek
 const EMAILJS_CONFIG = {
-    serviceID: 'YOUR_SERVICE_ID',      // EmailJS Service ID
-    templateID: 'YOUR_TEMPLATE_ID',    // EmailJS Template ID
-    publicKey: 'YOUR_PUBLIC_KEY'       // EmailJS Public Key
+    serviceID: 'YOUR_SERVICE_ID',      // EmailJS Service ID (EMAIL_SETUP.md'ye bakın)
+    templateID: 'YOUR_TEMPLATE_ID',    // EmailJS Template ID (EMAIL_SETUP.md'ye bakın)
+    publicKey: 'YOUR_PUBLIC_KEY',      // EmailJS Public Key (EMAIL_SETUP.md'ye bakın)
+    toEmail: 'gcapkin82@gmail.com'     // Bildirimlerin gönderileceği email adresi
 };
 
 // EmailJS'i başlat
@@ -139,6 +140,7 @@ function submitFeedback(event) {
         };
         
         const templateParams = {
+            to_email: EMAILJS_CONFIG.toEmail,
             user_name: userName,
             user_email: userEmail || 'Belirtilmedi',
             rating: '★'.repeat(rating) + '☆'.repeat(5 - rating),
