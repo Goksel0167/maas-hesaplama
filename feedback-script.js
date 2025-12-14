@@ -162,6 +162,8 @@ function submitFeedback(event) {
     let comments = JSON.parse(localStorage.getItem('userComments') || '[]');
     comments.unshift(newComment); // En yeniler başta
     localStorage.setItem('userComments', JSON.stringify(comments));
+    console.log('Yorum kaydedildi:', newComment);
+    console.log('Toplam yorum sayısı:', comments.length);
     
     // Formu temizle
     document.getElementById('feedbackForm').reset();
