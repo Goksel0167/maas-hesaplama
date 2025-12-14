@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kıdem ve İhbar Tazminatı Hesaplama - Maaş Hesaplama by Göksel</title>
+    <link rel="stylesheet" href="tazminat-style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Kıdem ve İhbar Tazminatı Hesaplama</h1>
+            <p class="subtitle">Maaş Hesaplama by Göksel - 2025</p>
+            <div class="nav-links">
+                <a href="index.html">← Maaş Hesaplama</a>
+            </div>
+        </header>
+
+        <div class="main-section">
+            <div class="input-panel">
+                <h2>Çalışma Süresi</h2>
+                <div class="form-group">
+                    <label for="isGirisTarihi">İş Giriş Tarihi</label>
+                    <input type="date" id="isGirisTarihi" value="2017-10-09">
+                </div>
+
+                <div class="form-group">
+                    <label for="istenCikisTarihi">İşten Çıkış Tarihi</label>
+                    <input type="date" id="istenCikisTarihi" value="2025-12-14">
+                </div>
+
+                <div class="work-duration">
+                    <div class="duration-item">
+                        <span class="label">Toplam Çalışma Süresi</span>
+                        <span class="value" id="toplamSure">-</span>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 30px;">Ücret Bilgileri</h2>
+                
+                <div class="form-group">
+                    <label>Hesaplama Yöntemi</label>
+                    <select id="hesaplamaYontemi" onchange="toggleCalculationMethod()">
+                        <option value="form">Form ile</option>
+                        <option value="maas">Maaş Hesaplama ile</option>
+                    </select>
+                </div>
+
+                <div id="formMethod">
+                    <div class="form-group">
+                        <label for="aylikBrutMaas">Aylık Brüt Maaş (₺)</label>
+                        <input type="number" id="aylikBrutMaas" value="157984.84" min="0" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="kumulatifMatrah">Kümülatif Gelir Vergisi Matrahı (₺)</label>
+                        <input type="number" id="kumulatifMatrah" value="0" min="0" step="0.01">
+                        <small style="color: #6c757d; font-size: 0.9em;">Yıl başından bugüne kadar biriken vergi matrahı</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="yillikEkGelir">Yıllık Ek Brüt Gelirler Toplamı (₺)</label>
+                        <input type="number" id="yillikEkGelir" value="0" min="0" step="0.01">
+                        <small style="color: #6c757d; font-size: 0.9em;">Primler, ikramiyeler vb.</small>
+                    </div>
+                </div>
+
+                <div id="maasMethod" style="display: none;">
+                    <div class="info-box">
+                        <p>Bu özellik ana maaş hesaplama sayfanızdan otomatik olarak bilgileri alacaktır.</p>
+                        <button onclick="window.location.href='index.html'" class="link-btn">Maaş Hesaplama Sayfasına Git</button>
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateSeverance()">Hesapla</button>
+            </div>
+
+            <div class="results-panel">
+                <div class="result-section kidem-section">
+                    <h2>Kıdem Tazminatı</h2>
+                    <div class="result-card">
+                        <div class="result-item">
+                            <span class="label">Hesaplamaya Esas Tutar</span>
+                            <span class="value" id="kidemEsasTutar">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Kıdem Günü</span>
+                            <span class="value" id="kidemGun">0 gün</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Kıdem Brüt</span>
+                            <span class="value" id="kidemBrut">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Damga Vergisi (%0.759)</span>
+                            <span class="value" id="kidemDamga">0,00 ₺</span>
+                        </div>
+                        <div class="result-item highlight">
+                            <span class="label">Kıdem Tazminatı (Net)</span>
+                            <span class="value" id="kidemNet">0,00 ₺</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-section ihbar-section">
+                    <h2>İhbar Tazminatı</h2>
+                    <div class="result-card">
+                        <div class="result-item">
+                            <span class="label">Hesaplamaya Esas Tutar</span>
+                            <span class="value" id="ihbarEsasTutar">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">İhbar Süresi</span>
+                            <span class="value" id="ihbarSure">0 hafta</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">İhbar Brüt</span>
+                            <span class="value" id="ihbarBrut">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">SGK İşçi Primi (%15)</span>
+                            <span class="value" id="ihbarSGK">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Kümülatif Gelir Vergisi Matrahı</span>
+                            <span class="value" id="ihbarKumulatifMatrah">0,00 ₺</span>
+                        </div>
+                        <div class="result-item tax-detail">
+                            <span class="label">Gelirin Vergi Dilimlerine Dağılımı</span>
+                            <span class="value" id="ihbarVergiDagilim" style="font-size: 0.85em;">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Gelir Vergisi</span>
+                            <span class="value" id="ihbarGelirVergisi">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Damga Vergisi (%0.759)</span>
+                            <span class="value" id="ihbarDamga">0,00 ₺</span>
+                        </div>
+                        <div class="result-item highlight">
+                            <span class="label">İhbar Tazminatı (Net)</span>
+                            <span class="value" id="ihbarNet">0,00 ₺</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-section izin-section">
+                    <h2>Yıllık İzin</h2>
+                    <div class="result-card">
+                        <div class="result-item">
+                            <span class="label">Yıllık İzin Hakkı</span>
+                            <div style="display: inline-flex; align-items: center; gap: 10px;">
+                                <input type="number" id="izinHakki" value="14" min="0" style="width: 80px; padding: 5px; border: 1px solid #dee2e6; border-radius: 4px;" onchange="calculateSeverance()">
+                                <span style="font-size: 0.9em; color: #6c757d;">gün</span>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Kullanılan İzin</span>
+                            <div style="display: inline-flex; align-items: center; gap: 10px;">
+                                <input type="number" id="kullanilanIzin" value="0" min="0" style="width: 80px; padding: 5px; border: 1px solid #dee2e6; border-radius: 4px;" onchange="calculateSeverance()">
+                                <span style="font-size: 0.9em; color: #6c757d;">gün</span>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Kalan İzin Günü</span>
+                            <span class="value" id="kalanIzin">0 gün</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Günlük Brüt Ücret</span>
+                            <span class="value" id="gunlukUcret">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">İzin Brüt Tutarı</span>
+                            <span class="value" id="izinBrut">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">SGK İşçi Primi (%15)</span>
+                            <span class="value" id="izinSGK">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Gelir Vergisi</span>
+                            <span class="value" id="izinGelirVergisi">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Damga Vergisi (%0.759)</span>
+                            <span class="value" id="izinDamga">0,00 ₺</span>
+                        </div>
+                        <div class="result-item highlight">
+                            <span class="label">Yıllık İzin Ücreti (Net)</span>
+                            <span class="value" id="izinNet">0,00 ₺</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-section total-section">
+                    <h2>Toplamlar</h2>
+                    <div class="result-card">
+                        <div class="result-item">
+                            <span class="label">Toplam Vergi</span>
+                            <span class="value" id="toplamVergi">0,00 ₺</span>
+                        </div>
+                        <div class="result-item highlight-total">
+                            <span class="label">Toplam Tazminat (Net)</span>
+                            <span class="value" id="toplamTazminat">0,00 ₺</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Kullanım Koşulları</h2>
+            <ol>
+                <li>Burada hesaplanan tutarlar bilgilendirme amaçlıdır; hesaplamalara dair hizmet sunduğumuz veya tarafımızca borç doğuran veya yasal bordro sonuçları doğuracak hizmet sözkonusu değildir.</li>
+                <li>Kıdem tazminatı, en az 1 yıl çalışma süresini tamamlayan çalışanlara ödenir.</li>
+                <li>İhbar tazminatı, iş sözleşmesinin işveren tarafından feshedilmesi durumunda ödenebilir.</li>
+                <li>Yıllık izin hakkı, çalışma süresine göre belirlenir (1-5 yıl: 14 gün, 5-15 yıl: 20 gün, 15+ yıl: 26 gün).</li>
+                <li>Kıdem tazminatı tavanı 2025 yılı için geçerli miktara göre hesaplanır.</li>
+                <li>Hesaplamalar, ücret artışları ve prim ödemelerini dikkate alarak yapılır.</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="tazminat-script.js"></script>
+</body>
+</html>

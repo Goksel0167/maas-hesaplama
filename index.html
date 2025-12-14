@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maaş Hesaplama by Göksel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Maaş Hesaplama by Göksel</h1>
+            <p class="subtitle">2025 Vergi Dilimleri ile Maaş Hesaplayıcı</p>
+            <div class="nav-links">
+                <a href="tazminat-hesaplama.html" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255, 255, 255, 0.2); border-radius: 8px; display: inline-block; margin-top: 15px; transition: all 0.3s ease;">Kıdem & İhbar Hesaplama →</a>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('brut-to-net')">Brütten Nete Hesaplama</button>
+            <button class="tab-btn" onclick="switchTab('net-to-brut')">Netten Brüte Hesaplama</button>
+        </div>
+
+        <div class="calculator-section">
+            <div class="input-section" id="brutToNetInputs">
+                <h2>Hesaplama Bilgileri</h2>
+                
+                <div class="form-group">
+                    <label for="salary">Brüt Maaş (₺)</label>
+                    <input type="number" id="salary" placeholder="Brüt maaş giriniz" value="50000" min="0" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="medeniDurum">Medeni Durum</label>
+                    <select id="medeniDurum">
+                        <option value="bekar">Bekar</option>
+                        <option value="evli">Evli</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cocukSayisi">Çocuk Sayısı</label>
+                    <input type="number" id="cocukSayisi" value="0" min="0" max="6" step="1">
+                </div>
+
+                <div class="form-group">
+                    <label>Çeyreklik Prim Tutarları</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+                        <div>
+                            <label for="primOcak" style="font-size: 0.9em; margin-bottom: 5px;">Ocak (₺)</label>
+                            <input type="number" id="primOcak" placeholder="Ocak primi" value="10000" min="0" step="0.01">
+                        </div>
+                        <div>
+                            <label for="primNisan" style="font-size: 0.9em; margin-bottom: 5px;">Nisan (₺)</label>
+                            <input type="number" id="primNisan" placeholder="Nisan primi" value="12000" min="0" step="0.01">
+                        </div>
+                        <div>
+                            <label for="primTemmuz" style="font-size: 0.9em; margin-bottom: 5px;">Temmuz (₺)</label>
+                            <input type="number" id="primTemmuz" placeholder="Temmuz primi" value="15000" min="0" step="0.01">
+                        </div>
+                        <div>
+                            <label for="primEkim" style="font-size: 0.9em; margin-bottom: 5px;">Ekim (₺)</label>
+                            <input type="number" id="primEkim" placeholder="Ekim primi" value="20000" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="engelliIndirimi">
+                        Engelli İndirimi
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="asgariBrutUcret">
+                        Asgari Brüt Ücret Geçerlidir
+                    </label>
+                </div>
+
+                <button class="calculate-btn" onclick="calculate()">Hesapla</button>
+            </div>
+
+            <div class="input-section" id="netToBrutInputs" style="display: none;">
+                <h2>Hesaplama Bilgileri</h2>
+                
+                <div class="form-group">
+                    <label for="netSalary">Net Maaş (₺)</label>
+                    <input type="number" id="netSalary" placeholder="Net maaş giriniz" value="35000" min="0" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="medeniDurum2">Medeni Durum</label>
+                    <select id="medeniDurum2">
+                        <option value="bekar">Bekar</option>
+                        <option value="evli">Evli</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cocukSayisi2">Çocuk Sayısı</label>
+                    <input type="number" id="cocukSayisi2" value="0" min="0" max="6" step="1">
+                </div>
+
+                <div class="form-group">
+                    <label>Çeyreklik Prim Tutarları</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+                        <div>
+                            <label for="primOcak2" style="font-size: 0.9em; margin-bottom: 5px;">Ocak (₺)</label>
+                            <input type="number" id="primOcak2" placeholder="Ocak primi" value="10000" min="0" step="0.01">
+                        </div>
+                        <div>
+                            <label for="primNisan2" style="font-size: 0.9em; margin-bottom: 5px;">Nisan (₺)</label>
+                            <input type="number" id="primNisan2" placeholder="Nisan primi" value="12000" min="0" step="0.01">
+                        </div>
+                        <div>
+                            <label for="primTemmuz2" style="font-size: 0.9em; margin-bottom: 5px;">Temmuz (₺)</label>
+                            <input type="number" id="primTemmuz2" placeholder="Temmuz primi" value="15000" min="0" step="0.01">
+                        </div>
+                        <div>
+                            <label for="primEkim2" style="font-size: 0.9em; margin-bottom: 5px;">Ekim (₺)</label>
+                            <input type="number" id="primEkim2" placeholder="Ekim primi" value="20000" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="engelliIndirimi2">
+                        Engelli İndirimi
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="asgariBrutUcret2">
+                        Asgari Brüt Üret Geçerlidir
+                    </label>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateNetToBrut()">Hesapla</button>
+            </div>
+
+            <div class="result-section">
+                <h2>Hesaplama Sonucu</h2>
+                
+                <div class="result-card">
+                    <div class="result-item highlight">
+                        <span class="label">Net Maaş</span>
+                        <span class="value" id="netMaas">0,00 ₺</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Brüt Maaş</span>
+                        <span class="value" id="brutMaas">0,00 ₺</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">SGK İşçi Primi (%14)</span>
+                        <span class="value" id="sgkIsci">0,00 ₺</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">İşsizlik Sigortası İşçi Primi (%1)</span>
+                        <span class="value" id="issizlikIsci">0,00 ₺</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Gelir Vergisi Matrahı</span>
+                        <span class="value" id="gelirVergisiMatrahi">0,00 ₺</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Gelir Vergisi</span>
+                        <span class="value" id="gelirVergisi">0,00 ₺</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Damga Vergisi (%0.759)</span>
+                        <span class="value" id="damgaVergisi">0,00 ₺</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Asgari Geçim İndirimi</span>
+                        <span class="value" id="agi">0,00 ₺</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Toplam Kesinti</span>
+                        <span class="value" id="toplamKesinti">0,00 ₺</span>
+                    </div>
+                </div>
+
+                <div class="employer-cost">
+                    <h3>İşveren Maliyeti</h3>
+                    <div class="result-item">
+                        <span class="label">SGK İşveren Primi (%20.5)</span>
+                        <span class="value" id="sgkIsveren">0,00 ₺</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">İşsizlik Sigortası İşveren Primi (%2)</span>
+                        <span class="value" id="issizlikIsveren">0,00 ₺</span>
+                    </div>
+                    <div class="result-item highlight">
+                        <span class="label">Toplam İşveren Maliyeti</span>
+                        <span class="value" id="toplamMaliyet">0,00 ₺</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="projection-section">
+            <h2>Tahmini Zam Hesaplama</h2>
+            <div class="projection-cards">
+                <div class="projection-card">
+                    <h3>Senaryo 1</h3>
+                    <div class="form-group">
+                        <label for="zam1Oran">Zam Oranı (%)</label>
+                        <input type="number" id="zam1Oran" value="10" min="0" max="100" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="zam1Ay">Zam Ayı</label>
+                        <select id="zam1Ay">
+                            <option value="1">Ocak</option>
+                            <option value="2">Şubat</option>
+                            <option value="3">Mart</option>
+                            <option value="4">Nisan</option>
+                            <option value="5">Mayıs</option>
+                            <option value="6" selected>Haziran</option>
+                            <option value="7">Temmuz</option>
+                            <option value="8">Ağustos</option>
+                            <option value="9">Eylül</option>
+                            <option value="10">Ekim</option>
+                            <option value="11">Kasım</option>
+                            <option value="12">Aralık</option>
+                        </select>
+                    </div>
+                    <div class="projection-result">
+                        <div class="result-item">
+                            <span class="label">Yeni Brüt Maaş</span>
+                            <span class="value" id="zam1Brut">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Yeni Net Maaş</span>
+                            <span class="value" id="zam1Net">0,00 ₺</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="projection-card">
+                    <h3>Senaryo 2</h3>
+                    <div class="form-group">
+                        <label for="zam2Oran">Zam Oranı (%)</label>
+                        <input type="number" id="zam2Oran" value="15" min="0" max="100" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="zam2Ay">Zam Ayı</label>
+                        <select id="zam2Ay">
+                            <option value="1">Ocak</option>
+                            <option value="2">Şubat</option>
+                            <option value="3">Mart</option>
+                            <option value="4">Nisan</option>
+                            <option value="5">Mayıs</option>
+                            <option value="6">Haziran</option>
+                            <option value="7" selected>Temmuz</option>
+                            <option value="8">Ağustos</option>
+                            <option value="9">Eylül</option>
+                            <option value="10">Ekim</option>
+                            <option value="11">Kasım</option>
+                            <option value="12">Aralık</option>
+                        </select>
+                    </div>
+                    <div class="projection-result">
+                        <div class="result-item">
+                            <span class="label">Yeni Brüt Maaş</span>
+                            <span class="value" id="zam2Brut">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Yeni Net Maaş</span>
+                            <span class="value" id="zam2Net">0,00 ₺</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="projection-card">
+                    <h3>Senaryo 3</h3>
+                    <div class="form-group">
+                        <label for="zam3Oran">Zam Oranı (%)</label>
+                        <input type="number" id="zam3Oran" value="20" min="0" max="100" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="zam3Ay">Zam Ayı</label>
+                        <select id="zam3Ay">
+                            <option value="1">Ocak</option>
+                            <option value="2">Şubat</option>
+                            <option value="3">Mart</option>
+                            <option value="4">Nisan</option>
+                            <option value="5">Mayıs</option>
+                            <option value="6">Haziran</option>
+                            <option value="7">Temmuz</option>
+                            <option value="8">Ağustos</option>
+                            <option value="9">Eylül</option>
+                            <option value="10">Ekim</option>
+                            <option value="11">Kasım</option>
+                            <option value="12" selected>Aralık</option>
+                        </select>
+                    </div>
+                    <div class="projection-result">
+                        <div class="result-item">
+                            <span class="label">Yeni Brüt Maaş</span>
+                            <span class="value" id="zam3Brut">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Yeni Net Maaş</span>
+                            <span class="value" id="zam3Net">0,00 ₺</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="annual-section">
+            <h2>Yıllık Hesaplama Tablosu</h2>
+            <div class="table-wrapper">
+                <table class="annual-table" id="annualTable">
+                    <thead>
+                        <tr>
+                            <th>Ay</th>
+                            <th>Brüt Maaş</th>
+                            <th>Prim</th>
+                            <th>Vergi Dilimi Detayı</th>
+                            <th>SGK İşçi</th>
+                            <th>İşsizlik İşçi</th>
+                            <th>Gelir Vergisi</th>
+                            <th>Kümülatif Vergi</th>
+                            <th>Damga Vergisi</th>
+                            <th>AGİ</th>
+                            <th>Net Maaş</th>
+                        </tr>
+                    </thead>
+                    <tbody id="annualTableBody">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                    <tfoot id="annualTableFoot">
+                        <!-- Will be populated by JavaScript -->
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>2025 Gelir Vergisi Dilimleri</h2>
+            <div class="tax-brackets">
+                <table class="info-table">
+                    <thead>
+                        <tr>
+                            <th>Gelir Vergisi Dilimi</th>
+                            <th>Vergi Oranı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0 ₺ - 110.000 ₺</td>
+                            <td>%15</td>
+                        </tr>
+                        <tr>
+                            <td>110.000 ₺ - 230.000 ₺</td>
+                            <td>%20</td>
+                        </tr>
+                        <tr>
+                            <td>230.000 ₺ - 580.000 ₺</td>
+                            <td>%27</td>
+                        </tr>
+                        <tr>
+                            <td>580.000 ₺ - 3.000.000 ₺</td>
+                            <td>%35</td>
+                        </tr>
+                        <tr>
+                            <td>3.000.000 ₺ ve üzeri</td>
+                            <td>%40</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Asgari Geçim İndirimi Oranları (2025)</h3>
+            <div class="agi-info">
+                <table class="info-table">
+                    <thead>
+                        <tr>
+                            <th>Medeni Durum</th>
+                            <th>Çocuk Sayısı</th>
+                            <th>İndirim Oranı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Bekar</td>
+                            <td>-</td>
+                            <td>%50</td>
+                        </tr>
+                        <tr>
+                            <td>Evli (Eş Çalışmıyor)</td>
+                            <td>0</td>
+                            <td>%60</td>
+                        </tr>
+                        <tr>
+                            <td>Evli veya Bekar</td>
+                            <td>1</td>
+                            <td>%68.5</td>
+                        </tr>
+                        <tr>
+                            <td>Evli veya Bekar</td>
+                            <td>2</td>
+                            <td>%76</td>
+                        </tr>
+                        <tr>
+                            <td>Evli veya Bekar</td>
+                            <td>3</td>
+                            <td>%83.5</td>
+                        </tr>
+                        <tr>
+                            <td>Evli veya Bekar</td>
+                            <td>4+</td>
+                            <td>%91</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

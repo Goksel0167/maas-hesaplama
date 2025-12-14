@@ -1,0 +1,328 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.nav-links {
+    margin-top: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.main-section {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 30px;
+    padding: 40px 30px;
+}
+
+.input-panel {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.input-panel h2 {
+    color: #2a5298;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    border-bottom: 2px solid #2a5298;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #495057;
+    font-size: 1em;
+}
+
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+}
+
+.work-duration {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.duration-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-weight: 600;
+}
+
+.duration-item .label {
+    color: #495057;
+}
+
+.duration-item .value {
+    color: #2a5298;
+    font-size: 1.1em;
+}
+
+.info-box {
+    background: #e3f2fd;
+    border: 2px solid #2196f3;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.info-box p {
+    margin-bottom: 15px;
+    color: #1976d2;
+}
+
+.link-btn {
+    padding: 10px 20px;
+    background: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.link-btn:hover {
+    background: #1976d2;
+    transform: translateY(-2px);
+}
+
+.calculate-btn {
+    width: 100%;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.calculate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.results-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.result-section h2 {
+    color: #2a5298;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #2a5298;
+}
+
+.kidem-section .result-card {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    border: 2px solid #4caf50;
+}
+
+.ihbar-section .result-card {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border: 2px solid #2196f3;
+}
+
+.izin-section .result-card {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    border: 2px solid #ff9800;
+}
+
+.total-section .result-card {
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+    border: 2px solid #e91e63;
+}
+
+.result-card {
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: background 0.2s ease;
+}
+
+.result-item:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item .label {
+    font-weight: 500;
+    color: #495057;
+}
+
+.result-item .value {
+    font-weight: 600;
+    color: #2a5298;
+}
+
+.result-item.highlight {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+    font-size: 1.15em;
+    margin-top: 10px;
+}
+
+.result-item.highlight .label,
+.result-item.highlight .value {
+    color: white;
+}
+
+.result-item.highlight-total {
+    background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+    color: white;
+    border-radius: 8px;
+    font-size: 1.25em;
+    padding: 15px;
+}
+
+.result-item.highlight-total .label,
+.result-item.highlight-total .value {
+    color: white;
+}
+
+.result-item.tax-detail {
+    background: #fff3cd;
+    border-radius: 6px;
+    margin: 5px 0;
+}
+
+.info-section {
+    padding: 40px 30px;
+    background: #f8f9fa;
+}
+
+.info-section h2 {
+    color: #2a5298;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+}
+
+.info-section ol {
+    padding-left: 25px;
+}
+
+.info-section li {
+    margin-bottom: 12px;
+    line-height: 1.6;
+    color: #495057;
+}
+
+@media (max-width: 1200px) {
+    .main-section {
+        grid-template-columns: 1fr;
+    }
+
+    .input-panel {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .subtitle {
+        font-size: 1em;
+    }
+
+    .main-section {
+        padding: 20px;
+    }
+}
