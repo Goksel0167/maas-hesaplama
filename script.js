@@ -1,25 +1,102 @@
-// 2025 Gelir Vergisi Dilimleri
-const TAX_BRACKETS = [
-    { min: 0, max: 110000, rate: 0.15, name: '1. Dilim (%15)' },
-    { min: 110000, max: 230000, rate: 0.20, name: '2. Dilim (%20)' },
-    { min: 230000, max: 580000, rate: 0.27, name: '3. Dilim (%27)' },
-    { min: 580000, max: 3000000, rate: 0.35, name: '4. Dilim (%35)' },
-    { min: 3000000, max: Infinity, rate: 0.40, name: '5. Dilim (%40)' }
-];
-
-// Asgari Geçim İndirimi Oranları
-const AGI_RATES = {
-    bekar: { 0: 0.50 },
-    evli: {
-        0: 0.60,
-        1: 0.685,
-        2: 0.76,
-        3: 0.835,
-        4: 0.91,
-        5: 0.91,
-        6: 0.91
+// Yıllara göre Gelir Vergisi Dilimleri ve AGI Oranları
+const TAX_DATA = {
+    2020: {
+        brackets: [
+            { min: 0, max: 22000, rate: 0.15, name: '1. Dilim (%15)' },
+            { min: 22000, max: 49000, rate: 0.20, name: '2. Dilim (%20)' },
+            { min: 49000, max: 180000, rate: 0.27, name: '3. Dilim (%27)' },
+            { min: 180000, max: 600000, rate: 0.35, name: '4. Dilim (%35)' },
+            { min: 600000, max: Infinity, rate: 0.40, name: '5. Dilim (%40)' }
+        ],
+        agi: {
+            bekar: { 0: 0.50 },
+            evli: { 0: 0.60, 1: 0.685, 2: 0.76, 3: 0.835, 4: 0.91, 5: 0.91, 6: 0.91 }
+        }
+    },
+    2021: {
+        brackets: [
+            { min: 0, max: 24000, rate: 0.15, name: '1. Dilim (%15)' },
+            { min: 24000, max: 53000, rate: 0.20, name: '2. Dilim (%20)' },
+            { min: 53000, max: 190000, rate: 0.27, name: '3. Dilim (%27)' },
+            { min: 190000, max: 650000, rate: 0.35, name: '4. Dilim (%35)' },
+            { min: 650000, max: Infinity, rate: 0.40, name: '5. Dilim (%40)' }
+        ],
+        agi: {
+            bekar: { 0: 0.50 },
+            evli: { 0: 0.60, 1: 0.685, 2: 0.76, 3: 0.835, 4: 0.91, 5: 0.91, 6: 0.91 }
+        }
+    },
+    2022: {
+        brackets: [
+            { min: 0, max: 32000, rate: 0.15, name: '1. Dilim (%15)' },
+            { min: 32000, max: 70000, rate: 0.20, name: '2. Dilim (%20)' },
+            { min: 70000, max: 250000, rate: 0.27, name: '3. Dilim (%27)' },
+            { min: 250000, max: 880000, rate: 0.35, name: '4. Dilim (%35)' },
+            { min: 880000, max: Infinity, rate: 0.40, name: '5. Dilim (%40)' }
+        ],
+        agi: {
+            bekar: { 0: 0.50 },
+            evli: { 0: 0.60, 1: 0.685, 2: 0.76, 3: 0.835, 4: 0.91, 5: 0.91, 6: 0.91 }
+        }
+    },
+    2023: {
+        brackets: [
+            { min: 0, max: 70000, rate: 0.15, name: '1. Dilim (%15)' },
+            { min: 70000, max: 150000, rate: 0.20, name: '2. Dilim (%20)' },
+            { min: 150000, max: 550000, rate: 0.27, name: '3. Dilim (%27)' },
+            { min: 550000, max: 1900000, rate: 0.35, name: '4. Dilim (%35)' },
+            { min: 1900000, max: Infinity, rate: 0.40, name: '5. Dilim (%40)' }
+        ],
+        agi: {
+            bekar: { 0: 0.50 },
+            evli: { 0: 0.60, 1: 0.685, 2: 0.76, 3: 0.835, 4: 0.91, 5: 0.91, 6: 0.91 }
+        }
+    },
+    2024: {
+        brackets: [
+            { min: 0, max: 110000, rate: 0.15, name: '1. Dilim (%15)' },
+            { min: 110000, max: 230000, rate: 0.20, name: '2. Dilim (%20)' },
+            { min: 230000, max: 870000, rate: 0.27, name: '3. Dilim (%27)' },
+            { min: 870000, max: 3000000, rate: 0.35, name: '4. Dilim (%35)' },
+            { min: 3000000, max: Infinity, rate: 0.40, name: '5. Dilim (%40)' }
+        ],
+        agi: {
+            bekar: { 0: 0.50 },
+            evli: { 0: 0.60, 1: 0.685, 2: 0.76, 3: 0.835, 4: 0.91, 5: 0.91, 6: 0.91 }
+        }
+    },
+    2025: {
+        brackets: [
+            { min: 0, max: 110000, rate: 0.15, name: '1. Dilim (%15)' },
+            { min: 110000, max: 230000, rate: 0.20, name: '2. Dilim (%20)' },
+            { min: 230000, max: 580000, rate: 0.27, name: '3. Dilim (%27)' },
+            { min: 580000, max: 3000000, rate: 0.35, name: '4. Dilim (%35)' },
+            { min: 3000000, max: Infinity, rate: 0.40, name: '5. Dilim (%40)' }
+        ],
+        agi: {
+            bekar: { 0: 0.50 },
+            evli: { 0: 0.60, 1: 0.685, 2: 0.76, 3: 0.835, 4: 0.91, 5: 0.91, 6: 0.91 }
+        }
+    },
+    2026: {
+        // Tahmini değerler (2025 değerlerinin yaklaşık %45 artırılmış hali - enflasyon tahmini)
+        brackets: [
+            { min: 0, max: 160000, rate: 0.15, name: '1. Dilim (%15)' },
+            { min: 160000, max: 335000, rate: 0.20, name: '2. Dilim (%20)' },
+            { min: 335000, max: 840000, rate: 0.27, name: '3. Dilim (%27)' },
+            { min: 840000, max: 4350000, rate: 0.35, name: '4. Dilim (%35)' },
+            { min: 4350000, max: Infinity, rate: 0.40, name: '5. Dilim (%40)' }
+        ],
+        agi: {
+            bekar: { 0: 0.50 },
+            evli: { 0: 0.60, 1: 0.685, 2: 0.76, 3: 0.835, 4: 0.91, 5: 0.91, 6: 0.91 }
+        }
     }
 };
+
+// Aktif vergi dilimleri ve AGI oranları (varsayılan 2025)
+let TAX_BRACKETS = TAX_DATA[2025].brackets;
+let AGI_RATES = TAX_DATA[2025].agi;
 
 // Para formatı
 function formatCurrency(amount) {
@@ -133,6 +210,11 @@ function getAGIRate(medeniDurum, cocukSayisi) {
 
 // Ana hesaplama fonksiyonu
 function calculate() {
+    // Seçilen yıla göre vergi dilimlerini ve AGI oranlarını güncelle
+    const selectedYear = parseInt(document.getElementById('taxYear').value);
+    TAX_BRACKETS = TAX_DATA[selectedYear].brackets;
+    AGI_RATES = TAX_DATA[selectedYear].agi;
+
     const brutMaas = parseFloat(document.getElementById('salary').value) || 0;
     const calisanDurumu = document.getElementById('calisanDurumu').value;
     const emekliAyligi = parseFloat(document.getElementById('emekliAyligi').value) || 0;
@@ -350,6 +432,11 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
 
 // Netten brüte hesaplama fonksiyonu
 function calculateNetToBrut() {
+    // Seçilen yıla göre vergi dilimlerini ve AGI oranlarını güncelle
+    const selectedYear = parseInt(document.getElementById('taxYear2').value);
+    TAX_BRACKETS = TAX_DATA[selectedYear].brackets;
+    AGI_RATES = TAX_DATA[selectedYear].agi;
+
     const hedefNetMaas = parseFloat(document.getElementById('netSalary').value) || 0;
     const medeniDurum = document.getElementById('medeniDurum2').value;
     const cocukSayisi = parseInt(document.getElementById('cocukSayisi2').value) || 0;
