@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yorum ve Öneriler - Maaş Hesaplama by Göksel</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .feedback-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .feedback-form {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+
+        .feedback-form h2 {
+            color: #2a5298;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 10px;
+            font-size: 2em;
+        }
+
+        .star {
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #ffc107;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .comments-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+        }
+
+        .comments-section h2 {
+            color: #2a5298;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .comment-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #2a5298;
+        }
+
+        .comment-date {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .comment-rating {
+            color: #ffc107;
+            margin: 5px 0;
+        }
+
+        .comment-text {
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 2px solid #4caf50;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Yorum ve Önerileriniz</h1>
+            <p class="subtitle">Maaş Hesaplama by Göksel</p>
+            <div class="nav-links">
+                <a href="index.html" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255, 255, 255, 0.2); border-radius: 8px; display: inline-block; margin: 10px;">← Ana Sayfa</a>
+                <a href="tazminat-hesaplama.html" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255, 255, 255, 0.2); border-radius: 8px; display: inline-block; margin: 10px;">Kıdem & İhbar</a>
+            </div>
+        </header>
+
+        <div class="feedback-container">
+            <div class="stats-section">
+                <h2>İstatistikler</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Toplam Ziyaretçi</div>
+                        <div class="stat-number" id="totalVisitors">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Bu Ay</div>
+                        <div class="stat-number" id="monthlyVisitors">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Bugün</div>
+                        <div class="stat-number" id="dailyVisitors">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Toplam Yorum</div>
+                        <div class="stat-number" id="totalComments">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feedback-form">
+                <h2>📝 Yorumunuzu Paylaşın</h2>
+                
+                <div class="success-message" id="successMessage">
+                    ✅ Yorumunuz başarıyla gönderildi! Teşekkür ederiz.
+                </div>
+
+                <form id="feedbackForm" onsubmit="submitFeedback(event)">
+                    <div class="form-group">
+                        <label for="userName">İsim <span style="color: red;">*</span></label>
+                        <input type="text" id="userName" required placeholder="İsminizi giriniz">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userEmail">E-posta (isteğe bağlı)</label>
+                        <input type="email" id="userEmail" placeholder="E-posta adresiniz">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Değerlendirme <span style="color: red;">*</span></label>
+                        <div class="rating-stars" id="ratingStars">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                        <input type="hidden" id="rating" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedbackType">Yorum Tipi</label>
+                        <select id="feedbackType">
+                            <option value="genel">Genel Yorum</option>
+                            <option value="oneri">Öneri</option>
+                            <option value="hata">Hata Bildirimi</option>
+                            <option value="tesekkur">Teşekkür</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Yorumunuz <span style="color: red;">*</span></label>
+                        <textarea id="comment" required placeholder="Uygulama hakkındaki düşüncelerinizi, önerilerinizi veya karşılaştığınız sorunları bizimle paylaşın..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Gönder</button>
+                </form>
+            </div>
+
+            <div class="comments-section">
+                <h2>💬 Kullanıcı Yorumları</h2>
+                <div id="commentsList">
+                    <!-- Yorumlar buraya gelecek -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="feedback-script.js"></script>
+</body>
+</html>

@@ -141,19 +141,27 @@ function calculateSeverance() {
     
     // KIDEM TAZMİNATI HESAPLAMA
     let kidemGun = 0;
+    let kidemBrutHesaplanan = 0;
     let kidemBrut = 0;
     let kidemDamga = 0;
     let kidemNet = 0;
     
     if (workYears >= 1) {
-        // Kıdem günü: Her tam yıl için 30 gün
-        kidemGun = Math.floor(workYears * 30);
+        // Kıdem günü: TOPLAM ÇALIŞMA SÜRESİNE GÖRE
+        // Her tam yıl için 30 gün
+        const tamYillar = Math.floor(workYears);
+        const kalanAylar = Math.floor((workYears - tamYillar) * 12);
+        
+        // Toplam kıdem günü = (tam yıllar * 30) + (kalan aylar * 2.5)
+        kidemGun = (tamYillar * 30) + Math.floor(kalanAylar * 2.5);
         
         // Günlük brüt ücret
         const gunlukBrut = aylikBrutMaas / 30;
         
+        // Kıdem brüt (hesaplanan - tavan uygulanmadan)
+        kidemBrutHesaplanan = gunlukBrut * kidemGun;
+        
         // Kıdem brüt (tavan kontrolü ile)
-        const kidemBrutHesaplanan = gunlukBrut * kidemGun;
         kidemBrut = Math.min(kidemBrutHesaplanan, KIDEM_TAVAN);
         
         // Damga vergisi
@@ -242,8 +250,11 @@ function calculateSeverance() {
     
     // Sonuçları göster
     // Kıdem
+    document.getElementById('kidemCalismaYili').textContent = workYears.toFixed(2) + ' yıl';
     document.getElementById('kidemEsasTutar').textContent = formatCurrency(aylikBrutMaas / 30);
     document.getElementById('kidemGun').textContent = kidemGun + ' gün';
+    document.getElementById('kidemBrutHesaplanan').textContent = formatCurrency(kidemBrutHesaplanan);
+    document.getElementById('kidemTavan').textContent = formatCurrency(KIDEM_TAVAN);
     document.getElementById('kidemBrut').textContent = formatCurrency(kidemBrut);
     document.getElementById('kidemDamga').textContent = formatCurrency(kidemDamga);
     document.getElementById('kidemNet').textContent = formatCurrency(kidemNet);
