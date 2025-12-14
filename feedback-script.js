@@ -1,10 +1,10 @@
 // EmailJS yapılandırması
 // Bildirimler gcapkin82@gmail.com adresine gönderilecek
 const EMAILJS_CONFIG = {
-    serviceID: 'YOUR_SERVICE_ID',      // EmailJS Service ID (EMAIL_SETUP.md'ye bakın)
-    templateID: 'YOUR_TEMPLATE_ID',    // EmailJS Template ID (EMAIL_SETUP.md'ye bakın)
-    publicKey: 'YOUR_PUBLIC_KEY',      // EmailJS Public Key (EMAIL_SETUP.md'ye bakın)
-    toEmail: 'gcapkin82@gmail.com'     // Bildirimlerin gönderileceği email adresi
+    serviceID: 'service_d0rj1fk',      // ✅ Gmail servisi bağlandı
+    templateID: 'YOUR_TEMPLATE_ID',    // ⚠️ Template oluşturup buraya yapıştırın
+    publicKey: 'YOUR_PUBLIC_KEY',      // ⚠️ Account > General'dan alıp buraya yapıştırın
+    toEmail: 'gcapkin82@gmail.com'     // ✅ Email adresi hazır
 };
 
 // EmailJS'i başlat
