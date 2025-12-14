@@ -134,8 +134,6 @@ function getAGIRate(medeniDurum, cocukSayisi) {
 // Ana hesaplama fonksiyonu
 function calculate() {
     const brutMaas = parseFloat(document.getElementById('salary').value) || 0;
-    const calisanDurumu = document.getElementById('calisanDurumu').value;
-    const emekliAyligi = parseFloat(document.getElementById('emekliAyligi').value) || 0;
     const medeniDurum = document.getElementById('medeniDurum').value;
     const cocukSayisi = parseInt(document.getElementById('cocukSayisi').value) || 0;
     const primOcak = parseFloat(document.getElementById('primOcak').value) || 0;
@@ -145,44 +143,31 @@ function calculate() {
     const engelliIndirimi = document.getElementById('engelliIndirimi').checked;
     const asgariBrutUcret = document.getElementById('asgariBrutUcret').checked;
 
-    let sgkIsci, issizlikIsci, gelirVergisiMatrahi, aylikGelirVergisi, agi, netGelirVergisi;
-    
-    if (calisanDurumu === 'emekli') {
-        // EMEKLİ ÇALIŞAN HESAPLAMA
-        sgkIsci = 0; // Emeklilerden SGK kesilmez
-        issizlikIsci = 0; // İşsizlik sigortası kesilmez
-        
-        // Gelir vergisi stopajı %15 (sabit)
-        aylikGelirVergisi = brutMaas * 0.15;
-        
-        // Emeklilerde AGİ yok
-        agi = 0;
-        netGelirVergisi = aylikGelirVergisi;
-        
-        gelirVergisiMatrahi = brutMaas; // Matraha etkisi yok
-    } else {
-        // NORMAL ÇALIŞAN HESAPLAMA
-        // SGK İşçi Primi (%14)
-        sgkIsci = brutMaas * 0.14;
+    // SGK İşçi Primi (%14)
+    const sgkIsci = brutMaas * 0.14;
 
-        // İşsizlik Sigortası İşçi Primi (%1)
-        issizlikIsci = brutMaas * 0.01;
+    // İşsizlik Sigortası İşçi Primi (%1)
+    const issizlikIsci = brutMaas * 0.01;
 
-        // Gelir Vergisi Matrahı
-        gelirVergisiMatrahi = brutMaas - sgkIsci - issizlikIsci;
+    // Gelir Vergisi Matrahı
+    const gelirVergisiMatrahi = brutMaas - sgkIsci - issizlikIsci;
 
-        // Gelir Vergisi (aylık - basitleştirilmiş)
-        const yillikMatrah = gelirVergisiMatrahi * 12;
-        const yillikGelirVergisi = calculateIncomeTax(yillikMatrah);
-        aylikGelirVergisi = yillikGelirVergisi / 12;
+    // Damga Vergisi (%0.759)
+    const damgaVergisi = brutMaas * 0.00759;
 
-        // AGİ Hesaplama
-        const agiOrani = getAGIRate(medeniDurum, cocukSayisi);
-        const agiMatrahi = aylikGelirVergisi;
-        agi = agiMatrahi * agiOrani;
+    // Gelir Vergisi (aylık - basitleştirilmiş)
+    const yillikMatrah = gelirVergisiMatrahi * 12;
+    const yillikGelirVergisi = calculateIncomeTax(yillikMatrah);
+    const aylikGelirVergisi = yillikGelirVergisi / 12;
 
-        // Net Gelir Vergisi
-        netGelirVergisi = aylikGelirVergisi - agi;
+    // AGİ Hesaplama
+    const agiOrani = getAGIRate(medeniDurum, cocukSayisi);
+    const agiMatrahi = aylikGelirVergisi;
+    const agi = agiMatrahi * agiOrani;
+
+    // Net Gelir Vergisi
+    const netGelirVergisi = aylikGelirVergisi - agi;
+
     }
     
     // Damga Vergisi (%0.759) - Her iki durumda da kesilir

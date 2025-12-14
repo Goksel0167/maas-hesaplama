@@ -31,6 +31,20 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="calisanDurumu">Çalışan Durumu</label>
+                    <select id="calisanDurumu" onchange="toggleEmekliFields()">
+                        <option value="normal">Normal Çalışan</option>
+                        <option value="emekli">Emekli Çalışan</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="emekliAyligiGroup" style="display: none;">
+                    <label for="emekliAyligi">Aylık Emekli Maaşı (₺)</label>
+                    <input type="number" id="emekliAyligi" placeholder="Emekli aylığı giriniz" value="20000" min="0" step="0.01">
+                    <small style="color: #6c757d; font-size: 0.9em;">Emekli maaşınız üzerinden kesilen vergiler</small>
+                </div>
+
+                <div class="form-group">
                     <label for="medeniDurum">Medeni Durum</label>
                     <select id="medeniDurum">
                         <option value="bekar">Bekar</option>
@@ -79,6 +93,18 @@
                     </label>
                 </div>
 
+                <div id="emekliInfo" class="info-box" style="display: none; margin-top: 15px; background: #e8f5e9; border: 2px solid #4caf50; padding: 15px; border-radius: 8px;">
+                    <h4 style="color: #2e7d32; margin-bottom: 10px; font-size: 1em;">ℹ️ Emekli Çalışan Bilgisi</h4>
+                    <ul style="margin: 0; padding-left: 20px; font-size: 0.9em; color: #1b5e20;">
+                        <li>SGK primi kesilmez (zaten emeklisiniz)</li>
+                        <li>İşsizlik sigortası primi kesilmez</li>
+                        <li>%15 gelir vergisi stopajı uygulanır</li>
+                        <li>Asgari Geçim İndirimi (AGİ) uygulanmaz</li>
+                        <li>Damga vergisi kesilir</li>
+                        <li>Emekli aylığı ile çalışma geliri toplanarak vergilendirilir</li>
+                    </ul>
+                </div>
+
                 <button class="calculate-btn" onclick="calculate()">Hesapla</button>
             </div>
 
@@ -88,6 +114,19 @@
                 <div class="form-group">
                     <label for="netSalary">Net Maaş (₺)</label>
                     <input type="number" id="netSalary" placeholder="Net maaş giriniz" value="35000" min="0" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="calisanDurumu2">Çalışan Durumu</label>
+                    <select id="calisanDurumu2" onchange="toggleEmekliFields2()">
+                        <option value="normal">Normal Çalışan</option>
+                        <option value="emekli">Emekli Çalışan</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="emekliAyligiGroup2" style="display: none;">
+                    <label for="emekliAyligi2">Aylık Emekli Maaşı (₺)</label>
+                    <input type="number" id="emekliAyligi2" placeholder="Emekli aylığı giriniz" value="20000" min="0" step="0.01">
                 </div>
 
                 <div class="form-group">
