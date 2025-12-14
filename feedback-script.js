@@ -2,8 +2,8 @@
 // Bildirimler gcapkin82@gmail.com adresine gönderilecek
 const EMAILJS_CONFIG = {
     serviceID: 'service_d0rj1fk',      // ✅ Gmail servisi bağlandı
-    templateID: 'YOUR_TEMPLATE_ID',    // ⚠️ Template oluşturup buraya yapıştırın
-    publicKey: 'YOUR_PUBLIC_KEY',      // ⚠️ Account > General'dan alıp buraya yapıştırın
+    templateID: 'template_vvl7t1z',    // ✅ Template oluşturuldu
+    publicKey: 'FaR2k8veYnb_aNEPP',    // ✅ Public Key eklendi
     toEmail: 'gcapkin82@gmail.com'     // ✅ Email adresi hazır
 };
 
