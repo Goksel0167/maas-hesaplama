@@ -460,8 +460,36 @@
                 </table>
             </div>
         </div>
+
+        <!-- Kullanıcı Yorumları Bölümü -->
+        <div class="comments-widget">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: #2a5298; margin: 0;">💬 Kullanıcı Yorumları</h2>
+                <a href="yorumlar.html" style="color: #667eea; text-decoration: none; font-weight: 600;">Tümünü Gör →</a>
+            </div>
+            
+            <div class="stats-mini">
+                <div class="stat-mini-item">
+                    <span class="stat-mini-number" id="widgetTotalVisitors">0</span>
+                    <span class="stat-mini-label">Toplam Ziyaretçi</span>
+                </div>
+                <div class="stat-mini-item">
+                    <span class="stat-mini-number" id="widgetTotalComments">0</span>
+                    <span class="stat-mini-label">Toplam Yorum</span>
+                </div>
+            </div>
+
+            <div id="recentComments">
+                <!-- Son yorumlar buraya gelecek -->
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="yorumlar.html" class="view-all-btn">Yorum Yap ve Tümünü Gör</a>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
+    <script src="feedback-widget.js"></script>
 </body>
 </html>
