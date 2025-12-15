@@ -1,30 +1,30 @@
-// DÃƒ€¶viz kurlarÃ„€± iÃƒ€§in global deÃ„Å¸iÃ…Å¸kenler
-let exchangeRates = { USD: 34.50, EUR: 37.80 }; // VarsayÃ„€±lan deÃ„Å¸erler
+// DÃƒÆ’â‚¬Â¶viz kurlarÃƒâ€â‚¬Â± iÃƒÆ’â‚¬Â§in global deÃƒâ€Ã…Â¸iÃƒâ€¦Ã…Â¸kenler
+let exchangeRates = { USD: 34.50, EUR: 37.80 }; // VarsayÃƒâ€â‚¬Â±lan deÃƒâ€Ã…Â¸erler
 
-console.log('ÄŸÅ¸Å¡€‚¬ Script.js yÃƒ€¼klendi - Versiyon: 2025121507');
+console.log('Ã„Å¸Ã…Â¸Ã…Â¡â‚¬â€šÂ¬ Script.js yÃƒÆ’â‚¬Â¼klendi - Versiyon: 2025121507');
 
-// DÃƒ€¶viz kurlarÃ„€±nÃ„€± Ãƒ€§ek (Alternatif API)
+// DÃƒÆ’â‚¬Â¶viz kurlarÃƒâ€â‚¬Â±nÃƒâ€â‚¬Â± ÃƒÆ’â‚¬Â§ek (Alternatif API)
 async function fetchExchangeRates() {
     try {
-        // Ãƒ€€“nce free API dene
+        // ÃƒÆ’â‚¬â‚¬â€œnce free API dene
         const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
         const data = await response.json();
         
         if (data && data.rates && data.rates.TRY) {
             exchangeRates.USD = data.rates.TRY;
             exchangeRates.EUR = data.rates.TRY / data.rates.EUR;
-            console.log('DÃƒ€¶viz KurlarÃ„€± GÃƒ€¼ncellendi:', exchangeRates);
+            console.log('DÃƒÆ’â‚¬Â¶viz KurlarÃƒâ€â‚¬Â± GÃƒÆ’â‚¬Â¼ncellendi:', exchangeRates);
         }
     } catch (error) {
-        console.log('DÃƒ€¶viz kurlarÃ„€± yÃƒ€¼klenemedi, varsayÃ„€±lan deÃ„Å¸erler kullanÃ„€±lÃ„€±yor:', error);
-        console.log('VarsayÃ„€±lan kurlar:', exchangeRates);
+        console.log('DÃƒÆ’â‚¬Â¶viz kurlarÃƒâ€â‚¬Â± yÃƒÆ’â‚¬Â¼klenemedi, varsayÃƒâ€â‚¬Â±lan deÃƒâ€Ã…Â¸erler kullanÃƒâ€â‚¬Â±lÃƒâ€â‚¬Â±yor:', error);
+        console.log('VarsayÃƒâ€â‚¬Â±lan kurlar:', exchangeRates);
     }
 }
 
-// Sayfa yÃƒ€¼klendiÃ„Å¸inde kurlarÃ„€± Ãƒ€§ek
+// Sayfa yÃƒÆ’â‚¬Â¼klendiÃƒâ€Ã…Â¸inde kurlarÃƒâ€â‚¬Â± ÃƒÆ’â‚¬Â§ek
 fetchExchangeRates();
 
-// YÃ„€±llara gÃƒ€¶re Gelir Vergisi Dilimleri ve AGI OranlarÃ„€±
+// YÃƒâ€â‚¬Â±llara gÃƒÆ’â‚¬Â¶re Gelir Vergisi Dilimleri ve AGI OranlarÃƒâ€â‚¬Â±
 const TAX_DATA = {
     2020: {
         brackets: [
@@ -105,7 +105,7 @@ const TAX_DATA = {
         }
     },
     2026: {
-        // Tahmini deÃ„Å¸erler (2025 deÃ„Å¸erlerinin yaklaÃ…Å¸Ã„€±k %45 artÃ„€±rÃ„€±lmÃ„€±Ã…Å¸ hali - enflasyon tahmini)
+        // Tahmini deÃƒâ€Ã…Â¸erler (2025 deÃƒâ€Ã…Â¸erlerinin yaklaÃƒâ€¦Ã…Â¸Ãƒâ€â‚¬Â±k %45 artÃƒâ€â‚¬Â±rÃƒâ€â‚¬Â±lmÃƒâ€â‚¬Â±Ãƒâ€¦Ã…Â¸ hali - enflasyon tahmini)
         brackets: [
             { min: 0, max: 160000, rate: 0.15, name: '1. Dilim (%15)' },
             { min: 160000, max: 335000, rate: 0.20, name: '2. Dilim (%20)' },
@@ -120,19 +120,19 @@ const TAX_DATA = {
     }
 };
 
-// Aktif vergi dilimleri ve AGI oranlarÃ„€± (varsayÃ„€±lan 2025)
+// Aktif vergi dilimleri ve AGI oranlarÃƒâ€â‚¬Â± (varsayÃƒâ€â‚¬Â±lan 2025)
 let TAX_BRACKETS = TAX_DATA[2025].brackets;
 let AGI_RATES = TAX_DATA[2025].agi;
 
-// Para formatÃ„€±
+// Para formatÃƒâ€â‚¬Â±
 function formatCurrency(amount) {
-    return new In₺.NumberFormat('tr-TR', {
+    return new Inâ‚º.NumberFormat('tr-TR', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
-    }).format(amount) + ' Ã¢€€š₺';
+    }).format(amount) + ' ÃƒÂ¢â‚¬â‚¬Å¡â‚º';
 }
 
-// Emekli alanlarÃ„€±nÃ„€± gÃƒ€¶ster/gizle
+// Emekli alanlarÃƒâ€â‚¬Â±nÃƒâ€â‚¬Â± gÃƒÆ’â‚¬Â¶ster/gizle
 function toggleEmekliFields() {
     const calisanDurumu = document.getElementById('calisanDurumu').value;
     const emekliAyligiGroup = document.getElementById('emekliAyligiGroup');
@@ -168,7 +168,7 @@ function calculateTaxBracket(yearlyIncome) {
     return TAX_BRACKETS[TAX_BRACKETS.length - 1].name;
 }
 
-// Vergi dilimi detayÃ„€±nÃ„€± hesapla
+// Vergi dilimi detayÃƒâ€â‚¬Â±nÃƒâ€â‚¬Â± hesapla
 function calculateTaxBracketDetails(yearlyIncome) {
     let details = [];
     let remainingIncome = yearlyIncome;
@@ -192,7 +192,7 @@ function calculateTaxBracketDetails(yearlyIncome) {
         if (amountInBracket > 0) {
             const percentage = (amountInBracket / yearlyIncome) * 100;
             const rate = (bracket.rate * 100).toFixed(0);
-            details.push(`%${percentage.toFixed(1)} Ã¢€€ €€™ %${rate}`);
+            details.push(`%${percentage.toFixed(1)} ÃƒÂ¢â‚¬â‚¬Â â‚¬â‚¬â„¢ %${rate}`);
         }
 
         totalProcessed += amountInBracket;
@@ -202,7 +202,7 @@ function calculateTaxBracketDetails(yearlyIncome) {
     return details.join(' | ');
 }
 
-// Gelir vergisi hesaplama (kÃƒ€¼mÃƒ€¼latif)
+// Gelir vergisi hesaplama (kÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼latif)
 function calculateIncomeTax(yearlyIncome) {
     let tax = 0;
     let remainingIncome = yearlyIncome;
@@ -225,7 +225,7 @@ function calculateIncomeTax(yearlyIncome) {
     return tax;
 }
 
-// AGÃ„€° oranÃ„€±nÃ„€± hesapla
+// AGÃƒâ€â‚¬Â° oranÃƒâ€â‚¬Â±nÃƒâ€â‚¬Â± hesapla
 function getAGIRate(medeniDurum, cocukSayisi) {
     if (medeniDurum === 'bekar') {
         return cocukSayisi > 0 ? AGI_RATES.evli[cocukSayisi] : AGI_RATES.bekar[0];
@@ -236,20 +236,20 @@ function getAGIRate(medeniDurum, cocukSayisi) {
 
 // Ana hesaplama fonksiyonu
 function calculate() {
-    // SeÃƒ€§ilen yÃ„€±la gÃƒ€¶re vergi dilimlerini ve AGI oranlarÃ„€±nÃ„€± gÃƒ€¼ncelle
+    // SeÃƒÆ’â‚¬Â§ilen yÃƒâ€â‚¬Â±la gÃƒÆ’â‚¬Â¶re vergi dilimlerini ve AGI oranlarÃƒâ€â‚¬Â±nÃƒâ€â‚¬Â± gÃƒÆ’â‚¬Â¼ncelle
     const selectedYear = parseInt(document.getElementById('taxYear').value);
     TAX_BRACKETS = TAX_DATA[selectedYear].brackets;
     AGI_RATES = TAX_DATA[selectedYear].agi;
 
     const brutMaas = parseFloat(document.getElementById('salary').value) || 0;
     
-    // EÃ„Å¸er brÃƒ€¼t maaÃ…Å¸ girilmemiÃ…Å¸se hesaplama yapma, sonuÃƒ€§ bÃƒ€¶lÃƒ€¼mÃƒ€¼nÃƒ€¼ gizle
+    // EÃƒâ€Ã…Â¸er brÃƒÆ’â‚¬Â¼t maaÃƒâ€¦Ã…Â¸ girilmemiÃƒâ€¦Ã…Â¸se hesaplama yapma, sonuÃƒÆ’â‚¬Â§ bÃƒÆ’â‚¬Â¶lÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼nÃƒÆ’â‚¬Â¼ gizle
     if (brutMaas === 0) {
         document.getElementById('resultSection').style.display = 'none';
         return;
     }
     
-    // SonuÃƒ€§ bÃƒ€¶lÃƒ€¼mÃƒ€¼nÃƒ€¼ gÃƒ€¶ster
+    // SonuÃƒÆ’â‚¬Â§ bÃƒÆ’â‚¬Â¶lÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼nÃƒÆ’â‚¬Â¼ gÃƒÆ’â‚¬Â¶ster
     document.getElementById('resultSection').style.display = 'block';
     
     const calisanDurumu = document.getElementById('calisanDurumu').value;
@@ -266,37 +266,37 @@ function calculate() {
     let sgkIsci, issizlikIsci, gelirVergisiMatrahi, aylikGelirVergisi, agi, netGelirVergisi;
     
     if (calisanDurumu === 'emekli') {
-        // EMEKLÃ„€° Ãƒ€€¡ALIÃ…€AN HESAPLAMA
+        // EMEKLÃƒâ€â‚¬Â° ÃƒÆ’â‚¬â‚¬Â¡ALIÃƒâ€¦â‚¬ÂAN HESAPLAMA
         sgkIsci = 0; // Emeklilerden SGK kesilmez
-        issizlikIsci = 0; // Ã„€°Ã…Å¸sizlik sigortasÃ„€± kesilmez
-        gelirVergisiMatrahi = brutMaas; // Emeklilerde matrah = brÃƒ€¼t maaÃ…Å¸
+        issizlikIsci = 0; // Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸sizlik sigortasÃƒâ€â‚¬Â± kesilmez
+        gelirVergisiMatrahi = brutMaas; // Emeklilerde matrah = brÃƒÆ’â‚¬Â¼t maaÃƒâ€¦Ã…Â¸
         
-        // Gelir vergisi - Ã„€°lk ay iÃƒ€§in basit hesaplama (Ocak ayÃ„€± tahmini)
-        // Not: YÃ„€±llÃ„€±k tabloda her ay iÃƒ€§in kÃƒ€¼mÃƒ€¼latif hesaplama yapÃ„€±lacak
+        // Gelir vergisi - Ãƒâ€â‚¬Â°lk ay iÃƒÆ’â‚¬Â§in basit hesaplama (Ocak ayÃƒâ€â‚¬Â± tahmini)
+        // Not: YÃƒâ€â‚¬Â±llÃƒâ€â‚¬Â±k tabloda her ay iÃƒÆ’â‚¬Â§in kÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼latif hesaplama yapÃƒâ€â‚¬Â±lacak
         aylikGelirVergisi = calculateIncomeTax(gelirVergisiMatrahi);
         
-        // AGÃ„€° - Emeklilerde AGÃ„€° uygulanmaz
+        // AGÃƒâ€â‚¬Â° - Emeklilerde AGÃƒâ€â‚¬Â° uygulanmaz
         agi = 0;
         
         netGelirVergisi = aylikGelirVergisi;
     } else {
-        // NORMAL Ãƒ€€¡ALIÃ…€AN HESAPLAMA
-        // SGK Ã„€°Ã…Å¸Ãƒ€§i Primi (%14)
+        // NORMAL ÃƒÆ’â‚¬â‚¬Â¡ALIÃƒâ€¦â‚¬ÂAN HESAPLAMA
+        // SGK Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸ÃƒÆ’â‚¬Â§i Primi (%14)
         sgkIsci = brutMaas * 0.14;
 
-        // Ã„€°Ã…Å¸sizlik SigortasÃ„€± Ã„€°Ã…Å¸Ãƒ€§i Primi (%1)
+        // Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸sizlik SigortasÃƒâ€â‚¬Â± Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸ÃƒÆ’â‚¬Â§i Primi (%1)
         issizlikIsci = brutMaas * 0.01;
 
-        // Gelir Vergisi MatrahÃ„€±
+        // Gelir Vergisi MatrahÃƒâ€â‚¬Â±
         gelirVergisiMatrahi = brutMaas - sgkIsci - issizlikIsci;
 
-        // Gelir Vergisi (aylÃ„€±k - basi₺eÃ…Å¸tirilmiÃ…Å¸)
+        // Gelir Vergisi (aylÃƒâ€â‚¬Â±k - basiâ‚ºeÃƒâ€¦Ã…Â¸tirilmiÃƒâ€¦Ã…Â¸)
         const yillikMatrah = gelirVergisiMatrahi * 12;
         const yillikGelirVergisi = calculateIncomeTax(yillikMatrah);
         aylikGelirVergisi = yillikGelirVergisi / 12;
 
-        // AGÃ„€° Hesaplama - Asgari Ãƒ€¼cret Ãƒ€¼zerinden hesaplanÃ„€±r
-        const asgariBrutUcret2025 = 22104.00; // 2025 asgari brÃƒ€¼t Ãƒ€¼cret
+        // AGÃƒâ€â‚¬Â° Hesaplama - Asgari ÃƒÆ’â‚¬Â¼cret ÃƒÆ’â‚¬Â¼zerinden hesaplanÃƒâ€â‚¬Â±r
+        const asgariBrutUcret2025 = 22104.00; // 2025 asgari brÃƒÆ’â‚¬Â¼t ÃƒÆ’â‚¬Â¼cret
         const asgariBrutUcretYillik = asgariBrutUcret2025 * 12;
         const asgariSGK = asgariBrutUcret2025 * 0.14;
         const asgariIssizlik = asgariBrutUcret2025 * 0.01;
@@ -305,7 +305,7 @@ function calculate() {
         const asgariGelirVergisiYillik = calculateIncomeTax(asgariMatrahYillik);
         const agiOrani = getAGIRate(medeniDurum, cocukSayisi);
         const yillikAGI = asgariGelirVergisiYillik * agiOrani;
-        agi = yillikAGI / 12; // AylÃ„€±k AGÃ„€°
+        agi = yillikAGI / 12; // AylÃƒâ€â‚¬Â±k AGÃƒâ€â‚¬Â°
 
         // Net Gelir Vergisi
         netGelirVergisi = aylikGelirVergisi - agi;
@@ -317,19 +317,19 @@ function calculate() {
     // Toplam Kesinti
     const toplamKesinti = sgkIsci + issizlikIsci + netGelirVergisi + damgaVergisi;
 
-    // Net MaaÃ…Å¸
+    // Net MaaÃƒâ€¦Ã…Â¸
     const netMaas = brutMaas - toplamKesinti;
 
-    // Ã„€°Ã…Å¸veren Maliye₺eri
+    // Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸veren Maliyeâ‚ºeri
     const sgkIsveren = brutMaas * 0.205;
     const issizlikIsveren = brutMaas * 0.02;
     const toplamMaliyet = brutMaas + sgkIsveren + issizlikIsveren;
 
-    // SonuÃƒ€§larÃ„€± gÃƒ€¶ster
+    // SonuÃƒÆ’â‚¬Â§larÃƒâ€â‚¬Â± gÃƒÆ’â‚¬Â¶ster
     document.getElementById('brutMaas').textContent = formatCurrency(brutMaas);
     document.getElementById('netMaas').textContent = formatCurrency(netMaas);
     document.getElementById('netMaasUSD').textContent = '$' + (netMaas / exchangeRates.USD).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    document.getElementById('netMaasEUR').textContent = 'Ã¢€€š€¬' + (netMaas / exchangeRates.EUR).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    document.getElementById('netMaasEUR').textContent = 'ÃƒÂ¢â‚¬â‚¬Å¡â‚¬Â¬' + (netMaas / exchangeRates.EUR).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     document.getElementById('sgkIsci').textContent = formatCurrency(sgkIsci);
     document.getElementById('issizlikIsci').textContent = formatCurrency(issizlikIsci);
     document.getElementById('gelirVergisiMatrahi').textContent = formatCurrency(gelirVergisiMatrahi);
@@ -341,15 +341,15 @@ function calculate() {
     document.getElementById('issizlikIsveren').textContent = formatCurrency(issizlikIsveren);
     document.getElementById('toplamMaliyet').textContent = formatCurrency(toplamMaliyet);
 
-    // YÃ„€±llÃ„€±k tabloyu doldur
+    // YÃƒâ€â‚¬Â±llÃƒâ€â‚¬Â±k tabloyu doldur
     fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, {ocak: primOcak, nisan: primNisan, temmuz: primTemmuz, ekim: primEkim}, calisanDurumu, emekliAyligi);
     
-    // NOT: Tahmini Zam Hesaplama artÃ„€±k baÃ„Å¸Ã„€±msÃ„€±z - calculateIndependentProjections() kullanÃ„€±lÃ„€±yor
+    // NOT: Tahmini Zam Hesaplama artÃƒâ€â‚¬Â±k baÃƒâ€Ã…Â¸Ãƒâ€â‚¬Â±msÃƒâ€â‚¬Â±z - calculateIndependentProjections() kullanÃƒâ€â‚¬Â±lÃƒâ€â‚¬Â±yor
 }
 
-// YÃ„€±llÃ„€±k tabloyu doldur
+// YÃƒâ€â‚¬Â±llÃƒâ€â‚¬Â±k tabloyu doldur
 function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, calisanDurumu = 'normal', emekliAyligi = 0) {
-    // YÃ„€±llÃ„€±k tablo bÃƒ€¶lÃƒ€¼mÃƒ€¼nÃƒ€¼ gÃƒ€¶ster
+    // YÃƒâ€â‚¬Â±llÃƒâ€â‚¬Â±k tablo bÃƒÆ’â‚¬Â¶lÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼nÃƒÆ’â‚¬Â¼ gÃƒÆ’â‚¬Â¶ster
     document.getElementById('annualSection').style.display = 'block';
     
     const tbody = document.getElementById('annualTableBody');
@@ -358,11 +358,11 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
     tfoot.innerHTML = '';
 
     const aylar = [
-        'Ocak', 'Ã…€ubat', 'Mart', 'Nisan', 'MayÃ„€±s', 'Haziran',
-        'Temmuz', 'AÃ„Å¸ustos', 'EylÃƒ€¼l', 'Ekim', 'KasÃ„€±m', 'AralÃ„€±k'
+        'Ocak', 'Ãƒâ€¦â‚¬Âubat', 'Mart', 'Nisan', 'MayÃƒâ€â‚¬Â±s', 'Haziran',
+        'Temmuz', 'AÃƒâ€Ã…Â¸ustos', 'EylÃƒÆ’â‚¬Â¼l', 'Ekim', 'KasÃƒâ€â‚¬Â±m', 'AralÃƒâ€â‚¬Â±k'
     ];
 
-    // Prim Ãƒ€¶deme aylarÃ„€± ve tutarlarÃ„€±
+    // Prim ÃƒÆ’â‚¬Â¶deme aylarÃƒâ€â‚¬Â± ve tutarlarÃƒâ€â‚¬Â±
     const primMap = {
         0: primTutarlari.ocak,    // Ocak
         3: primTutarlari.nisan,   // Nisan
@@ -383,58 +383,58 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
     let cumulativeTaxTotal = 0;
 
     for (let i = 0; i < 12; i++) {
-        // Prim kontrolÃƒ€¼
+        // Prim kontrolÃƒÆ’â‚¬Â¼
         const aylikPrim = primMap[i] || 0;
         const toplamAylikBrut = brutMaas + aylikPrim;
 
-        console.log(`${aylar[i]}: BrÃƒ€¼t=${toplamAylikBrut}, KÃƒ€¼mÃƒ€¼latif Gelir Ãƒ€€“ncesi=${cumulativeIncome}`);
+        console.log(`${aylar[i]}: BrÃƒÆ’â‚¬Â¼t=${toplamAylikBrut}, KÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼latif Gelir ÃƒÆ’â‚¬â‚¬â€œncesi=${cumulativeIncome}`);
 
         let sgkIsci, issizlikIsci, gelirVergisiMatrahi, aylikGelirVergisi, agi, netGelirVergisi, vergiDilimiDetay;
         
         if (calisanDurumu === 'emekli') {
-            // EMEKLÃ„€° HESAPLAMA - KÃƒ€¼mÃƒ€¼latif vergi sistemi uygulanÃ„€±r
+            // EMEKLÃƒâ€â‚¬Â° HESAPLAMA - KÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼latif vergi sistemi uygulanÃƒâ€â‚¬Â±r
             sgkIsci = 0;
             issizlikIsci = 0;
-            gelirVergisiMatrahi = toplamAylikBrut; // Emeklilerde matrah = brÃƒ€¼t maaÃ…Å¸
+            gelirVergisiMatrahi = toplamAylikBrut; // Emeklilerde matrah = brÃƒÆ’â‚¬Â¼t maaÃƒâ€¦Ã…Â¸
             
-            // KÃƒ€¼mÃƒ€¼latif gelir
+            // KÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼latif gelir
             const previousCumulativeIncome = cumulativeIncome;
             cumulativeIncome += gelirVergisiMatrahi;
 
-            // KÃƒ€¼mÃƒ€¼latif vergi hesaplama
+            // KÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼latif vergi hesaplama
             const cumulativeTax = calculateIncomeTax(cumulativeIncome);
             const previousCumulativeTax = calculateIncomeTax(previousCumulativeIncome);
             aylikGelirVergisi = cumulativeTax - previousCumulativeTax;
 
-            // Vergi dilimi detayÃ„€±
+            // Vergi dilimi detayÃƒâ€â‚¬Â±
             vergiDilimiDetay = calculateTaxBracketDetails(cumulativeIncome);
 
-            // AGÃ„€° - Emeklilerde AGÃ„€° uygulanmaz
+            // AGÃƒâ€â‚¬Â° - Emeklilerde AGÃƒâ€â‚¬Â° uygulanmaz
             agi = 0;
             
             // Net gelir vergisi
             netGelirVergisi = aylikGelirVergisi;
             
-            console.log(`${aylar[i]} (Emekli): KÃƒ€¼mÃƒ€¼latif=${cumulativeIncome}, AylÃ„€±k Vergi=${aylikGelirVergisi}, Net Vergi=${netGelirVergisi}`);
+            console.log(`${aylar[i]} (Emekli): KÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼latif=${cumulativeIncome}, AylÃƒâ€â‚¬Â±k Vergi=${aylikGelirVergisi}, Net Vergi=${netGelirVergisi}`);
         } else {
-            // NORMAL Ãƒ€€¡ALIÃ…€AN HESAPLAMA
+            // NORMAL ÃƒÆ’â‚¬â‚¬Â¡ALIÃƒâ€¦â‚¬ÂAN HESAPLAMA
             sgkIsci = toplamAylikBrut * 0.14;
             issizlikIsci = toplamAylikBrut * 0.01;
             gelirVergisiMatrahi = toplamAylikBrut - sgkIsci - issizlikIsci;
 
-            // KÃƒ€¼mÃƒ€¼latif gelir
+            // KÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼latif gelir
             const previousCumulativeIncome = cumulativeIncome;
             cumulativeIncome += gelirVergisiMatrahi;
 
-            // KÃƒ€¼mÃƒ€¼latif vergi hesaplama
+            // KÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼latif vergi hesaplama
             const cumulativeTax = calculateIncomeTax(cumulativeIncome);
             const previousCumulativeTax = calculateIncomeTax(previousCumulativeIncome);
             aylikGelirVergisi = cumulativeTax - previousCumulativeTax;
 
-            // Vergi dilimi detayÃ„€±
+            // Vergi dilimi detayÃƒâ€â‚¬Â±
             vergiDilimiDetay = calculateTaxBracketDetails(cumulativeIncome);
 
-            // AGÃ„€° - Asgari Ãƒ€¼cret Ãƒ€¼zerinden sabit hesaplanÃ„€±r
+            // AGÃƒâ€â‚¬Â° - Asgari ÃƒÆ’â‚¬Â¼cret ÃƒÆ’â‚¬Â¼zerinden sabit hesaplanÃƒâ€â‚¬Â±r
             const asgariBrutUcret2025 = 22104.00;
             const asgariSGK = asgariBrutUcret2025 * 0.14;
             const asgariIssizlik = asgariBrutUcret2025 * 0.01;
@@ -443,7 +443,7 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
             const asgariGelirVergisiYillik = calculateIncomeTax(asgariMatrahYillik);
             const agiOrani = getAGIRate(medeniDurum, cocukSayisi);
             const yillikAGI = asgariGelirVergisiYillik * agiOrani;
-            agi = yillikAGI / 12; // Her ay sabit AGÃ„€° tutarÃ„€±
+            agi = yillikAGI / 12; // Her ay sabit AGÃƒâ€â‚¬Â° tutarÃƒâ€â‚¬Â±
 
             // Net gelir vergisi
             netGelirVergisi = aylikGelirVergisi - agi;
@@ -451,24 +451,24 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
         
         const damgaVergisi = toplamAylikBrut * 0.00759;
         
-        // KÃƒ€¼mÃƒ€¼latif vergi toplamÃ„€±
+        // KÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼latif vergi toplamÃƒâ€â‚¬Â±
         cumulativeTaxTotal += netGelirVergisi;
 
-        // Net maaÃ…Å¸
+        // Net maaÃƒâ€¦Ã…Â¸
         const netMaas = toplamAylikBrut - sgkIsci - issizlikIsci - netGelirVergisi - damgaVergisi;
         
-        // DÃƒ€¶viz karÃ…Å¸Ã„€±lÃ„€±klarÃ„€±
+        // DÃƒÆ’â‚¬Â¶viz karÃƒâ€¦Ã…Â¸Ãƒâ€â‚¬Â±lÃƒâ€â‚¬Â±klarÃƒâ€â‚¬Â±
         const netUSD = netMaas / exchangeRates.USD;
         const netEUR = netMaas / exchangeRates.EUR;
         
-        // KÃ„€±dem TazminatÃ„€± BrÃƒ€¼t (gÃƒ€¼nlÃƒ€¼k brÃƒ€¼t x 30 gÃƒ€¼n)
-        const KIDEM_TAVAN = 53919.68; // 2025 tavanÃ„€±
+        // KÃƒâ€â‚¬Â±dem TazminatÃƒâ€â‚¬Â± BrÃƒÆ’â‚¬Â¼t (gÃƒÆ’â‚¬Â¼nlÃƒÆ’â‚¬Â¼k brÃƒÆ’â‚¬Â¼t x 30 gÃƒÆ’â‚¬Â¼n)
+        const KIDEM_TAVAN = 53919.68; // 2025 tavanÃƒâ€â‚¬Â±
         const gunlukBrut = toplamAylikBrut / 30;
         const aylikKidemBrut = Math.min(gunlukBrut * 30, KIDEM_TAVAN);
         
-        // Ã„€°hbar TazminatÃ„€± BrÃƒ€¼t (Ãƒ€§alÃ„€±Ã…Å¸ma sÃƒ€¼resine gÃƒ€¶re)
-        const ayIndex = i + 1; // 1-12 arasÃ„€± ay
-        const calismaAySayisi = i + 1; // Bu aya kadar geÃƒ€§en ay sayÃ„€±sÃ„€±
+        // Ãƒâ€â‚¬Â°hbar TazminatÃƒâ€â‚¬Â± BrÃƒÆ’â‚¬Â¼t (ÃƒÆ’â‚¬Â§alÃƒâ€â‚¬Â±Ãƒâ€¦Ã…Â¸ma sÃƒÆ’â‚¬Â¼resine gÃƒÆ’â‚¬Â¶re)
+        const ayIndex = i + 1; // 1-12 arasÃƒâ€â‚¬Â± ay
+        const calismaAySayisi = i + 1; // Bu aya kadar geÃƒÆ’â‚¬Â§en ay sayÃƒâ€â‚¬Â±sÃƒâ€â‚¬Â±
         let ihbarHafta = 0;
         
         if (calismaAySayisi >= 18 && calismaAySayisi < 36) {
@@ -483,12 +483,12 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
         
         const aylikIhbarBrut = (toplamAylikBrut / 30) * 7 * ihbarHafta;
         
-        // KÃ„€±dem ve Ã„€°hbar Net hesaplamalarÃ„€± (damga vergisi %0.759)
+        // KÃƒâ€â‚¬Â±dem ve Ãƒâ€â‚¬Â°hbar Net hesaplamalarÃƒâ€â‚¬Â± (damga vergisi %0.759)
         const DAMGA_ORANI = 0.00759;
         const aylikKidemNet = aylikKidemBrut * (1 - DAMGA_ORANI);
         const aylikIhbarNet = aylikIhbarBrut * (1 - DAMGA_ORANI);
 
-        // ToplamlarÃ„€± gÃƒ€¼ncelle
+        // ToplamlarÃƒâ€â‚¬Â± gÃƒÆ’â‚¬Â¼ncelle
         toplamBrut += brutMaas;
         toplamPrim += aylikPrim;
         toplamSGKIsci += sgkIsci;
@@ -498,7 +498,7 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
         toplamAGI += agi;
         toplamNet += netMaas;
 
-        // SatÃ„€±r oluÃ…Å¸tur
+        // SatÃƒâ€â‚¬Â±r oluÃƒâ€¦Ã…Â¸tur
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${aylar[i]}</td>
@@ -513,18 +513,18 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
             <td>${formatCurrency(agi)}</td>
             <td><strong>${formatCurrency(netMaas)}</strong></td>
             <td style="color: #28a745; font-weight: 600;">$${netUSD.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
-            <td style="color: #007bff; font-weight: 600;">Ã¢€€š€¬${netEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+            <td style="color: #007bff; font-weight: 600;">ÃƒÂ¢â‚¬â‚¬Å¡â‚¬Â¬${netEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
             <td style="background: #e3f2fd; font-weight: 600;">${formatCurrency(aylikKidemNet)}</td>
             <td style="background: #fff3e0; font-weight: 600;">${formatCurrency(aylikIhbarNet)}</td>
         `;
         tbody.appendChild(row);
     }
 
-    // Toplam satÃ„€±rÃ„€±
+    // Toplam satÃƒâ€â‚¬Â±rÃƒâ€â‚¬Â±
     const toplamNetUSD = toplamNet / exchangeRates.USD;
     const toplamNetEUR = toplamNet / exchangeRates.EUR;
     
-    // Not: KÃ„€±dem ve Ã„€°hbar toplamlarÃ„€± her ay iÃƒ€§in zaten hesaplandÃ„€±, ayrÃ„€±ca toplamaya gerek yok
+    // Not: KÃƒâ€â‚¬Â±dem ve Ãƒâ€â‚¬Â°hbar toplamlarÃƒâ€â‚¬Â± her ay iÃƒÆ’â‚¬Â§in zaten hesaplandÃƒâ€â‚¬Â±, ayrÃƒâ€â‚¬Â±ca toplamaya gerek yok
     
     const totalRow = document.createElement('tr');
     totalRow.innerHTML = `
@@ -540,16 +540,16 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
         <td><strong>${formatCurrency(toplamAGI)}</strong></td>
         <td><strong>${formatCurrency(toplamNet)}</strong></td>
         <td style="color: #28a745;"><strong>$${toplamNetUSD.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</strong></td>
-        <td style="color: #007bff;"><strong>Ã¢€€š€¬${toplamNetEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</strong></td>
+        <td style="color: #007bff;"><strong>ÃƒÂ¢â‚¬â‚¬Å¡â‚¬Â¬${toplamNetEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</strong></td>
         <td style="background: #e3f2fd;"><strong>-</strong></td>
         <td style="background: #fff3e0;"><strong>-</strong></td>
     `;
     tfoot.appendChild(totalRow);
 }
 
-// Netten brÃƒ€¼te hesaplama fonksiyonu
-function calculateNetToBrut() { alert("Fonksiyon çalıştı!");
-    // SeÃƒ€§ilen yÃ„€±la gÃƒ€¶re vergi dilimlerini ve AGI oranlarÃ„€±nÃ„€± gÃƒ€¼ncelle
+// Netten brÃƒÆ’â‚¬Â¼te hesaplama fonksiyonu
+function calculateNetToBrut() { alert("Fonksiyon Ã§alÄ±ÅŸtÄ±!");
+    // SeÃƒÆ’â‚¬Â§ilen yÃƒâ€â‚¬Â±la gÃƒÆ’â‚¬Â¶re vergi dilimlerini ve AGI oranlarÃƒâ€â‚¬Â±nÃƒâ€â‚¬Â± gÃƒÆ’â‚¬Â¼ncelle
     const selectedYear = parseInt(document.getElementById('taxYear2').value);
     TAX_BRACKETS = TAX_DATA[selectedYear].brackets;
     AGI_RATES = TAX_DATA[selectedYear].agi;
@@ -562,25 +562,25 @@ function calculateNetToBrut() { alert("Fonksiyon çalıştı!");
     const primTemmuz = parseFloat(document.getElementById('primTemmuz2').value) || 0;
     const primEkim = parseFloat(document.getElementById('primEkim2').value) || 0;
     
-    // Ã„€°teratif yaklaÃ…Å¸Ã„€±mla brÃƒ€¼t maaÃ…Å¸ bulma
-    let tahminBrut = hedefNetMaas * 1.5; // BaÃ…Å¸langÃ„€±Ãƒ€§ tahmini
+    // Ãƒâ€â‚¬Â°teratif yaklaÃƒâ€¦Ã…Â¸Ãƒâ€â‚¬Â±mla brÃƒÆ’â‚¬Â¼t maaÃƒâ€¦Ã…Â¸ bulma
+    let tahminBrut = hedefNetMaas * 1.5; // BaÃƒâ€¦Ã…Â¸langÃƒâ€â‚¬Â±ÃƒÆ’â‚¬Â§ tahmini
     let tolerance = 0.01; // Tolerans
     let maxIterations = 100;
     let iteration = 0;
     
     while (iteration < maxIterations) {
-        // Bu tahmini brÃƒ€¼t maaÃ…Å¸la net hesapla
+        // Bu tahmini brÃƒÆ’â‚¬Â¼t maaÃƒâ€¦Ã…Â¸la net hesapla
         const sgkIsci = tahminBrut * 0.14;
         const issizlikIsci = tahminBrut * 0.01;
         const gelirVergisiMatrahi = tahminBrut - sgkIsci - issizlikIsci;
         const damgaVergisi = tahminBrut * 0.00759;
         
-        // YÃ„€±llÃ„€±k vergi hesaplama
+        // YÃƒâ€â‚¬Â±llÃƒâ€â‚¬Â±k vergi hesaplama
         const yillikMatrah = gelirVergisiMatrahi * 12;
         const yillikGelirVergisi = calculateIncomeTax(yillikMatrah);
         const aylikGelirVergisi = yillikGelirVergisi / 12;
         
-        // AGÃ„€° - Asgari Ãƒ€¼cret Ãƒ€¼zerinden hesaplanÃ„€±r
+        // AGÃƒâ€â‚¬Â° - Asgari ÃƒÆ’â‚¬Â¼cret ÃƒÆ’â‚¬Â¼zerinden hesaplanÃƒâ€â‚¬Â±r
         const asgariBrutUcret2025 = 22104.00;
         const asgariSGK = asgariBrutUcret2025 * 0.14;
         const asgariIssizlik = asgariBrutUcret2025 * 0.01;
@@ -595,59 +595,59 @@ function calculateNetToBrut() { alert("Fonksiyon çalıştı!");
         // Hesaplanan net
         const hesaplananNet = tahminBrut - sgkIsci - issizlikIsci - netGelirVergisi - damgaVergisi;
         
-        // Fark kontrolÃƒ€¼
+        // Fark kontrolÃƒÆ’â‚¬Â¼
         const fark = hedefNetMaas - hesaplananNet;
         
         if (Math.abs(fark) < tolerance) {
-            break; // Yeterince yakÃ„€±n
+            break; // Yeterince yakÃƒâ€â‚¬Â±n
         }
         
-        // Tahmini gÃƒ€¼ncelle
-        tahminBrut += fark * 1.3; // FarkÃ„€± telafi etmek iÃƒ€§in ayarlama
+        // Tahmini gÃƒÆ’â‚¬Â¼ncelle
+        tahminBrut += fark * 1.3; // FarkÃƒâ€â‚¬Â± telafi etmek iÃƒÆ’â‚¬Â§in ayarlama
         iteration++;
     }
-    
-    // Bulunan brÃƒ€¼t maaÃ…Å¸Ã„€± ana forma aktar ve hesapla
-    document.getElementById('salary').value = tahminBrut.toFixed(2);
-    document.getElementById('medeniDurum').value = medeniDurum;
-    document.getElementById('cocukSayisi').value = cocukSayisi;
-    document.getElementById('primOcak').value = primOcak;
-    document.getElementById('primNisan').value = primNisan;
-    document.getElementById('primTemmuz').value = primTemmuz;
-    document.getElementById('primEkim').value = primEkim;
-    
-    // BrÃƒ€¼tten nete sekmesine geÃƒ€§ ve hesapla
-    // Sonucu göster
-    alert('SONUÇ:\\n\\nGereken Brüt Maaş: ' + tahminBrut.toFixed(2) + ' ₺\\nHedef Net Maaş: ' + hedefNetMaas.toFixed(2) + ' ₺\\n\\nMedeni Durum: ' + medeniDurum + '\\nÇocuk Sayısı: ' + cocukSayisi);
-    // calculate();
-}
 
-// BaÃ„Å¸Ã„€±msÃ„€±z Tahmini Zam HesaplamasÃ„€± (yeni - kendi input alanÃ„€±ndan)
-function calculateIndependentProjections() {
-    console.log('calculateIndependentProjections Ãƒ€§aÃ„Å¸rÃ„€±ldÃ„€±');
+    // Sonucu alert ile goster
+    const sgk = tahminBrut * 0.14;
+    const issizlik = tahminBrut * 0.01;
+    const damga = tahminBrut * 0.00759;
+    const matrah = tahminBrut - sgk - issizlik;
+    const yillikMatrah = matrah * 12;
+    const yillikVergi = calculateIncomeTax(yillikMatrah);
+    const aylikVergi = yillikVergi / 12;
+    const asgariBrut = 22104.00;
+    const asgariSGK = asgariBrut * 0.14;
+    const asgariIssizlik = asgariBrut * 0.01;
+    const asgariMatrah = asgariBrut - asgariSGK - asgariIssizlik;
+    const asgariYillik = asgariMatrah * 12;
+    const asgariVergi = calculateIncomeTax(asgariYillik);
+    const agiOrani = getAGIRate(medeniDurum, cocukSayisi);
+    const agi = (asgariVergi * agiOrani) / 12;
+    const netVergi = aylikVergi - agi;
+    const hesaplananNet = tahminBrut - sgk - issizlik - netVergi - damga;
+    const toplamKesinti = sgk + issizlik + netVergi + damga;
     
-    const mevcutMaas = parseFloat(document.getElementById('mevcutBrutMaas').value) || 0;
-    const hesaplamaTuru = document.querySelector('input[name="maasHesaplamaTuru"]:checked').value;
-    
-    // Label'Ã„€± gÃƒ€¼ncelle
-    const label = document.getElementById('mevcutMaasLabel');
-    if (hesaplamaTuru === 'brut') {
-        label.textContent = 'Mevcut BrÃƒ€¼t MaaÃ…Å¸ (Ã¢€€š₺)';
-    } else {
-        label.textContent = 'Mevcut Net MaaÃ…Å¸ (Ã¢€€š₺)';
-    }
-    
-    console.log('Mevcut MaaÃ…Å¸:', mevcutMaas, 'TÃƒ€¼r:', hesaplamaTuru);
-    
+    alert('HESAPLAMA SONUCU:\\n\\n' +
+          'Hedef Net Maaş: ' + hedefNetMaas.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' ₺\\n' +
+          'Gereken Brüt Maaş: ' + tahminBrut.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' ₺\\n' +
+          'Hesaplanan Net: ' + hesaplananNet.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' ₺\\n\\n' +
+          'KESİNTİLER:\\n' +
+          'SGK (14%): ' + sgk.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' ₺\\n' +
+          'İşsizlik (1%): ' + issizlik.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' ₺\\n' +
+          'Gelir Vergisi: ' + aylikVergi.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' ₺\\n' +
+          'AGİ İndirimi: -' + agi.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' ₺\\n' +
+          'Net Gelir Vergisi: ' + netVergi.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' ₺\\n' +
+          'Damga Vergisi: ' + damga.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' ₺\\n' +
+          'Toplam Kesinti: ' + toplamKesinti.toLocaleString('tr-TR', {minimumFractionDigits: 2}) + ' ₺');
     if (mevcutMaas === 0) {
-        // MaaÃ…Å¸ girilmemiÃ…Å¸se hesaplama yapma, deÃ„Å¸erleri olduÃ„Å¸u gibi bÃ„€±rak
+        // MaaÃƒâ€¦Ã…Â¸ girilmemiÃƒâ€¦Ã…Â¸se hesaplama yapma, deÃƒâ€Ã…Â¸erleri olduÃƒâ€Ã…Â¸u gibi bÃƒâ€â‚¬Â±rak
         return;
     }
     
-    // Net'ten brÃƒ€¼te Ãƒ€§evirme fonksiyonu (yaklaÃ…Å¸Ã„€±k)
+    // Net'ten brÃƒÆ’â‚¬Â¼te ÃƒÆ’â‚¬Â§evirme fonksiyonu (yaklaÃƒâ€¦Ã…Â¸Ãƒâ€â‚¬Â±k)
     function netToBrut(netMaas) {
-        // Ã„€°teratif yaklaÃ…Å¸Ã„€±m ile net'ten brÃƒ€¼t bulma
-        let brutTahmin = netMaas * 1.45; // BaÃ…Å¸langÃ„€±Ãƒ€§ tahmini
+        // Ãƒâ€â‚¬Â°teratif yaklaÃƒâ€¦Ã…Â¸Ãƒâ€â‚¬Â±m ile net'ten brÃƒÆ’â‚¬Â¼t bulma
+        let brutTahmin = netMaas * 1.45; // BaÃƒâ€¦Ã…Â¸langÃƒâ€â‚¬Â±ÃƒÆ’â‚¬Â§ tahmini
         let iterasyon = 0;
         const maxIterasyon = 20;
         
@@ -672,11 +672,11 @@ function calculateIndependentProjections() {
         return brutTahmin;
     }
     
-    // Hesaplama tÃƒ€¼rÃƒ€¼ne gÃƒ€¶re brÃƒ€¼t maaÃ…Å¸Ã„€± belirle
+    // Hesaplama tÃƒÆ’â‚¬Â¼rÃƒÆ’â‚¬Â¼ne gÃƒÆ’â‚¬Â¶re brÃƒÆ’â‚¬Â¼t maaÃƒâ€¦Ã…Â¸Ãƒâ€â‚¬Â± belirle
     let mevcutBrutMaas;
     if (hesaplamaTuru === 'net') {
         mevcutBrutMaas = netToBrut(mevcutMaas);
-        console.log('Net\'ten dÃƒ€¶nÃƒ€¼Ã…Å¸tÃƒ€¼rÃƒ€¼len brÃƒ€¼t:', mevcutBrutMaas);
+        console.log('Net\'ten dÃƒÆ’â‚¬Â¶nÃƒÆ’â‚¬Â¼Ãƒâ€¦Ã…Â¸tÃƒÆ’â‚¬Â¼rÃƒÆ’â‚¬Â¼len brÃƒÆ’â‚¬Â¼t:', mevcutBrutMaas);
     } else {
         mevcutBrutMaas = mevcutMaas;
     }
@@ -687,13 +687,13 @@ function calculateIndependentProjections() {
         const zamAyValue = document.getElementById(`zam${i}Ay`).value;
         const zamAy = zamAyValue ? parseInt(zamAyValue) : null;
         
-        console.log(`Senaryo ${i}: Zam OranÃ„€±=${zamOran}%, Zam AyÃ„€±=${zamAyValue}`);
+        console.log(`Senaryo ${i}: Zam OranÃƒâ€â‚¬Â±=${zamOran}%, Zam AyÃƒâ€â‚¬Â±=${zamAyValue}`);
         
-        // EÃ„Å¸er ay seÃƒ€§ilmemiÃ…Å¸se ama zam oranÃ„€± girilmiÃ…Å¸se, varsayÃ„€±lan olarak Ocak kabul et
+        // EÃƒâ€Ã…Â¸er ay seÃƒÆ’â‚¬Â§ilmemiÃƒâ€¦Ã…Â¸se ama zam oranÃƒâ€â‚¬Â± girilmiÃƒâ€¦Ã…Â¸se, varsayÃƒâ€â‚¬Â±lan olarak Ocak kabul et
         const effectiveZamAy = zamAy || 1;
         
         const yeniBrutMaas = mevcutBrutMaas * (1 + zamOran / 100);
-        console.log(`Senaryo ${i}: Yeni BrÃƒ€¼t=${yeniBrutMaas}`);
+        console.log(`Senaryo ${i}: Yeni BrÃƒÆ’â‚¬Â¼t=${yeniBrutMaas}`);
         
         // Basit net hesaplama (ortalama)
         let yillikNet = 0;
@@ -716,18 +716,18 @@ function calculateIndependentProjections() {
         const ortalamaNetMaas = yillikNet / 12;
         console.log(`Senaryo ${i}: Ortalama Net=${ortalamaNetMaas}`);
         
-        // DÃƒ€¶viz karÃ…Å¸Ã„€±lÃ„€±klarÃ„€±
+        // DÃƒÆ’â‚¬Â¶viz karÃƒâ€¦Ã…Â¸Ãƒâ€â‚¬Â±lÃƒâ€â‚¬Â±klarÃƒâ€â‚¬Â±
         const netUSD = ortalamaNetMaas / exchangeRates.USD;
         const netEUR = ortalamaNetMaas / exchangeRates.EUR;
         
         document.getElementById(`zam${i}Brut`).textContent = formatCurrency(yeniBrutMaas);
         document.getElementById(`zam${i}Net`).textContent = formatCurrency(ortalamaNetMaas);
         document.getElementById(`zam${i}USD`).textContent = '$' + netUSD.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        document.getElementById(`zam${i}EUR`).textContent = 'Ã¢€€š€¬' + netEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        document.getElementById(`zam${i}EUR`).textContent = 'ÃƒÂ¢â‚¬â‚¬Å¡â‚¬Â¬' + netEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 }
 
-// Sekme deÃ„Å¸iÃ…Å¸tirme
+// Sekme deÃƒâ€Ã…Â¸iÃƒâ€¦Ã…Â¸tirme
 function switchTab(tab) {
     const buttons = document.querySelectorAll('.tab-btn');
     buttons.forEach(btn => btn.classList.remove('active'));
@@ -745,79 +745,79 @@ function switchTab(tab) {
     }
 }
 
-// Sayfa yÃƒ€¼klendiÃ„Å¸inde hesapla
-window.addEven₺istener('load', function() {
+// Sayfa yÃƒÆ’â‚¬Â¼klendiÃƒâ€Ã…Â¸inde hesapla
+window.addEvenâ‚ºistener('load', function() {
     calculate();
 });
 
-// Input deÃ„Å¸iÃ…Å¸ikliklerinde otomatik hesaplama
-document.getElementById('salary').addEven₺istener('input', calculate);
-document.getElementById('calisanDurumu').addEven₺istener('change', calculate);
-document.getElementById('emekliAyligi').addEven₺istener('input', calculate);
-document.getElementById('medeniDurum').addEven₺istener('change', calculate);
-document.getElementById('cocukSayisi').addEven₺istener('input', calculate);
-document.getElementById('primOcak').addEven₺istener('input', calculate);
-document.getElementById('primNisan').addEven₺istener('input', calculate);
-document.getElementById('primTemmuz').addEven₺istener('input', calculate);
-document.getElementById('primEkim').addEven₺istener('input', calculate);
-document.getElementById('engelliIndirimi').addEven₺istener('change', calculate);
-document.getElementById('asgariBrutUcret').addEven₺istener('change', calculate);
+// Input deÃƒâ€Ã…Â¸iÃƒâ€¦Ã…Â¸ikliklerinde otomatik hesaplama
+document.getElementById('salary').addEvenâ‚ºistener('input', calculate);
+document.getElementById('calisanDurumu').addEvenâ‚ºistener('change', calculate);
+document.getElementById('emekliAyligi').addEvenâ‚ºistener('input', calculate);
+document.getElementById('medeniDurum').addEvenâ‚ºistener('change', calculate);
+document.getElementById('cocukSayisi').addEvenâ‚ºistener('input', calculate);
+document.getElementById('primOcak').addEvenâ‚ºistener('input', calculate);
+document.getElementById('primNisan').addEvenâ‚ºistener('input', calculate);
+document.getElementById('primTemmuz').addEvenâ‚ºistener('input', calculate);
+document.getElementById('primEkim').addEvenâ‚ºistener('input', calculate);
+document.getElementById('engelliIndirimi').addEvenâ‚ºistener('change', calculate);
+document.getElementById('asgariBrutUcret').addEvenâ‚ºistener('change', calculate);
 
-// Zam hesaplama input deÃ„Å¸iÃ…Å¸iklikleri
+// Zam hesaplama input deÃƒâ€Ã…Â¸iÃƒâ€¦Ã…Â¸iklikleri
 for (let i = 1; i <= 3; i++) {
-    document.getElementById(`zam${i}Oran`).addEven₺istener('input', calculate);
-    document.getElementById(`zam${i}Ay`).addEven₺istener('change', calculate);
+    document.getElementById(`zam${i}Oran`).addEvenâ‚ºistener('input', calculate);
+    document.getElementById(`zam${i}Ay`).addEvenâ‚ºistener('change', calculate);
 }
 
-// Vergi dilimi tablosunu gÃƒ€¼ncelle
+// Vergi dilimi tablosunu gÃƒÆ’â‚¬Â¼ncelle
 function updateTaxBracketTable() {
-    console.log('updateTaxBracketTable Ãƒ€§aÃ„Å¸rÃ„€±ldÃ„€±');
+    console.log('updateTaxBracketTable ÃƒÆ’â‚¬Â§aÃƒâ€Ã…Â¸rÃƒâ€â‚¬Â±ldÃƒâ€â‚¬Â±');
     
     const year = parseInt(document.getElementById('taxBracketYear').value);
-    console.log('SeÃƒ€§ilen yÃ„€±l:', year);
+    console.log('SeÃƒÆ’â‚¬Â§ilen yÃƒâ€â‚¬Â±l:', year);
     
     const yearData = TAX_DATA[year];
-    console.log('YÃ„€±l verisi:', yearData);
+    console.log('YÃƒâ€â‚¬Â±l verisi:', yearData);
     
     const currentYear = new Date().getFullYear();
     
     if (!yearData) {
-        console.error('YÃ„€±l verisi bulunamadÃ„€±!');
+        console.error('YÃƒâ€â‚¬Â±l verisi bulunamadÃƒâ€â‚¬Â±!');
         return;
     }
     
-    // BaÃ…Å¸lÃ„€±Ã„Å¸Ã„€± gÃƒ€¼ncelle - 2026 ve Ãƒ€¶ncesi iÃƒ€§in tahmini etiketi kaldÃ„€±r
+    // BaÃƒâ€¦Ã…Â¸lÃƒâ€â‚¬Â±Ãƒâ€Ã…Â¸Ãƒâ€â‚¬Â± gÃƒÆ’â‚¬Â¼ncelle - 2026 ve ÃƒÆ’â‚¬Â¶ncesi iÃƒÆ’â‚¬Â§in tahmini etiketi kaldÃƒâ€â‚¬Â±r
     const isFuture = year > currentYear;
-    const ti₺eText = `${year} Gelir Vergisi Dilimleri${isFuture ? ' (Tahmini)' : ''}`;
-    console.log('BaÃ…Å¸lÃ„€±k:', ti₺eText);
+    const tiâ‚ºeText = `${year} Gelir Vergisi Dilimleri${isFuture ? ' (Tahmini)' : ''}`;
+    console.log('BaÃƒâ€¦Ã…Â¸lÃƒâ€â‚¬Â±k:', tiâ‚ºeText);
     
-    document.getElementById('taxBracketTi₺e').textContent = ti₺eText;
-    document.getElementById('agiTi₺e').textContent = `Asgari GeÃƒ€§im Ã„€°ndirimi OranlarÃ„€± (${year})`;
+    document.getElementById('taxBracketTiâ‚ºe').textContent = tiâ‚ºeText;
+    document.getElementById('agiTiâ‚ºe').textContent = `Asgari GeÃƒÆ’â‚¬Â§im Ãƒâ€â‚¬Â°ndirimi OranlarÃƒâ€â‚¬Â± (${year})`;
     
-    // Tablo gÃƒ€¶vdesini gÃƒ€¼ncelle
+    // Tablo gÃƒÆ’â‚¬Â¶vdesini gÃƒÆ’â‚¬Â¼ncelle
     const tbody = document.getElementById('taxBracketTableBody');
     if (!tbody) {
-        console.error('Tablo gÃƒ€¶vdesi bulunamadÃ„€±!');
+        console.error('Tablo gÃƒÆ’â‚¬Â¶vdesi bulunamadÃƒâ€â‚¬Â±!');
         return;
     }
     
     tbody.innerHTML = '';
-    console.log('Dilim sayÃ„€±sÃ„€±:', yearData.brackets.length);
+    console.log('Dilim sayÃƒâ€â‚¬Â±sÃƒâ€â‚¬Â±:', yearData.brackets.length);
     
     yearData.brackets.forEach((bracket, index) => {
         const row = document.createElement('tr');
-        const minFormatted = bracket.min === 0 ? '0' : formatCurrency(bracket.min).replace(' Ã¢€€š₺', '');
-        const maxFormatted = bracket.max === Infinity ? 've Ãƒ€¼zeri' : formatCurrency(bracket.max).replace(' Ã¢€€š₺', '');
+        const minFormatted = bracket.min === 0 ? '0' : formatCurrency(bracket.min).replace(' ÃƒÂ¢â‚¬â‚¬Å¡â‚º', '');
+        const maxFormatted = bracket.max === Infinity ? 've ÃƒÆ’â‚¬Â¼zeri' : formatCurrency(bracket.max).replace(' ÃƒÂ¢â‚¬â‚¬Å¡â‚º', '');
         
         row.innerHTML = `
-            <td>${minFormatted} Ã¢€€š₺ ${bracket.max === Infinity ? '' : '- ' + maxFormatted + ' Ã¢€€š₺'}</td>
+            <td>${minFormatted} ÃƒÂ¢â‚¬â‚¬Å¡â‚º ${bracket.max === Infinity ? '' : '- ' + maxFormatted + ' ÃƒÂ¢â‚¬â‚¬Å¡â‚º'}</td>
             <td>%${(bracket.rate * 100).toFixed(0)}</td>
         `;
         tbody.appendChild(row);
-        console.log(`SatÃ„€±r ${index + 1} eklendi: ${minFormatted} - ${maxFormatted}`);
+        console.log(`SatÃƒâ€â‚¬Â±r ${index + 1} eklendi: ${minFormatted} - ${maxFormatted}`);
     });
     
-    console.log('Tablo gÃƒ€¼ncellendi');
+    console.log('Tablo gÃƒÆ’â‚¬Â¼ncellendi');
 }
 
 // PDF Export Fonksiyonu
@@ -825,10 +825,10 @@ function exportToPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape, mm, A4
     
-    // TÃƒ€¼rkÃƒ€§e karakter desteÃ„Å¸i iÃƒ€§in charset ayarÃ„€±
-    doc.se₺anguage("tr");
+    // TÃƒÆ’â‚¬Â¼rkÃƒÆ’â‚¬Â§e karakter desteÃƒâ€Ã…Â¸i iÃƒÆ’â‚¬Â§in charset ayarÃƒâ€â‚¬Â±
+    doc.seâ‚ºanguage("tr");
     
-    // BaÃ…Å¸lÃ„€±k
+    // BaÃƒâ€¦Ã…Â¸lÃƒâ€â‚¬Â±k
     doc.setFontSize(16);
     doc.setFont('helvetica', 'bold');
     doc.text('Yillik Maas Hesaplama Raporu', 14, 15);
@@ -838,29 +838,29 @@ function exportToPDF() {
     doc.setFont('helvetica', 'normal');
     doc.text(`Rapor Tarihi: ${new Date().toLocaleDateString('tr-TR')}`, 14, 22);
     
-    // BrÃƒ€¼t maaÃ…Å¸ bilgisi
+    // BrÃƒÆ’â‚¬Â¼t maaÃƒâ€¦Ã…Â¸ bilgisi
     const brutMaas = parseFloat(document.getElementById('salary').value) || 0;
     const calisanDurumu = document.getElementById('calisanDurumu').value === 'emekli' ? 'Emekli Calisan' : 'Normal Calisan';
-    const brutMaasText = formatCurrency(brutMaas).replace('Ã¢€€š₺', '₺');
+    const brutMaasText = formatCurrency(brutMaas).replace('ÃƒÂ¢â‚¬â‚¬Å¡â‚º', 'â‚º');
     doc.text(`Brut Maas: ${brutMaasText} | Calisan Durumu: ${calisanDurumu}`, 14, 28);
     
-    // TÃƒ€¼rkÃƒ€§e karakterleri deÃ„Å¸iÃ…Å¸tiren yardÃ„€±mcÃ„€± fonksiyon
+    // TÃƒÆ’â‚¬Â¼rkÃƒÆ’â‚¬Â§e karakterleri deÃƒâ€Ã…Â¸iÃƒâ€¦Ã…Â¸tiren yardÃƒâ€â‚¬Â±mcÃƒâ€â‚¬Â± fonksiyon
     const fixTurkishChars = (text) => {
         if (!text) return '';
         return text.toString()
-            .replace(/Ã…Å¸/g, 's').replace(/Ã…€/g, 'S')
-            .replace(/Ã„Å¸/g, 'g').replace(/Ã„€/g, 'G')
-            .replace(/Ãƒ€¼/g, 'u').replace(/ÃƒÅ“/g, 'U')
-            .replace(/Ãƒ€¶/g, 'o').replace(/Ãƒ€€“/g, 'O')
-            .replace(/Ãƒ€§/g, 'c').replace(/Ãƒ€€¡/g, 'C')
-            .replace(/Ã„€±/g, 'i').replace(/Ã„€°/g, 'I')
-            .replace(/Ã¢€€š₺/g, '₺')
-            .replace(/Ã¢€€ €€™/g, '->')  // Ok iÃ…Å¸areti
-            .replace(/Ã¢€€“₺/g, '->')  // ÃƒÅ“Ãƒ€§gen ok
-            .replace(/Ã¢€‚¬€¢/g, '*')   // Bullet point
-            .replace(/Ã¢€‚¬€€œ/g, '-')   // En dash
-            .replace(/Ã¢€‚¬€€/g, '-')   // Em dash
-            .replace(/Ã¢€‚¬€¦/g, '...') // Ellipsis
+            .replace(/Ãƒâ€¦Ã…Â¸/g, 's').replace(/Ãƒâ€¦â‚¬Â/g, 'S')
+            .replace(/Ãƒâ€Ã…Â¸/g, 'g').replace(/Ãƒâ€â‚¬Â/g, 'G')
+            .replace(/ÃƒÆ’â‚¬Â¼/g, 'u').replace(/ÃƒÆ’Ã…â€œ/g, 'U')
+            .replace(/ÃƒÆ’â‚¬Â¶/g, 'o').replace(/ÃƒÆ’â‚¬â‚¬â€œ/g, 'O')
+            .replace(/ÃƒÆ’â‚¬Â§/g, 'c').replace(/ÃƒÆ’â‚¬â‚¬Â¡/g, 'C')
+            .replace(/Ãƒâ€â‚¬Â±/g, 'i').replace(/Ãƒâ€â‚¬Â°/g, 'I')
+            .replace(/ÃƒÂ¢â‚¬â‚¬Å¡â‚º/g, 'â‚º')
+            .replace(/ÃƒÂ¢â‚¬â‚¬Â â‚¬â‚¬â„¢/g, '->')  // Ok iÃƒâ€¦Ã…Â¸areti
+            .replace(/ÃƒÂ¢â‚¬â‚¬â€œâ‚º/g, '->')  // ÃƒÆ’Ã…â€œÃƒÆ’â‚¬Â§gen ok
+            .replace(/ÃƒÂ¢â‚¬â€šÂ¬â‚¬Â¢/g, '*')   // Bullet point
+            .replace(/ÃƒÂ¢â‚¬â€šÂ¬â‚¬â‚¬Å“/g, '-')   // En dash
+            .replace(/ÃƒÂ¢â‚¬â€šÂ¬â‚¬â‚¬Â/g, '-')   // Em dash
+            .replace(/ÃƒÂ¢â‚¬â€šÂ¬â‚¬Â¦/g, '...') // Ellipsis
             .replace(/'/g, "'")   // Smart quote
             .replace(/'/g, "'")   // Smart quote
             .replace(/"/g, '"')   // Smart quote
@@ -872,12 +872,12 @@ function exportToPDF() {
     const headers = [];
     const rows = [];
     
-    // BaÃ…Å¸lÃ„€±klarÃ„€± al ve TÃƒ€¼rkÃƒ€§e karakterleri dÃƒ€¼zelt
+    // BaÃƒâ€¦Ã…Â¸lÃƒâ€â‚¬Â±klarÃƒâ€â‚¬Â± al ve TÃƒÆ’â‚¬Â¼rkÃƒÆ’â‚¬Â§e karakterleri dÃƒÆ’â‚¬Â¼zelt
     table.querySelectorAll('thead th').forEach(th => {
         headers.push(fixTurkishChars(th.textContent));
     });
     
-    // SatÃ„€±rlarÃ„€± al (TOPLAM satÃ„€±rÃ„€± hariÃƒ€§)
+    // SatÃƒâ€â‚¬Â±rlarÃƒâ€â‚¬Â± al (TOPLAM satÃƒâ€â‚¬Â±rÃƒâ€â‚¬Â± hariÃƒÆ’â‚¬Â§)
     table.querySelectorAll('tbody tr').forEach(tr => {
         const row = [];
         tr.querySelectorAll('td').forEach(td => {
@@ -886,7 +886,7 @@ function exportToPDF() {
         rows.push(row);
     });
     
-    // Toplam satÃ„€±rÃ„€±nÃ„€± al
+    // Toplam satÃƒâ€â‚¬Â±rÃƒâ€â‚¬Â±nÃƒâ€â‚¬Â± al
     const totalRow = [];
     if (table.querySelector('tfoot tr')) {
         table.querySelector('tfoot tr').querySelectorAll('td').forEach(td => {
@@ -894,7 +894,7 @@ function exportToPDF() {
         });
     }
     
-    // AutoTable ile tablo oluÃ…Å¸tur
+    // AutoTable ile tablo oluÃƒâ€¦Ã…Â¸tur
     doc.autoTable({
         head: [headers],
         body: rows,
@@ -918,15 +918,15 @@ function exportToPDF() {
             fontStyle: 'bold'
         },
         columnStyles: {
-            0: { halign: 'left' }, // Ay sÃƒ€¼tunu sola hizalÃ„€±
-            3: { halign: 'left', fontSize: 6 } // Vergi dilimi detayÃ„€± kÃƒ€¼Ãƒ€§Ãƒ€¼k font
+            0: { halign: 'left' }, // Ay sÃƒÆ’â‚¬Â¼tunu sola hizalÃƒâ€â‚¬Â±
+            3: { halign: 'left', fontSize: 6 } // Vergi dilimi detayÃƒâ€â‚¬Â± kÃƒÆ’â‚¬Â¼ÃƒÆ’â‚¬Â§ÃƒÆ’â‚¬Â¼k font
         },
         alternateRowStyles: {
             fillColor: [245, 245, 245]
         }
     });
     
-    // Zam senaryolarÃ„€± varsa ekle
+    // Zam senaryolarÃƒâ€â‚¬Â± varsa ekle
     const zamBrutMaas = parseFloat(document.getElementById('mevcutBrutMaas').value) || 0;
     if (zamBrutMaas > 0) {
         const finalY = doc.lastAutoTable.finalY + 10;
@@ -977,36 +977,36 @@ function exportToPDF() {
 function exportToExcel() {
     const wb = XLSX.utils.book_new();
     
-    // Ana tablo iÃƒ€§in worksheet oluÃ…Å¸tur
+    // Ana tablo iÃƒÆ’â‚¬Â§in worksheet oluÃƒâ€¦Ã…Â¸tur
     const table = document.getElementById('annualTable');
     const ws = XLSX.utils.table_to_sheet(table);
     
-    // SÃƒ€¼tun geniÃ…Å¸liklerini ayarla
+    // SÃƒÆ’â‚¬Â¼tun geniÃƒâ€¦Ã…Â¸liklerini ayarla
     ws['!cols'] = [
         { wch: 10 },  // Ay
-        { wch: 12 },  // BrÃƒ€¼t MaaÃ…Å¸
+        { wch: 12 },  // BrÃƒÆ’â‚¬Â¼t MaaÃƒâ€¦Ã…Â¸
         { wch: 12 },  // Prim
         { wch: 20 },  // Vergi Dilimi
-        { wch: 12 },  // SGK Ã„€°Ã…Å¸Ãƒ€§i
-        { wch: 12 },  // Ã„€°Ã…Å¸sizlik Ã„€°Ã…Å¸Ãƒ€§i
+        { wch: 12 },  // SGK Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸ÃƒÆ’â‚¬Â§i
+        { wch: 12 },  // Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸sizlik Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸ÃƒÆ’â‚¬Â§i
         { wch: 12 },  // Gelir Vergisi
-        { wch: 14 },  // KÃƒ€¼mÃƒ€¼latif Vergi
+        { wch: 14 },  // KÃƒÆ’â‚¬Â¼mÃƒÆ’â‚¬Â¼latif Vergi
         { wch: 12 },  // Damga Vergisi
-        { wch: 12 },  // AGÃ„€°
-        { wch: 14 },  // Net MaaÃ…Å¸
+        { wch: 12 },  // AGÃƒâ€â‚¬Â°
+        { wch: 14 },  // Net MaaÃƒâ€¦Ã…Â¸
         { wch: 12 },  // Net USD
         { wch: 12 },  // Net EUR
-        { wch: 12 },  // KÃ„€±dem Net
-        { wch: 12 }   // Ã„€°hbar Net
+        { wch: 12 },  // KÃƒâ€â‚¬Â±dem Net
+        { wch: 12 }   // Ãƒâ€â‚¬Â°hbar Net
     ];
     
-    XLSX.utils.book_append_sheet(wb, ws, 'YÃ„€±llÃ„€±k Hesaplama');
+    XLSX.utils.book_append_sheet(wb, ws, 'YÃƒâ€â‚¬Â±llÃƒâ€â‚¬Â±k Hesaplama');
     
-    // Zam senaryolarÃ„€± iÃƒ€§in worksheet
+    // Zam senaryolarÃƒâ€â‚¬Â± iÃƒÆ’â‚¬Â§in worksheet
     const zamBrutMaas = parseFloat(document.getElementById('mevcutBrutMaas').value) || 0;
     if (zamBrutMaas > 0) {
         const zamData = [
-            ['Senaryo', 'Zam OranÃ„€± (%)', 'Zam AyÃ„€±', 'Yeni BrÃƒ€¼t MaaÃ…Å¸', 'Yeni Net MaaÃ…Å¸ (Ort.)', 'USD', 'EUR']
+            ['Senaryo', 'Zam OranÃƒâ€â‚¬Â± (%)', 'Zam AyÃƒâ€â‚¬Â±', 'Yeni BrÃƒÆ’â‚¬Â¼t MaaÃƒâ€¦Ã…Â¸', 'Yeni Net MaaÃƒâ€¦Ã…Â¸ (Ort.)', 'USD', 'EUR']
         ];
         
         for (let i = 1; i <= 3; i++) {
@@ -1033,48 +1033,48 @@ function exportToExcel() {
                 { wch: 12 },
                 { wch: 12 }
             ];
-            XLSX.utils.book_append_sheet(wb, wsZam, 'Zam SenaryolarÃ„€±');
+            XLSX.utils.book_append_sheet(wb, wsZam, 'Zam SenaryolarÃƒâ€â‚¬Â±');
         }
     }
     
-    // Ãƒ€€“zet bilgiler iÃƒ€§in worksheet
+    // ÃƒÆ’â‚¬â‚¬â€œzet bilgiler iÃƒÆ’â‚¬Â§in worksheet
     const brutMaas = parseFloat(document.getElementById('salary').value) || 0;
     const netMaas = document.getElementById('netMaas').textContent;
-    const calisanDurumu = document.getElementById('calisanDurumu').value === 'emekli' ? 'Emekli Ãƒ€€¡alÃ„€±Ã…Å¸an' : 'Normal Ãƒ€€¡alÃ„€±Ã…Å¸an';
+    const calisanDurumu = document.getElementById('calisanDurumu').value === 'emekli' ? 'Emekli ÃƒÆ’â‚¬â‚¬Â¡alÃƒâ€â‚¬Â±Ãƒâ€¦Ã…Â¸an' : 'Normal ÃƒÆ’â‚¬â‚¬Â¡alÃƒâ€â‚¬Â±Ãƒâ€¦Ã…Â¸an';
     const toplamMaliyet = document.getElementById('toplamMaliyet').textContent;
     
     const ozet = [
-        ['MaaÃ…Å¸ Hesaplama Ãƒ€€“zeti', ''],
+        ['MaaÃƒâ€¦Ã…Â¸ Hesaplama ÃƒÆ’â‚¬â‚¬â€œzeti', ''],
         ['', ''],
         ['Rapor Tarihi:', new Date().toLocaleDateString('tr-TR')],
-        ['Ãƒ€€¡alÃ„€±Ã…Å¸an Durumu:', calisanDurumu],
-        ['BrÃƒ€¼t MaaÃ…Å¸:', formatCurrency(brutMaas)],
-        ['Net MaaÃ…Å¸:', netMaas],
-        ['Toplam Ã„€°Ã…Å¸veren Maliyeti:', toplamMaliyet],
+        ['ÃƒÆ’â‚¬â‚¬Â¡alÃƒâ€â‚¬Â±Ãƒâ€¦Ã…Â¸an Durumu:', calisanDurumu],
+        ['BrÃƒÆ’â‚¬Â¼t MaaÃƒâ€¦Ã…Â¸:', formatCurrency(brutMaas)],
+        ['Net MaaÃƒâ€¦Ã…Â¸:', netMaas],
+        ['Toplam Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸veren Maliyeti:', toplamMaliyet],
         ['', ''],
         ['Kesintiler', ''],
-        ['SGK Ã„€°Ã…Å¸Ãƒ€§i Primi:', document.getElementById('sgkIsci').textContent],
-        ['Ã„€°Ã…Å¸sizlik Ã„€°Ã…Å¸Ãƒ€§i Primi:', document.getElementById('issizlikIsci').textContent],
+        ['SGK Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸ÃƒÆ’â‚¬Â§i Primi:', document.getElementById('sgkIsci').textContent],
+        ['Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸sizlik Ãƒâ€â‚¬Â°Ãƒâ€¦Ã…Â¸ÃƒÆ’â‚¬Â§i Primi:', document.getElementById('issizlikIsci').textContent],
         ['Gelir Vergisi:', document.getElementById('gelirVergisi').textContent],
         ['Damga Vergisi:', document.getElementById('damgaVergisi').textContent],
-        ['AGÃ„€°:', document.getElementById('agi').textContent]
+        ['AGÃƒâ€â‚¬Â°:', document.getElementById('agi').textContent]
     ];
     
     const wsOzet = XLSX.utils.aoa_to_sheet(ozet);
     wsOzet['!cols'] = [{ wch: 30 }, { wch: 20 }];
-    XLSX.utils.book_append_sheet(wb, wsOzet, 'Ãƒ€€“zet');
+    XLSX.utils.book_append_sheet(wb, wsOzet, 'ÃƒÆ’â‚¬â‚¬â€œzet');
     
-    // Excel dosyasÃ„€±nÃ„€± indir
+    // Excel dosyasÃƒâ€â‚¬Â±nÃƒâ€â‚¬Â± indir
     const fileName = `Maas_Hesaplama_${new Date().toISOString().split('T')[0]}.xlsx`;
     XLSX.writeFile(wb, fileName);
 }
 
-// Sayfa yÃƒ€¼klendiÃ„Å¸inde tabloyu oluÃ…Å¸tur ve mevcut yÃ„€±lÃ„€± seÃƒ€§
-window.addEven₺istener('load', function() {
+// Sayfa yÃƒÆ’â‚¬Â¼klendiÃƒâ€Ã…Â¸inde tabloyu oluÃƒâ€¦Ã…Â¸tur ve mevcut yÃƒâ€â‚¬Â±lÃƒâ€â‚¬Â± seÃƒÆ’â‚¬Â§
+window.addEvenâ‚ºistener('load', function() {
     const currentYear = new Date().getFullYear();
     const taxBracketYearSelect = document.getElementById('taxBracketYear');
     
-    // Mevcut yÃ„€±l 2026 veya sonrasÃ„€±ysa, 2026'yÃ„€± seÃƒ€§
+    // Mevcut yÃƒâ€â‚¬Â±l 2026 veya sonrasÃƒâ€â‚¬Â±ysa, 2026'yÃƒâ€â‚¬Â± seÃƒÆ’â‚¬Â§
     if (currentYear >= 2026) {
         taxBracketYearSelect.value = '2026';
     }
@@ -1082,7 +1082,7 @@ window.addEven₺istener('load', function() {
     updateTaxBracketTable();
 });
 
-// Netten BrÃ¼te SonuÃ§ GÃ¶ster
+// Netten BrÃƒÂ¼te SonuÃƒÂ§ GÃƒÂ¶ster
 function showNetToBrutResult(brutMaas, netMaas, medeniDurum, cocukSayisi) {
     const sgkIsci = brutMaas * 0.14;
     const issizlikIsci = brutMaas * 0.01;
@@ -1102,5 +1102,5 @@ function showNetToBrutResult(brutMaas, netMaas, medeniDurum, cocukSayisi) {
     const agi = yillikAGI / 12;
     const netGelirVergisi = aylikGelirVergisi - agi;
     const hesaplananNet = brutMaas - sgkIsci - issizlikIsci - netGelirVergisi - damgaVergisi;
-    alert('Hedef Net: ' + formatCurrency(netMaas) + '\\nGereken BrÃ¼t: ' + formatCurrency(brutMaas) + '\\nHesaplanan Net: ' + formatCurrency(hesaplananNet));
+    alert('Hedef Net: ' + formatCurrency(netMaas) + '\\nGereken BrÃƒÂ¼t: ' + formatCurrency(brutMaas) + '\\nHesaplanan Net: ' + formatCurrency(hesaplananNet));
 }
