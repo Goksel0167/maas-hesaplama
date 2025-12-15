@@ -1,3 +1,25 @@
+// Döviz kurları için global değişkenler
+let exchangeRates = { USD: 34.50, EUR: 37.80 }; // Varsayılan değerler
+
+// Döviz kurlarını çek
+async function fetchExchangeRates() {
+    try {
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        const data = await response.json();
+        
+        if (data && data.rates && data.rates.TRY) {
+            exchangeRates.USD = data.rates.TRY;
+            exchangeRates.EUR = data.rates.TRY / data.rates.EUR;
+            console.log('Döviz Kurları Güncellendi:', exchangeRates);
+        }
+    } catch (error) {
+        console.log('Döviz kurları yüklenemedi, varsayılan değerler kullanılıyor:', error);
+    }
+}
+
+// Sayfa yüklendiğinde kurları çek
+fetchExchangeRates();
+
 // 2025 Gelir Vergisi Dilimleri
 const TAX_BRACKETS = [
     { min: 0, max: 110000, rate: 0.15, name: '1. Dilim (%15)' },
@@ -258,6 +280,8 @@ function calculateSeverance() {
     document.getElementById('kidemBrut').textContent = formatCurrency(kidemBrut);
     document.getElementById('kidemDamga').textContent = formatCurrency(kidemDamga);
     document.getElementById('kidemNet').textContent = formatCurrency(kidemNet);
+    document.getElementById('kidemUSD').textContent = '$' + (kidemNet / exchangeRates.USD).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    document.getElementById('kidemEUR').textContent = '€' + (kidemNet / exchangeRates.EUR).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     
     // İhbar
     document.getElementById('ihbarEsasTutar').textContent = formatCurrency(aylikBrutMaas);
@@ -269,6 +293,8 @@ function calculateSeverance() {
     document.getElementById('ihbarGelirVergisi').textContent = formatCurrency(ihbarGelirVergisi);
     document.getElementById('ihbarDamga').textContent = formatCurrency(ihbarDamga);
     document.getElementById('ihbarNet').textContent = formatCurrency(ihbarNet);
+    document.getElementById('ihbarUSD').textContent = '$' + (ihbarNet / exchangeRates.USD).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    document.getElementById('ihbarEUR').textContent = '€' + (ihbarNet / exchangeRates.EUR).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     
     // Yıllık İzin (izinHakki artık input olduğu için set edilmiyor)
     document.getElementById('kalanIzin').textContent = kalanIzin + ' gün';
@@ -282,6 +308,8 @@ function calculateSeverance() {
     // Toplamlar
     document.getElementById('toplamVergi').textContent = formatCurrency(toplamVergi);
     document.getElementById('toplamTazminat').textContent = formatCurrency(toplamTazminat);
+    document.getElementById('toplamUSD').textContent = '$' + (toplamTazminat / exchangeRates.USD).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    document.getElementById('toplamEUR').textContent = '€' + (toplamTazminat / exchangeRates.EUR).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 // Event listeners
