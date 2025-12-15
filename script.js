@@ -548,7 +548,7 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
 }
 
 // Netten brÃƒÂ¼te hesaplama fonksiyonu
-function calculateNetToBrut() {
+function calculateNetToBrut() { alert("Fonksiyon çalıştı!");
     // SeÃƒÂ§ilen yÃ„Â±la gÃƒÂ¶re vergi dilimlerini ve AGI oranlarÃ„Â±nÃ„Â± gÃƒÂ¼ncelle
     const selectedYear = parseInt(document.getElementById('taxYear2').value);
     TAX_BRACKETS = TAX_DATA[selectedYear].brackets;
