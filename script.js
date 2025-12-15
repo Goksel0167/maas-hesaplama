@@ -635,22 +635,40 @@ for (let i = 1; i <= 3; i++) {
 
 // Vergi dilimi tablosunu güncelle
 function updateTaxBracketTable() {
+    console.log('updateTaxBracketTable çağrıldı');
+    
     const year = parseInt(document.getElementById('taxBracketYear').value);
+    console.log('Seçilen yıl:', year);
+    
     const yearData = TAX_DATA[year];
+    console.log('Yıl verisi:', yearData);
+    
     const currentYear = new Date().getFullYear();
     
-    if (!yearData) return;
+    if (!yearData) {
+        console.error('Yıl verisi bulunamadı!');
+        return;
+    }
     
     // Başlığı güncelle - 2026 ve öncesi için tahmini etiketi kaldır
     const isFuture = year > currentYear;
-    document.getElementById('taxBracketTitle').textContent = `${year} Gelir Vergisi Dilimleri${isFuture ? ' (Tahmini)' : ''}`;
+    const titleText = `${year} Gelir Vergisi Dilimleri${isFuture ? ' (Tahmini)' : ''}`;
+    console.log('Başlık:', titleText);
+    
+    document.getElementById('taxBracketTitle').textContent = titleText;
     document.getElementById('agiTitle').textContent = `Asgari Geçim İndirimi Oranları (${year})`;
     
     // Tablo gövdesini güncelle
     const tbody = document.getElementById('taxBracketTableBody');
-    tbody.innerHTML = '';
+    if (!tbody) {
+        console.error('Tablo gövdesi bulunamadı!');
+        return;
+    }
     
-    yearData.brackets.forEach(bracket => {
+    tbody.innerHTML = '';
+    console.log('Dilim sayısı:', yearData.brackets.length);
+    
+    yearData.brackets.forEach((bracket, index) => {
         const row = document.createElement('tr');
         const minFormatted = bracket.min === 0 ? '0' : formatCurrency(bracket.min).replace(' ₺', '');
         const maxFormatted = bracket.max === Infinity ? 've üzeri' : formatCurrency(bracket.max).replace(' ₺', '');
@@ -660,7 +678,10 @@ function updateTaxBracketTable() {
             <td>%${(bracket.rate * 100).toFixed(0)}</td>
         `;
         tbody.appendChild(row);
+        console.log(`Satır ${index + 1} eklendi: ${minFormatted} - ${maxFormatted}`);
     });
+    
+    console.log('Tablo güncellendi');
 }
 
 // Sayfa yüklendiğinde tabloyu oluştur ve mevcut yılı seç
