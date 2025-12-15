@@ -1,11 +1,11 @@
 // Ana sayfada yorum widget'ı için
+import { getRecentComments } from './feedback-firebase.js';
 
-function loadRecentComments() {
-    const comments = JSON.parse(localStorage.getItem('userComments') || '[]');
+async function loadRecentComments() {
     const recentCommentsDiv = document.getElementById('recentComments');
     
-    // Son 3 yorumu göster
-    const recentComments = comments.slice(0, 3);
+    // Firestore'dan son 3 yorumu getir
+    const recentComments = await getRecentComments();
     
     if (recentComments.length === 0) {
         recentCommentsDiv.innerHTML = `
@@ -37,9 +37,11 @@ function loadRecentComments() {
     }).join('');
 }
 
-function updateWidgetStats() {
+async function updateWidgetStats() {
     const totalVisitors = parseInt(localStorage.getItem('totalVisitors') || '0');
-    const comments = JSON.parse(localStorage.getItem('userComments') || '[]');
+    
+    // Firestore'dan yorum sayısını al
+    const comments = await getRecentComments();
     
     const totalVisitorsEl = document.getElementById('widgetTotalVisitors');
     const totalCommentsEl = document.getElementById('widgetTotalComments');

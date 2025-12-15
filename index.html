@@ -515,7 +515,26 @@
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+      import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+      
+      const firebaseConfig = {
+        apiKey: "AIzaSyBUsKYwsmkkYVfCxYFeMOhoUeLwuQHdf9M",
+        authDomain: "maas-hesaplama-a4406.firebaseapp.com",
+        projectId: "maas-hesaplama-a4406",
+        storageBucket: "maas-hesaplama-a4406.firebasestorage.app",
+        messagingSenderId: "439248992736",
+        appId: "1:439248992736:web:fe815188cadbc829f51385",
+        measurementId: "G-Y4ZZ2NRNWM"
+      };
+      
+      const app = initializeApp(firebaseConfig);
+      window.db = getFirestore(app);
+    </script>
+
     <script src="script.js"></script>
-    <script src="feedback-widget.js"></script>
+    <script type="module" src="feedback-widget.js"></script>
 </body>
 </html>

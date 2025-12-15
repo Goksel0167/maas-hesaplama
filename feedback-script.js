@@ -7,6 +7,9 @@ const EMAILJS_CONFIG = {
     toEmail: 'gcapkin82@gmail.com'     // ✅ Email adresi hazır
 };
 
+// Firebase Firestore modüllerini import et
+import { addComment, getComments } from './feedback-firebase.js';
+
 // EmailJS'i başlat
 (function() {
     if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY') {
@@ -106,7 +109,7 @@ document.getElementById('ratingStars').addEventListener('mouseleave', function()
 });
 
 // Yorum gönderme
-function submitFeedback(event) {
+async function submitFeedback(event) {
     event.preventDefault();
     
     const userName = document.getElementById('userName').value;
@@ -121,7 +124,6 @@ function submitFeedback(event) {
     }
     
     const newComment = {
-        id: Date.now(),
         name: userName,
         email: userEmail,
         rating: rating,
@@ -158,34 +160,40 @@ function submitFeedback(event) {
             });
     }
     
-    // Yorumları kaydet
-    let comments = JSON.parse(localStorage.getItem('userComments') || '[]');
-    comments.unshift(newComment); // En yeniler başta
-    localStorage.setItem('userComments', JSON.stringify(comments));
-    console.log('Yorum kaydedildi:', newComment);
-    console.log('Toplam yorum sayısı:', comments.length);
+    // Firestore'a kaydet
+    console.log('Firestore: Yorum kaydediliyor...');
+    const result = await addComment(newComment);
     
-    // Formu temizle
-    document.getElementById('feedbackForm').reset();
-    selectedRating = 0;
-    document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
-    
-    // Başarı mesajı
-    const successMsg = document.getElementById('successMessage');
-    successMsg.style.display = 'block';
-    setTimeout(() => {
-        successMsg.style.display = 'none';
-    }, 5000);
-    
-    // Yorumları yeniden yükle
-    loadComments();
-    updateStats();
+    if (result.success) {
+        console.log('Yorum başarıyla kaydedildi!');
+        
+        // Formu temizle
+        document.getElementById('feedbackForm').reset();
+        selectedRating = 0;
+        document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+        
+        // Başarı mesajı
+        const successMsg = document.getElementById('successMessage');
+        successMsg.style.display = 'block';
+        setTimeout(() => {
+            successMsg.style.display = 'none';
+        }, 5000);
+        
+        // Yorumları yeniden yükle
+        loadComments();
+        updateStats();
+    } else {
+        console.error('Yorum kaydedilemedi:', result.error);
+        alert('Yorum kaydedilemedi. Lütfen tekrar deneyin.');
+    }
 }
 
 // Yorumları yükleme
-function loadComments() {
-    const comments = JSON.parse(localStorage.getItem('userComments') || '[]');
+async function loadComments() {
     const commentsList = document.getElementById('commentsList');
+    
+    // Firestore'dan yorumları getir
+    const comments = await getComments();
     
     if (comments.length === 0) {
         commentsList.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 40px;">Henüz yorum yapılmamış. İlk yorumu siz yapın! 🎉</p>';
@@ -215,6 +223,24 @@ function loadComments() {
             </div>
         `;
     }).join('');
+}
+
+// İstatistikleri güncelle  
+async function updateStats() {
+    const today = new Date().toISOString().split('T')[0];
+    const thisMonth = new Date().toISOString().substring(0, 7);
+    
+    const totalVisitors = parseInt(localStorage.getItem('totalVisitors') || '0');
+    const monthlyData = JSON.parse(localStorage.getItem('monthlyVisitors') || '{}');
+    const dailyData = JSON.parse(localStorage.getItem('dailyVisitors') || '{}');
+    
+    // Firestore'dan yorum sayısını al
+    const comments = await getComments();
+    
+    document.getElementById('totalVisitors').textContent = totalVisitors;
+    document.getElementById('monthlyVisitors').textContent = monthlyData[thisMonth] || 0;
+    document.getElementById('dailyVisitors').textContent = dailyData[today] || 0;
+    document.getElementById('totalComments').textContent = comments.length;
 }
 
 // HTML güvenliği için
