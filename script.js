@@ -625,12 +625,59 @@ function calculateNetToBrut() {
 function calculateIndependentProjections() {
     console.log('calculateIndependentProjections çağrıldı');
     
-    const mevcutBrutMaas = parseFloat(document.getElementById('mevcutBrutMaas').value) || 0;
-    console.log('Mevcut Brüt Maaş:', mevcutBrutMaas);
+    const mevcutMaas = parseFloat(document.getElementById('mevcutBrutMaas').value) || 0;
+    const hesaplamaTuru = document.querySelector('input[name="maasHesaplamaTuru"]:checked').value;
     
-    if (mevcutBrutMaas === 0) {
+    // Label'ı güncelle
+    const label = document.getElementById('mevcutMaasLabel');
+    if (hesaplamaTuru === 'brut') {
+        label.textContent = 'Mevcut Brüt Maaş (₺)';
+    } else {
+        label.textContent = 'Mevcut Net Maaş (₺)';
+    }
+    
+    console.log('Mevcut Maaş:', mevcutMaas, 'Tür:', hesaplamaTuru);
+    
+    if (mevcutMaas === 0) {
         // Maaş girilmemişse hesaplama yapma, değerleri olduğu gibi bırak
         return;
+    }
+    
+    // Net'ten brüte çevirme fonksiyonu (yaklaşık)
+    function netToBrut(netMaas) {
+        // İteratif yaklaşım ile net'ten brüt bulma
+        let brutTahmin = netMaas * 1.45; // Başlangıç tahmini
+        let iterasyon = 0;
+        const maxIterasyon = 20;
+        
+        while (iterasyon < maxIterasyon) {
+            const sgkIsci = brutTahmin * 0.14;
+            const issizlikIsci = brutTahmin * 0.01;
+            const damgaVergisi = brutTahmin * 0.00759;
+            const gelirVergisiMatrahi = brutTahmin - sgkIsci - issizlikIsci;
+            const gelirVergisi = gelirVergisiMatrahi * 0.20; // Ortalama %20
+            
+            const hesaplananNet = brutTahmin - sgkIsci - issizlikIsci - gelirVergisi - damgaVergisi;
+            const fark = netMaas - hesaplananNet;
+            
+            if (Math.abs(fark) < 0.01) {
+                break;
+            }
+            
+            brutTahmin += fark * 1.45;
+            iterasyon++;
+        }
+        
+        return brutTahmin;
+    }
+    
+    // Hesaplama türüne göre brüt maaşı belirle
+    let mevcutBrutMaas;
+    if (hesaplamaTuru === 'net') {
+        mevcutBrutMaas = netToBrut(mevcutMaas);
+        console.log('Net\'ten dönüştürülen brüt:', mevcutBrutMaas);
+    } else {
+        mevcutBrutMaas = mevcutMaas;
     }
     
     // Basit hesaplama - AGI ve prim olmadan
