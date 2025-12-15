@@ -560,16 +560,11 @@ function calculateIndependentProjections() {
     // Basit hesaplama - AGI ve prim olmadan
     for (let i = 1; i <= 3; i++) {
         const zamOran = parseFloat(document.getElementById(`zam${i}Oran`).value) || 0;
-        const zamAy = parseInt(document.getElementById(`zam${i}Ay`).value);
+        const zamAyValue = document.getElementById(`zam${i}Ay`).value;
+        const zamAy = zamAyValue ? parseInt(zamAyValue) : null;
         
-        if (!zamAy) {
-            // Ay seçilmemişse bu senaryoyu atla
-            document.getElementById(`zam${i}Brut`).textContent = '0,00 ₺';
-            document.getElementById(`zam${i}Net`).textContent = '0,00 ₺';
-            document.getElementById(`zam${i}USD`).textContent = '$0.00';
-            document.getElementById(`zam${i}EUR`).textContent = '€0.00';
-            continue;
-        }
+        // Eğer ay seçilmemişse ama zam oranı girilmişse, varsayılan olarak Ocak kabul et
+        const effectiveZamAy = zamAy || 1;
         
         const yeniBrutMaas = mevcutBrutMaas * (1 + zamOran / 100);
         
@@ -577,7 +572,7 @@ function calculateIndependentProjections() {
         let yillikNet = 0;
         
         for (let ay = 1; ay <= 12; ay++) {
-            const brutMaas = ay >= zamAy ? yeniBrutMaas : mevcutBrutMaas;
+            const brutMaas = ay >= effectiveZamAy ? yeniBrutMaas : mevcutBrutMaas;
             
             const sgkIsci = brutMaas * 0.14;
             const issizlikIsci = brutMaas * 0.01;
