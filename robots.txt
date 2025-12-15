@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://goksel0167.github.io/maas-hesaplama/sitemap.xml
+
+# Important pages
+Allow: /index.html
+Allow: /tazminat-hesaplama.html
+Allow: /yorumlar.html
+
+# Crawl-delay
+Crawl-delay: 1
