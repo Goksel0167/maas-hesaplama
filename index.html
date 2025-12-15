@@ -40,12 +40,12 @@
 
                 <div class="form-group">
                     <label for="salary">Brüt Maaş (₺)</label>
-                    <input type="number" id="salary" placeholder="Brüt maaş giriniz" min="0" step="0.01">
+                    <input type="number" id="salary" placeholder="Brüt maaş giriniz" min="0" step="0.01" oninput="calculate()">
                 </div>
 
                 <div class="form-group">
                     <label for="calisanDurumu">Çalışan Durumu</label>
-                    <select id="calisanDurumu" onchange="toggleEmekliFields()">
+                    <select id="calisanDurumu" onchange="toggleEmekliFields(); calculate();">
                         <option value="normal">Normal Çalışan</option>
                         <option value="emekli">Emekli Çalışan</option>
                     </select>
@@ -53,13 +53,13 @@
 
                 <div class="form-group" id="emekliAyligiGroup" style="display: none;">
                     <label for="emekliAyligi">Aylık Emekli Maaşı (₺)</label>
-                    <input type="number" id="emekliAyligi" placeholder="Emekli aylığı giriniz" min="0" step="0.01">
+                    <input type="number" id="emekliAyligi" placeholder="Emekli aylığı giriniz" min="0" step="0.01" oninput="calculate()">
                     <small style="color: #6c757d; font-size: 0.9em;">Emekli maaşınız üzerinden kesilen vergiler</small>
                 </div>
 
                 <div class="form-group">
                     <label for="medeniDurum">Medeni Durum</label>
-                    <select id="medeniDurum">
+                    <select id="medeniDurum" onchange="calculate()">
                         <option value="bekar">Bekar</option>
                         <option value="evli">Evli</option>
                     </select>
@@ -67,7 +67,7 @@
 
                 <div class="form-group">
                     <label for="cocukSayisi">Çocuk Sayısı</label>
-                    <input type="number" id="cocukSayisi" placeholder="0" min="0" max="6" step="1">
+                    <input type="number" id="cocukSayisi" placeholder="0" min="0" max="6" step="1" oninput="calculate()">
                 </div>
 
                 <div class="form-group">
@@ -75,19 +75,19 @@
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
                         <div>
                             <label for="primOcak" style="font-size: 0.9em; margin-bottom: 5px;">Ocak (₺)</label>
-                            <input type="number" id="primOcak" placeholder="Ocak primi" min="0" step="0.01">
+                            <input type="number" id="primOcak" placeholder="Ocak primi" min="0" step="0.01" oninput="calculate()">
                         </div>
                         <div>
                             <label for="primNisan" style="font-size: 0.9em; margin-bottom: 5px;">Nisan (₺)</label>
-                            <input type="number" id="primNisan" placeholder="Nisan primi" min="0" step="0.01">
+                            <input type="number" id="primNisan" placeholder="Nisan primi" min="0" step="0.01" oninput="calculate()">
                         </div>
                         <div>
                             <label for="primTemmuz" style="font-size: 0.9em; margin-bottom: 5px;">Temmuz (₺)</label>
-                            <input type="number" id="primTemmuz" placeholder="Temmuz primi" min="0" step="0.01">
+                            <input type="number" id="primTemmuz" placeholder="Temmuz primi" min="0" step="0.01" oninput="calculate()">
                         </div>
                         <div>
                             <label for="primEkim" style="font-size: 0.9em; margin-bottom: 5px;">Ekim (₺)</label>
-                            <input type="number" id="primEkim" placeholder="Ekim primi" min="0" step="0.01">
+                            <input type="number" id="primEkim" placeholder="Ekim primi" min="0" step="0.01" oninput="calculate()">
                         </div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
 
                 <div class="form-group">
                     <label for="calisanDurumu2">Çalışan Durumu</label>
-                    <select id="calisanDurumu2" onchange="toggleEmekliFields2()">
+                    <select id="calisanDurumu" onchange="toggleEmekliFields(); calculate();">
                         <option value="normal">Normal Çalışan</option>
                         <option value="emekli">Emekli Çalışan</option>
                     </select>
@@ -152,12 +152,12 @@
 
                 <div class="form-group" id="emekliAyligiGroup2" style="display: none;">
                     <label for="emekliAyligi2">Aylık Emekli Maaşı (₺)</label>
-                    <input type="number" id="emekliAyligi2" placeholder="Emekli aylığı giriniz" min="0" step="0.01">
+                    <input type="number" id="emekliAyligi" placeholder="Emekli aylığı giriniz" min="0" step="0.01" oninput="calculate()">
                 </div>
 
                 <div class="form-group">
                     <label for="medeniDurum2">Medeni Durum</label>
-                    <select id="medeniDurum2">
+                    <select id="medeniDurum" onchange="calculate()">
                         <option value="bekar">Bekar</option>
                         <option value="evli">Evli</option>
                     </select>
@@ -165,7 +165,7 @@
 
                 <div class="form-group">
                     <label for="cocukSayisi2">Çocuk Sayısı</label>
-                    <input type="number" id="cocukSayisi2" placeholder="0" min="0" max="6" step="1">
+                    <input type="number" id="cocukSayisi" placeholder="0" min="0" max="6" step="1" oninput="calculate()">
                 </div>
 
                 <div class="form-group">
@@ -173,19 +173,19 @@
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
                         <div>
                             <label for="primOcak2" style="font-size: 0.9em; margin-bottom: 5px;">Ocak (₺)</label>
-                            <input type="number" id="primOcak2" placeholder="Ocak primi" min="0" step="0.01">
+                            <input type="number" id="primOcak" placeholder="Ocak primi" min="0" step="0.01" oninput="calculate()">
                         </div>
                         <div>
-                            <label for="primNisan2" style="font-size: 0.9em; margin-bottom: 5px;">Nisan (₺)</label>
-                            <input type="number" id="primNisan2" placeholder="Nisan primi" min="0" step="0.01">
+                            <label for="primNisan" style="font-size: 0.9em; margin-bottom: 5px;">Nisan (₺)</label>
+                            <input type="number" id="primNisan" placeholder="Nisan primi" min="0" step="0.01" oninput="calculate()">
                         </div>
                         <div>
-                            <label for="primTemmuz2" style="font-size: 0.9em; margin-bottom: 5px;">Temmuz (₺)</label>
-                            <input type="number" id="primTemmuz2" placeholder="Temmuz primi" min="0" step="0.01">
+                            <label for="primTemmuz" style="font-size: 0.9em; margin-bottom: 5px;">Temmuz (₺)</label>
+                            <input type="number" id="primTemmuz" placeholder="Temmuz primi" min="0" step="0.01" oninput="calculate()">
                         </div>
                         <div>
-                            <label for="primEkim2" style="font-size: 0.9em; margin-bottom: 5px;">Ekim (₺)</label>
-                            <input type="number" id="primEkim2" placeholder="Ekim primi" min="0" step="0.01">
+                            <label for="primEkim" style="font-size: 0.9em; margin-bottom: 5px;">Ekim (₺)</label>
+                            <input type="number" id="primEkim" placeholder="Ekim primi" min="0" step="0.01" oninput="calculate()">
                         </div>
                     </div>
                 </div>
@@ -605,7 +605,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-    <script src="script.js?v=2025121505"></script>
+    <script src="script.js?v=2025121506"></script>
     <script type="module" src="feedback-widget.js"></script>
 </body>
 </html>

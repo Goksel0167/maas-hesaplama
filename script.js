@@ -1,7 +1,7 @@
 // Döviz kurları için global değişkenler
 let exchangeRates = { USD: 34.50, EUR: 37.80 }; // Varsayılan değerler
 
-console.log('🚀 Script.js yüklendi - Versiyon: 2025121505');
+console.log('🚀 Script.js yüklendi - Versiyon: 2025121506');
 
 // Döviz kurlarını çek (Alternatif API)
 async function fetchExchangeRates() {
