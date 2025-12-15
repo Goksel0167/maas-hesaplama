@@ -183,8 +183,24 @@ function calculateSeverance() {
         // Kıdem brüt (hesaplanan - tavan uygulanmadan)
         kidemBrutHesaplanan = gunlukBrut * kidemGun;
         
-        // Kıdem brüt (tavan kontrolü ile)
-        kidemBrut = Math.min(kidemBrutHesaplanan, KIDEM_TAVAN);
+        // DOĞRU HESAPLAMA: Her yıl için ayrı tavan uygulanmalı
+        // Her 30 günlük periyod = 1 kıdem yılı
+        const tamPeriyodlar = Math.floor(kidemGun / 30);
+        const kalanGunler = kidemGun % 30;
+        
+        // Her tam periyod için tavan uygulanmış tutar
+        const birYillikKidem = gunlukBrut * 30;
+        const birYillikTavanli = Math.min(birYillikKidem, KIDEM_TAVAN);
+        
+        // Tam periyodlar
+        kidemBrut = tamPeriyodlar * birYillikTavanli;
+        
+        // Kalan günler için
+        if (kalanGunler > 0) {
+            const kalanTutar = gunlukBrut * kalanGunler;
+            const kalanTavanli = Math.min(kalanTutar, KIDEM_TAVAN * kalanGunler / 30);
+            kidemBrut += kalanTavanli;
+        }
         
         // Damga vergisi
         kidemDamga = kidemBrut * 0.00759;
