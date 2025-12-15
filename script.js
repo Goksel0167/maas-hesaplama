@@ -1,17 +1,29 @@
 // Döviz kurları için global değişkenler
 let exchangeRates = { USD: 34.50, EUR: 37.80 }; // Varsayılan değerler
 
-// Döviz kurlarını çek
+// TCMB'den döviz kurlarını çek
 async function fetchExchangeRates() {
     try {
-        const response = await fetch('https://api.exchangerate-api.com/v4/latest/TRY');
-        const data = await response.json();
-        if (data && data.rates) {
-            exchangeRates.USD = 1 / data.rates.USD;
-            exchangeRates.EUR = 1 / data.rates.EUR;
+        const response = await fetch('https://www.tcmb.gov.tr/kurlar/today.xml');
+        const text = await response.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, 'text/xml');
+        
+        // USD Satış kuru
+        const usdNode = xml.querySelector('Currency[CurrencyCode="USD"] BanknoteSelling');
+        if (usdNode) {
+            exchangeRates.USD = parseFloat(usdNode.textContent);
         }
+        
+        // EUR Satış kuru
+        const eurNode = xml.querySelector('Currency[CurrencyCode="EUR"] BanknoteSelling');
+        if (eurNode) {
+            exchangeRates.EUR = parseFloat(eurNode.textContent);
+        }
+        
+        console.log('TCMB Kurları:', exchangeRates);
     } catch (error) {
-        console.log('Döviz kurları yüklenemedi, varsayılan değerler kullanılıyor');
+        console.log('TCMB kurları yüklenemedi, varsayılan değerler kullanılıyor:', error);
     }
 }
 
@@ -405,6 +417,10 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
 
         // Net maaş
         const netMaas = toplamAylikBrut - sgkIsci - issizlikIsci - netGelirVergisi - damgaVergisi;
+        
+        // Döviz karşılıkları
+        const netUSD = netMaas / exchangeRates.USD;
+        const netEUR = netMaas / exchangeRates.EUR;
 
         // Toplamları güncelle
         toplamBrut += brutMaas;
@@ -430,11 +446,16 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
             <td>${formatCurrency(damgaVergisi)}</td>
             <td>${formatCurrency(agi)}</td>
             <td><strong>${formatCurrency(netMaas)}</strong></td>
+            <td style="color: #28a745; font-weight: 600;">$${netUSD.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+            <td style="color: #007bff; font-weight: 600;">€${netEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
         `;
         tbody.appendChild(row);
     }
 
     // Toplam satırı
+    const toplamNetUSD = toplamNet / exchangeRates.USD;
+    const toplamNetEUR = toplamNet / exchangeRates.EUR;
+    
     const totalRow = document.createElement('tr');
     totalRow.innerHTML = `
         <td><strong>TOPLAM</strong></td>
@@ -448,6 +469,8 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
         <td><strong>${formatCurrency(toplamDamgaVergisi)}</strong></td>
         <td><strong>${formatCurrency(toplamAGI)}</strong></td>
         <td><strong>${formatCurrency(toplamNet)}</strong></td>
+        <td style="color: #28a745;"><strong>$${toplamNetUSD.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</strong></td>
+        <td style="color: #007bff;"><strong>€${toplamNetEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</strong></td>
     `;
     tfoot.appendChild(totalRow);
 }
