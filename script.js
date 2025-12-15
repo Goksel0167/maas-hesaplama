@@ -1,4 +1,4 @@
-﻿console.log('Script yuklendi! v' + new Date().getTime());// DÃƒÆ’â‚¬Â¶viz kurlarÃƒâ€â‚¬Â± iÃƒÆ’â‚¬Â§in global deÃƒâ€Ã…Â¸iÃƒâ€¦Ã…Â¸kenler
+console.log('Script yuklendi! v' + new Date().getTime());// DÃƒÆ’â‚¬Â¶viz kurlarÃƒâ€â‚¬Â± iÃƒÆ’â‚¬Â§in global deÃƒâ€Ã…Â¸iÃƒâ€¦Ã…Â¸kenler
 let exchangeRates = { USD: 34.50, EUR: 37.80 }; // VarsayÃƒâ€â‚¬Â±lan deÃƒâ€Ã…Â¸erler
 
 console.log('Ã„Å¸Ã…Â¸Ã…Â¡â‚¬â€šÂ¬ Script.js yÃƒÆ’â‚¬Â¼klendi - Versiyon: 2025121507');
