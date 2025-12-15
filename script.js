@@ -550,13 +550,7 @@ function calculateIndependentProjections() {
     console.log('Mevcut Brüt Maaş:', mevcutBrutMaas);
     
     if (mevcutBrutMaas === 0) {
-        // Maaş girilmemişse tüm sonuçları sıfırla
-        for (let i = 1; i <= 3; i++) {
-            document.getElementById(`zam${i}Brut`).textContent = '0,00 ₺';
-            document.getElementById(`zam${i}Net`).textContent = '0,00 ₺';
-            document.getElementById(`zam${i}USD`).textContent = '$0.00';
-            document.getElementById(`zam${i}EUR`).textContent = '€0.00';
-        }
+        // Maaş girilmemişse hesaplama yapma, değerleri olduğu gibi bırak
         return;
     }
     
