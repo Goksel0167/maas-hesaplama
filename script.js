@@ -1,4 +1,4 @@
-﻿// DÃƒÂ¶viz kurlarÃ„Â± iÃƒÂ§in global deÃ„Å¸iÃ…Å¸kenler
+// DÃƒÂ¶viz kurlarÃ„Â± iÃƒÂ§in global deÃ„Å¸iÃ…Å¸kenler
 let exchangeRates = { USD: 34.50, EUR: 37.80 }; // VarsayÃ„Â±lan deÃ„Å¸erler
 
 console.log('ÄŸÅ¸Å¡â‚¬ Script.js yÃƒÂ¼klendi - Versiyon: 2025121507');
@@ -618,8 +618,8 @@ function calculateNetToBrut() { alert("Fonksiyon çalıştı!");
     
     // BrÃƒÂ¼tten nete sekmesine geÃƒÂ§ ve hesapla
     // Sonucu göster
-    showNetToBrutResult(tahminBrut, hedefNetMaas, medeniDurum, cocukSayisi);
-    calculate();
+    alert('SONUÇ:\\n\\nGereken Brüt Maaş: ' + tahminBrut.toFixed(2) + ' TL\\nHedef Net Maaş: ' + hedefNetMaas.toFixed(2) + ' TL\\n\\nMedeni Durum: ' + medeniDurum + '\\nÇocuk Sayısı: ' + cocukSayisi);
+    // calculate();
 }
 
 // BaÃ„Å¸Ã„Â±msÃ„Â±z Tahmini Zam HesaplamasÃ„Â± (yeni - kendi input alanÃ„Â±ndan)
