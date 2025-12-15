@@ -588,8 +588,14 @@ function calculateProjections(currentBrutMaas, medeniDurum, cocukSayisi, primTut
         const ortalamaBrutMaas = (currentBrutMaas * (zamAy - 1) + yeniBrutMaas * (13 - zamAy)) / 12;
         const ortalamaNetMaas = yillikNet / 12;
         
+        // Döviz karşılıkları
+        const netUSD = ortalamaNetMaas / exchangeRates.USD;
+        const netEUR = ortalamaNetMaas / exchangeRates.EUR;
+        
         document.getElementById(`zam${i}Brut`).textContent = formatCurrency(yeniBrutMaas);
         document.getElementById(`zam${i}Net`).textContent = formatCurrency(ortalamaNetMaas);
+        document.getElementById(`zam${i}USD`).textContent = '$' + netUSD.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        document.getElementById(`zam${i}EUR`).textContent = '€' + netEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 }
 
