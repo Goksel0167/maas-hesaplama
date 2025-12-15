@@ -54,21 +54,6 @@ function trackVisitor() {
     updateStats();
 }
 
-function updateStats() {
-    const today = new Date().toISOString().split('T')[0];
-    const thisMonth = new Date().toISOString().substring(0, 7);
-    
-    const totalVisitors = parseInt(localStorage.getItem('totalVisitors') || '0');
-    const monthlyData = JSON.parse(localStorage.getItem('monthlyVisitors') || '{}');
-    const dailyData = JSON.parse(localStorage.getItem('dailyVisitors') || '{}');
-    const comments = JSON.parse(localStorage.getItem('userComments') || '[]');
-    
-    document.getElementById('totalVisitors').textContent = totalVisitors;
-    document.getElementById('monthlyVisitors').textContent = monthlyData[thisMonth] || 0;
-    document.getElementById('dailyVisitors').textContent = dailyData[today] || 0;
-    document.getElementById('totalComments').textContent = comments.length;
-}
-
 // Yıldız derecelendirme
 let selectedRating = 0;
 
