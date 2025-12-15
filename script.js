@@ -632,3 +632,36 @@ for (let i = 1; i <= 3; i++) {
     document.getElementById(`zam${i}Oran`).addEventListener('input', calculate);
     document.getElementById(`zam${i}Ay`).addEventListener('change', calculate);
 }
+
+// Vergi dilimi tablosunu güncelle
+function updateTaxBracketTable() {
+    const year = parseInt(document.getElementById('taxBracketYear').value);
+    const yearData = TAX_DATA[year];
+    
+    if (!yearData) return;
+    
+    // Başlığı güncelle
+    document.getElementById('taxBracketTitle').textContent = `${year} Gelir Vergisi Dilimleri${year === 2026 ? ' (Tahmini)' : ''}`;
+    document.getElementById('agiTitle').textContent = `Asgari Geçim İndirimi Oranları (${year})`;
+    
+    // Tablo gövdesini güncelle
+    const tbody = document.getElementById('taxBracketTableBody');
+    tbody.innerHTML = '';
+    
+    yearData.brackets.forEach(bracket => {
+        const row = document.createElement('tr');
+        const minFormatted = bracket.min === 0 ? '0' : formatCurrency(bracket.min).replace(' ₺', '');
+        const maxFormatted = bracket.max === Infinity ? 've üzeri' : formatCurrency(bracket.max).replace(' ₺', '');
+        
+        row.innerHTML = `
+            <td>${minFormatted} ₺ ${bracket.max === Infinity ? '' : '- ' + maxFormatted + ' ₺'}</td>
+            <td>%${(bracket.rate * 100).toFixed(0)}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// Sayfa yüklendiğinde tabloyu oluştur
+window.addEventListener('load', function() {
+    updateTaxBracketTable();
+});
