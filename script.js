@@ -1,6 +1,8 @@
 // Döviz kurları için global değişkenler
 let exchangeRates = { USD: 34.50, EUR: 37.80 }; // Varsayılan değerler
 
+console.log('🚀 Script.js yüklendi - Versiyon: 2025121502');
+
 // Döviz kurlarını çek (Alternatif API)
 async function fetchExchangeRates() {
     try {
@@ -257,15 +259,16 @@ function calculate() {
         // EMEKLİ ÇALIŞAN HESAPLAMA
         sgkIsci = 0; // Emeklilerden SGK kesilmez
         issizlikIsci = 0; // İşsizlik sigortası kesilmez
+        gelirVergisiMatrahi = brutMaas; // Emeklilerde matrah = brüt maaş
         
-        // Gelir vergisi stopajı %15 (sabit)
-        aylikGelirVergisi = brutMaas * 0.15;
+        // Gelir vergisi - İlk ay için basit hesaplama (Ocak ayı tahmini)
+        // Not: Yıllık tabloda her ay için kümülatif hesaplama yapılacak
+        aylikGelirVergisi = calculateIncomeTax(gelirVergisiMatrahi);
         
-        // Emeklilerde AGİ yok
+        // AGİ - Emeklilerde AGİ uygulanmaz
         agi = 0;
-        netGelirVergisi = aylikGelirVergisi;
         
-        gelirVergisiMatrahi = brutMaas; // Matraha etkisi yok
+        netGelirVergisi = aylikGelirVergisi;
     } else {
         // NORMAL ÇALIŞAN HESAPLAMA
         // SGK İşçi Primi (%14)
@@ -282,10 +285,17 @@ function calculate() {
         const yillikGelirVergisi = calculateIncomeTax(yillikMatrah);
         aylikGelirVergisi = yillikGelirVergisi / 12;
 
-        // AGİ Hesaplama
+        // AGİ Hesaplama - Asgari ücret üzerinden hesaplanır
+        const asgariBrutUcret2025 = 22104.00; // 2025 asgari brüt ücret
+        const asgariBrutUcretYillik = asgariBrutUcret2025 * 12;
+        const asgariSGK = asgariBrutUcret2025 * 0.14;
+        const asgariIssizlik = asgariBrutUcret2025 * 0.01;
+        const asgariMatrah = asgariBrutUcret2025 - asgariSGK - asgariIssizlik;
+        const asgariMatrahYillik = asgariMatrah * 12;
+        const asgariGelirVergisiYillik = calculateIncomeTax(asgariMatrahYillik);
         const agiOrani = getAGIRate(medeniDurum, cocukSayisi);
-        const agiMatrahi = aylikGelirVergisi;
-        agi = agiMatrahi * agiOrani;
+        const yillikAGI = asgariGelirVergisiYillik * agiOrani;
+        agi = yillikAGI / 12; // Aylık AGİ
 
         // Net Gelir Vergisi
         netGelirVergisi = aylikGelirVergisi - agi;
@@ -364,17 +374,35 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
         const aylikPrim = primMap[i] || 0;
         const toplamAylikBrut = brutMaas + aylikPrim;
 
+        console.log(`${aylar[i]}: Brüt=${toplamAylikBrut}, Kümülatif Gelir Öncesi=${cumulativeIncome}`);
+
         let sgkIsci, issizlikIsci, gelirVergisiMatrahi, aylikGelirVergisi, agi, netGelirVergisi, vergiDilimiDetay;
         
         if (calisanDurumu === 'emekli') {
-            // EMEKLİ HESAPLAMA
+            // EMEKLİ HESAPLAMA - Kümülatif vergi sistemi uygulanır
             sgkIsci = 0;
             issizlikIsci = 0;
-            aylikGelirVergisi = toplamAylikBrut * 0.15; // %15 stopaj
+            gelirVergisiMatrahi = toplamAylikBrut; // Emeklilerde matrah = brüt maaş
+            
+            // Kümülatif gelir
+            const previousCumulativeIncome = cumulativeIncome;
+            cumulativeIncome += gelirVergisiMatrahi;
+
+            // Kümülatif vergi hesaplama
+            const cumulativeTax = calculateIncomeTax(cumulativeIncome);
+            const previousCumulativeTax = calculateIncomeTax(previousCumulativeIncome);
+            aylikGelirVergisi = cumulativeTax - previousCumulativeTax;
+
+            // Vergi dilimi detayı
+            vergiDilimiDetay = calculateTaxBracketDetails(cumulativeIncome);
+
+            // AGİ - Emeklilerde AGİ uygulanmaz
             agi = 0;
+            
+            // Net gelir vergisi
             netGelirVergisi = aylikGelirVergisi;
-            vergiDilimiDetay = '%15 Stopaj (Emekli)';
-            gelirVergisiMatrahi = toplamAylikBrut;
+            
+            console.log(`${aylar[i]} (Emekli): Kümülatif=${cumulativeIncome}, Aylık Vergi=${aylikGelirVergisi}, Net Vergi=${netGelirVergisi}`);
         } else {
             // NORMAL ÇALIŞAN HESAPLAMA
             sgkIsci = toplamAylikBrut * 0.14;
@@ -393,9 +421,16 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
             // Vergi dilimi detayı
             vergiDilimiDetay = calculateTaxBracketDetails(cumulativeIncome);
 
-            // AGİ
+            // AGİ - Asgari ücret üzerinden sabit hesaplanır
+            const asgariBrutUcret2025 = 22104.00;
+            const asgariSGK = asgariBrutUcret2025 * 0.14;
+            const asgariIssizlik = asgariBrutUcret2025 * 0.01;
+            const asgariMatrah = asgariBrutUcret2025 - asgariSGK - asgariIssizlik;
+            const asgariMatrahYillik = asgariMatrah * 12;
+            const asgariGelirVergisiYillik = calculateIncomeTax(asgariMatrahYillik);
             const agiOrani = getAGIRate(medeniDurum, cocukSayisi);
-            agi = aylikGelirVergisi * agiOrani;
+            const yillikAGI = asgariGelirVergisiYillik * agiOrani;
+            agi = yillikAGI / 12; // Her ay sabit AGİ tutarı
 
             // Net gelir vergisi
             netGelirVergisi = aylikGelirVergisi - agi;
@@ -476,25 +511,7 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
     const toplamNetUSD = toplamNet / exchangeRates.USD;
     const toplamNetEUR = toplamNet / exchangeRates.EUR;
     
-    // Kıdem ve İhbar toplamları (12 aylık)
-    const DAMGA_ORANI = 0.00759;
-    let toplamKidemNet = 0;
-    let toplamIhbarNet = 0;
-    for (let i = 1; i <= 12; i++) {
-        const toplamAylikBrut = brutMaas + prim;
-        const gunlukBrut = toplamAylikBrut / 30;
-        const aylikKidemBrut = Math.min(gunlukBrut * 30, KIDEM_TAVAN);
-        toplamKidemNet += aylikKidemBrut * (1 - DAMGA_ORANI);
-        
-        const calismaAySayisi = i;
-        let ihbarHafta = 0;
-        if (calismaAySayisi >= 84) ihbarHafta = 8;
-        else if (calismaAySayisi >= 60) ihbarHafta = 6;
-        else if (calismaAySayisi >= 36) ihbarHafta = 4;
-        else if (calismaAySayisi >= 18) ihbarHafta = 2;
-        const aylikIhbarBrut = (toplamAylikBrut / 30) * 7 * ihbarHafta;
-        toplamIhbarNet += aylikIhbarBrut * (1 - DAMGA_ORANI);
-    }
+    // Not: Kıdem ve İhbar toplamları her ay için zaten hesaplandı, ayrıca toplamaya gerek yok
     
     const totalRow = document.createElement('tr');
     totalRow.innerHTML = `
@@ -511,8 +528,8 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
         <td><strong>${formatCurrency(toplamNet)}</strong></td>
         <td style="color: #28a745;"><strong>$${toplamNetUSD.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</strong></td>
         <td style="color: #007bff;"><strong>€${toplamNetEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</strong></td>
-        <td style="background: #e3f2fd;"><strong>${formatCurrency(toplamKidemNet)}</strong></td>
-        <td style="background: #fff3e0;"><strong>${formatCurrency(toplamIhbarNet)}</strong></td>
+        <td style="background: #e3f2fd;"><strong>-</strong></td>
+        <td style="background: #fff3e0;"><strong>-</strong></td>
     `;
     tfoot.appendChild(totalRow);
 }
@@ -550,9 +567,16 @@ function calculateNetToBrut() {
         const yillikGelirVergisi = calculateIncomeTax(yillikMatrah);
         const aylikGelirVergisi = yillikGelirVergisi / 12;
         
-        // AGİ
+        // AGİ - Asgari ücret üzerinden hesaplanır
+        const asgariBrutUcret2025 = 22104.00;
+        const asgariSGK = asgariBrutUcret2025 * 0.14;
+        const asgariIssizlik = asgariBrutUcret2025 * 0.01;
+        const asgariMatrah = asgariBrutUcret2025 - asgariSGK - asgariIssizlik;
+        const asgariMatrahYillik = asgariMatrah * 12;
+        const asgariGelirVergisiYillik = calculateIncomeTax(asgariMatrahYillik);
         const agiOrani = getAGIRate(medeniDurum, cocukSayisi);
-        const agi = aylikGelirVergisi * agiOrani;
+        const yillikAGI = asgariGelirVergisiYillik * agiOrani;
+        const agi = yillikAGI / 12;
         const netGelirVergisi = aylikGelirVergisi - agi;
         
         // Hesaplanan net
