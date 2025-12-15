@@ -1,3 +1,23 @@
+// Döviz kurları için global değişkenler
+let exchangeRates = { USD: 34.50, EUR: 37.80 }; // Varsayılan değerler
+
+// Döviz kurlarını çek
+async function fetchExchangeRates() {
+    try {
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/TRY');
+        const data = await response.json();
+        if (data && data.rates) {
+            exchangeRates.USD = 1 / data.rates.USD;
+            exchangeRates.EUR = 1 / data.rates.EUR;
+        }
+    } catch (error) {
+        console.log('Döviz kurları yüklenemedi, varsayılan değerler kullanılıyor');
+    }
+}
+
+// Sayfa yüklendiğinde kurları çek
+fetchExchangeRates();
+
 // Yıllara göre Gelir Vergisi Dilimleri ve AGI Oranları
 const TAX_DATA = {
     2020: {
@@ -284,6 +304,8 @@ function calculate() {
     // Sonuçları göster
     document.getElementById('brutMaas').textContent = formatCurrency(brutMaas);
     document.getElementById('netMaas').textContent = formatCurrency(netMaas);
+    document.getElementById('netMaasUSD').textContent = '$' + (netMaas / exchangeRates.USD).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    document.getElementById('netMaasEUR').textContent = '€' + (netMaas / exchangeRates.EUR).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     document.getElementById('sgkIsci').textContent = formatCurrency(sgkIsci);
     document.getElementById('issizlikIsci').textContent = formatCurrency(issizlikIsci);
     document.getElementById('gelirVergisiMatrahi').textContent = formatCurrency(gelirVergisiMatrahi);
