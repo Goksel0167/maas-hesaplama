@@ -323,9 +323,8 @@ function calculate() {
 
     // Yıllık tabloyu doldur
     fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, {ocak: primOcak, nisan: primNisan, temmuz: primTemmuz, ekim: primEkim}, calisanDurumu, emekliAyligi);
-
-    // Tahmini zam hesaplamalarını güncelle
-    calculateProjections(brutMaas, medeniDurum, cocukSayisi, {ocak: primOcak, nisan: primNisan, temmuz: primTemmuz, ekim: primEkim}, calisanDurumu, emekliAyligi);
+    
+    // NOT: Tahmini Zam Hesaplama artık bağımsız - calculateIndependentProjections() kullanılıyor
 }
 
 // Yıllık tabloyu doldur
@@ -580,63 +579,6 @@ function calculateIndependentProjections() {
         
         const ortalamaNetMaas = yillikNet / 12;
         console.log(`Senaryo ${i}: Ortalama Net=${ortalamaNetMaas}`);
-        
-        // Döviz karşılıkları
-        const netUSD = ortalamaNetMaas / exchangeRates.USD;
-        const netEUR = ortalamaNetMaas / exchangeRates.EUR;
-        
-        document.getElementById(`zam${i}Brut`).textContent = formatCurrency(yeniBrutMaas);
-        document.getElementById(`zam${i}Net`).textContent = formatCurrency(ortalamaNetMaas);
-        document.getElementById(`zam${i}USD`).textContent = '$' + netUSD.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        document.getElementById(`zam${i}EUR`).textContent = '€' + netEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
-}
-
-// Tahmini zam hesaplamaları (eski - ana formdan çağrılıyor)
-function calculateProjections(currentBrutMaas, medeniDurum, cocukSayisi, primTutarlari) {
-    for (let i = 1; i <= 3; i++) {
-        const zamOran = parseFloat(document.getElementById(`zam${i}Oran`).value) || 0;
-        const zamAy = parseInt(document.getElementById(`zam${i}Ay`).value) || 1;
-        
-        const yeniBrutMaas = currentBrutMaas * (1 + zamOran / 100);
-        
-        // Yıllık net hesaplama
-        let yillikNet = 0;
-        let cumulativeIncome = 0;
-        const primMap = {
-            1: primTutarlari.ocak,
-            4: primTutarlari.nisan,
-            7: primTutarlari.temmuz,
-            10: primTutarlari.ekim
-        };
-        
-        for (let ay = 1; ay <= 12; ay++) {
-            const brutMaas = ay >= zamAy ? yeniBrutMaas : currentBrutMaas;
-            const aylikPrim = primMap[ay] || 0;
-            const toplamAylikBrut = brutMaas + aylikPrim;
-            
-            const sgkIsci = toplamAylikBrut * 0.14;
-            const issizlikIsci = toplamAylikBrut * 0.01;
-            const gelirVergisiMatrahi = toplamAylikBrut - sgkIsci - issizlikIsci;
-            const damgaVergisi = toplamAylikBrut * 0.00759;
-            
-            const previousCumulativeIncome = cumulativeIncome;
-            cumulativeIncome += gelirVergisiMatrahi;
-            
-            const cumulativeTax = calculateIncomeTax(cumulativeIncome);
-            const previousCumulativeTax = calculateIncomeTax(previousCumulativeIncome);
-            const aylikGelirVergisi = cumulativeTax - previousCumulativeTax;
-            
-            const agiOrani = getAGIRate(medeniDurum, cocukSayisi);
-            const agi = aylikGelirVergisi * agiOrani;
-            const netGelirVergisi = aylikGelirVergisi - agi;
-            
-            const netMaas = toplamAylikBrut - sgkIsci - issizlikIsci - netGelirVergisi - damgaVergisi;
-            yillikNet += netMaas;
-        }
-        
-        const ortalamaBrutMaas = (currentBrutMaas * (zamAy - 1) + yeniBrutMaas * (13 - zamAy)) / 12;
-        const ortalamaNetMaas = yillikNet / 12;
         
         // Döviz karşılıkları
         const netUSD = ortalamaNetMaas / exchangeRates.USD;
