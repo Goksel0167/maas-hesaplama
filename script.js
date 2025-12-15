@@ -1,7 +1,7 @@
 // Döviz kurları için global değişkenler
 let exchangeRates = { USD: 34.50, EUR: 37.80 }; // Varsayılan değerler
 
-console.log('🚀 Script.js yüklendi - Versiyon: 2025121503');
+console.log('🚀 Script.js yüklendi - Versiyon: 2025121504');
 
 // Döviz kurlarını çek (Alternatif API)
 async function fetchExchangeRates() {
@@ -764,36 +764,53 @@ function exportToPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('l', 'mm', 'a4'); // Landscape, mm, A4
     
+    // Türkçe karakter desteği için charset ayarı
+    doc.setLanguage("tr");
+    
     // Başlık
     doc.setFontSize(16);
-    doc.setFont(undefined, 'bold');
-    doc.text('Yıllık Maaş Hesaplama Raporu', 14, 15);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Yillik Maas Hesaplama Raporu', 14, 15);
     
     // Tarih
     doc.setFontSize(10);
-    doc.setFont(undefined, 'normal');
+    doc.setFont('helvetica', 'normal');
     doc.text(`Rapor Tarihi: ${new Date().toLocaleDateString('tr-TR')}`, 14, 22);
     
     // Brüt maaş bilgisi
     const brutMaas = parseFloat(document.getElementById('salary').value) || 0;
-    const calisanDurumu = document.getElementById('calisanDurumu').value === 'emekli' ? 'Emekli Çalışan' : 'Normal Çalışan';
-    doc.text(`Brüt Maaş: ${formatCurrency(brutMaas)} | Çalışan Durumu: ${calisanDurumu}`, 14, 28);
+    const calisanDurumu = document.getElementById('calisanDurumu').value === 'emekli' ? 'Emekli Calisan' : 'Normal Calisan';
+    const brutMaasText = formatCurrency(brutMaas).replace('₺', 'TL');
+    doc.text(`Brut Maas: ${brutMaasText} | Calisan Durumu: ${calisanDurumu}`, 14, 28);
+    
+    // Türkçe karakterleri değiştiren yardımcı fonksiyon
+    const fixTurkishChars = (text) => {
+        if (!text) return '';
+        return text.toString()
+            .replace(/ş/g, 's').replace(/Ş/g, 'S')
+            .replace(/ğ/g, 'g').replace(/Ğ/g, 'G')
+            .replace(/ü/g, 'u').replace(/Ü/g, 'U')
+            .replace(/ö/g, 'o').replace(/Ö/g, 'O')
+            .replace(/ç/g, 'c').replace(/Ç/g, 'C')
+            .replace(/ı/g, 'i').replace(/İ/g, 'I')
+            .replace(/₺/g, 'TL');
+    };
     
     // Tablo verilerini topla
     const table = document.getElementById('annualTable');
     const headers = [];
     const rows = [];
     
-    // Başlıkları al
+    // Başlıkları al ve Türkçe karakterleri düzelt
     table.querySelectorAll('thead th').forEach(th => {
-        headers.push(th.textContent);
+        headers.push(fixTurkishChars(th.textContent));
     });
     
     // Satırları al (TOPLAM satırı hariç)
     table.querySelectorAll('tbody tr').forEach(tr => {
         const row = [];
         tr.querySelectorAll('td').forEach(td => {
-            row.push(td.textContent);
+            row.push(fixTurkishChars(td.textContent));
         });
         rows.push(row);
     });
@@ -802,7 +819,7 @@ function exportToPDF() {
     const totalRow = [];
     if (table.querySelector('tfoot tr')) {
         table.querySelector('tfoot tr').querySelectorAll('td').forEach(td => {
-            totalRow.push(td.textContent);
+            totalRow.push(fixTurkishChars(td.textContent));
         });
     }
     
@@ -844,17 +861,17 @@ function exportToPDF() {
         const finalY = doc.lastAutoTable.finalY + 10;
         
         doc.setFontSize(12);
-        doc.setFont(undefined, 'bold');
-        doc.text('Tahmini Zam Senaryoları', 14, finalY);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Tahmini Zam Senaryolari', 14, finalY);
         
-        const zamHeaders = ['Senaryo', 'Zam Oranı', 'Zam Ayı', 'Yeni Brüt Maaş', 'Yeni Net Maaş (Ort.)'];
+        const zamHeaders = ['Senaryo', 'Zam Orani', 'Zam Ayi', 'Yeni Brut Maas', 'Yeni Net Maas (Ort.)'];
         const zamRows = [];
         
         for (let i = 1; i <= 3; i++) {
             const zamOran = document.getElementById(`zam${i}Oran`).value || '-';
-            const zamAy = document.getElementById(`zam${i}Ay`).selectedOptions[0]?.text || '-';
-            const zamBrut = document.getElementById(`zam${i}Brut`).textContent;
-            const zamNet = document.getElementById(`zam${i}Net`).textContent;
+            const zamAy = fixTurkishChars(document.getElementById(`zam${i}Ay`).selectedOptions[0]?.text || '-');
+            const zamBrut = fixTurkishChars(document.getElementById(`zam${i}Brut`).textContent);
+            const zamNet = fixTurkishChars(document.getElementById(`zam${i}Net`).textContent);
             
             if (zamOran !== '-') {
                 zamRows.push([`Senaryo ${i}`, `%${zamOran}`, zamAy, zamBrut, zamNet]);
@@ -868,7 +885,8 @@ function exportToPDF() {
                 startY: finalY + 5,
                 styles: {
                     fontSize: 9,
-                    cellPadding: 3
+                    cellPadding: 3,
+                    font: 'helvetica'
                 },
                 headStyles: {
                     fillColor: [103, 126, 234],
