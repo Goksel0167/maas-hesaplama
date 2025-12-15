@@ -1,7 +1,7 @@
 // Döviz kurları için global değişkenler
 let exchangeRates = { USD: 34.50, EUR: 37.80 }; // Varsayılan değerler
 
-console.log('🚀 Script.js yüklendi - Versiyon: 2025121506');
+console.log('🚀 Script.js yüklendi - Versiyon: 2025121507');
 
 // Döviz kurlarını çek (Alternatif API)
 async function fetchExchangeRates() {
@@ -242,6 +242,16 @@ function calculate() {
     AGI_RATES = TAX_DATA[selectedYear].agi;
 
     const brutMaas = parseFloat(document.getElementById('salary').value) || 0;
+    
+    // Eğer brüt maaş girilmemişse hesaplama yapma, sonuç bölümünü gizle
+    if (brutMaas === 0) {
+        document.getElementById('resultSection').style.display = 'none';
+        return;
+    }
+    
+    // Sonuç bölümünü göster
+    document.getElementById('resultSection').style.display = 'block';
+    
     const calisanDurumu = document.getElementById('calisanDurumu').value;
     const emekliAyligi = parseFloat(document.getElementById('emekliAyligi').value) || 0;
     const medeniDurum = document.getElementById('medeniDurum').value;
@@ -339,6 +349,9 @@ function calculate() {
 
 // Yıllık tabloyu doldur
 function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, calisanDurumu = 'normal', emekliAyligi = 0) {
+    // Yıllık tablo bölümünü göster
+    document.getElementById('annualSection').style.display = 'block';
+    
     const tbody = document.getElementById('annualTableBody');
     const tfoot = document.getElementById('annualTableFoot');
     tbody.innerHTML = '';
