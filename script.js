@@ -412,6 +412,28 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
         // Döviz karşılıkları
         const netUSD = netMaas / exchangeRates.USD;
         const netEUR = netMaas / exchangeRates.EUR;
+        
+        // Kıdem Tazminatı Brüt (günlük brüt x 30 gün)
+        const KIDEM_TAVAN = 53919.68; // 2025 tavanı
+        const gunlukBrut = toplamAylikBrut / 30;
+        const aylikKidemBrut = Math.min(gunlukBrut * 30, KIDEM_TAVAN);
+        
+        // İhbar Tazminatı Brüt (çalışma süresine göre)
+        const ayIndex = i + 1; // 1-12 arası ay
+        const calismaAySayisi = i + 1; // Bu aya kadar geçen ay sayısı
+        let ihbarHafta = 0;
+        
+        if (calismaAySayisi >= 18 && calismaAySayisi < 36) {
+            ihbarHafta = 2;
+        } else if (calismaAySayisi >= 36 && calismaAySayisi < 60) {
+            ihbarHafta = 4;
+        } else if (calismaAySayisi >= 60 && calismaAySayisi < 84) {
+            ihbarHafta = 6;
+        } else if (calismaAySayisi >= 84) {
+            ihbarHafta = 8;
+        }
+        
+        const aylikIhbarBrut = (toplamAylikBrut / 30) * 7 * ihbarHafta;
 
         // Toplamları güncelle
         toplamBrut += brutMaas;
@@ -439,6 +461,8 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
             <td><strong>${formatCurrency(netMaas)}</strong></td>
             <td style="color: #28a745; font-weight: 600;">$${netUSD.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
             <td style="color: #007bff; font-weight: 600;">€${netEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+            <td style="background: #e3f2fd;">${formatCurrency(aylikKidemBrut)}</td>
+            <td style="background: #fff3e0;">${formatCurrency(aylikIhbarBrut)}</td>
         `;
         tbody.appendChild(row);
     }
@@ -446,6 +470,25 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
     // Toplam satırı
     const toplamNetUSD = toplamNet / exchangeRates.USD;
     const toplamNetEUR = toplamNet / exchangeRates.EUR;
+    
+    // Kıdem ve İhbar toplamları (12 aylık)
+    let toplamKidemBrut = 0;
+    let toplamIhbarBrut = 0;
+    for (let i = 1; i <= 12; i++) {
+        const toplamAylikBrut = brutMaas + prim;
+        const gunlukBrut = toplamAylikBrut / 30;
+        const aylikKidemBrut = Math.min(gunlukBrut * 30, KIDEM_TAVAN);
+        toplamKidemBrut += aylikKidemBrut;
+        
+        const calismaAySayisi = i;
+        let ihbarHafta = 0;
+        if (calismaAySayisi >= 84) ihbarHafta = 8;
+        else if (calismaAySayisi >= 60) ihbarHafta = 6;
+        else if (calismaAySayisi >= 36) ihbarHafta = 4;
+        else if (calismaAySayisi >= 18) ihbarHafta = 2;
+        const aylikIhbarBrut = (toplamAylikBrut / 30) * 7 * ihbarHafta;
+        toplamIhbarBrut += aylikIhbarBrut;
+    }
     
     const totalRow = document.createElement('tr');
     totalRow.innerHTML = `
@@ -462,6 +505,8 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
         <td><strong>${formatCurrency(toplamNet)}</strong></td>
         <td style="color: #28a745;"><strong>$${toplamNetUSD.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</strong></td>
         <td style="color: #007bff;"><strong>€${toplamNetEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</strong></td>
+        <td style="background: #e3f2fd;"><strong>${formatCurrency(toplamKidemBrut)}</strong></td>
+        <td style="background: #fff3e0;"><strong>${formatCurrency(toplamIhbarBrut)}</strong></td>
     `;
     tfoot.appendChild(totalRow);
 }
