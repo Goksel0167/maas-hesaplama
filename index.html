@@ -419,7 +419,17 @@
         </div>
 
         <div class="annual-section">
-            <h2>Yıllık Hesaplama Tablosu</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">Yıllık Hesaplama Tablosu</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="exportToPDF()" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                        <span>📄</span> PDF İndir
+                    </button>
+                    <button onclick="exportToExcel()" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                        <span>📊</span> Excel İndir
+                    </button>
+                </div>
+            </div>
             <div class="table-wrapper">
                 <table class="annual-table" id="annualTable">
                     <thead>
@@ -590,7 +600,12 @@
       window.db = getFirestore(app);
     </script>
 
-    <script src="script.js?v=2025121502"></script>
+    <!-- PDF ve Excel export kütüphaneleri -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <script src="script.js?v=2025121503"></script>
     <script type="module" src="feedback-widget.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 // Döviz kurları için global değişkenler
 let exchangeRates = { USD: 34.50, EUR: 37.80 }; // Varsayılan değerler
 
-console.log('🚀 Script.js yüklendi - Versiyon: 2025121502');
+console.log('🚀 Script.js yüklendi - Versiyon: 2025121503');
 
 // Döviz kurlarını çek (Alternatif API)
 async function fetchExchangeRates() {
@@ -757,6 +757,227 @@ function updateTaxBracketTable() {
     });
     
     console.log('Tablo güncellendi');
+}
+
+// PDF Export Fonksiyonu
+function exportToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('l', 'mm', 'a4'); // Landscape, mm, A4
+    
+    // Başlık
+    doc.setFontSize(16);
+    doc.setFont(undefined, 'bold');
+    doc.text('Yıllık Maaş Hesaplama Raporu', 14, 15);
+    
+    // Tarih
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text(`Rapor Tarihi: ${new Date().toLocaleDateString('tr-TR')}`, 14, 22);
+    
+    // Brüt maaş bilgisi
+    const brutMaas = parseFloat(document.getElementById('salary').value) || 0;
+    const calisanDurumu = document.getElementById('calisanDurumu').value === 'emekli' ? 'Emekli Çalışan' : 'Normal Çalışan';
+    doc.text(`Brüt Maaş: ${formatCurrency(brutMaas)} | Çalışan Durumu: ${calisanDurumu}`, 14, 28);
+    
+    // Tablo verilerini topla
+    const table = document.getElementById('annualTable');
+    const headers = [];
+    const rows = [];
+    
+    // Başlıkları al
+    table.querySelectorAll('thead th').forEach(th => {
+        headers.push(th.textContent);
+    });
+    
+    // Satırları al (TOPLAM satırı hariç)
+    table.querySelectorAll('tbody tr').forEach(tr => {
+        const row = [];
+        tr.querySelectorAll('td').forEach(td => {
+            row.push(td.textContent);
+        });
+        rows.push(row);
+    });
+    
+    // Toplam satırını al
+    const totalRow = [];
+    if (table.querySelector('tfoot tr')) {
+        table.querySelector('tfoot tr').querySelectorAll('td').forEach(td => {
+            totalRow.push(td.textContent);
+        });
+    }
+    
+    // AutoTable ile tablo oluştur
+    doc.autoTable({
+        head: [headers],
+        body: rows,
+        foot: totalRow.length > 0 ? [totalRow] : [],
+        startY: 35,
+        styles: {
+            fontSize: 7,
+            cellPadding: 2,
+            halign: 'right',
+            font: 'helvetica'
+        },
+        headStyles: {
+            fillColor: [42, 82, 152],
+            textColor: 255,
+            fontStyle: 'bold',
+            halign: 'center'
+        },
+        footStyles: {
+            fillColor: [220, 220, 220],
+            textColor: 0,
+            fontStyle: 'bold'
+        },
+        columnStyles: {
+            0: { halign: 'left' }, // Ay sütunu sola hizalı
+            3: { halign: 'left', fontSize: 6 } // Vergi dilimi detayı küçük font
+        },
+        alternateRowStyles: {
+            fillColor: [245, 245, 245]
+        }
+    });
+    
+    // Zam senaryoları varsa ekle
+    const zamBrutMaas = parseFloat(document.getElementById('mevcutBrutMaas').value) || 0;
+    if (zamBrutMaas > 0) {
+        const finalY = doc.lastAutoTable.finalY + 10;
+        
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        doc.text('Tahmini Zam Senaryoları', 14, finalY);
+        
+        const zamHeaders = ['Senaryo', 'Zam Oranı', 'Zam Ayı', 'Yeni Brüt Maaş', 'Yeni Net Maaş (Ort.)'];
+        const zamRows = [];
+        
+        for (let i = 1; i <= 3; i++) {
+            const zamOran = document.getElementById(`zam${i}Oran`).value || '-';
+            const zamAy = document.getElementById(`zam${i}Ay`).selectedOptions[0]?.text || '-';
+            const zamBrut = document.getElementById(`zam${i}Brut`).textContent;
+            const zamNet = document.getElementById(`zam${i}Net`).textContent;
+            
+            if (zamOran !== '-') {
+                zamRows.push([`Senaryo ${i}`, `%${zamOran}`, zamAy, zamBrut, zamNet]);
+            }
+        }
+        
+        if (zamRows.length > 0) {
+            doc.autoTable({
+                head: [zamHeaders],
+                body: zamRows,
+                startY: finalY + 5,
+                styles: {
+                    fontSize: 9,
+                    cellPadding: 3
+                },
+                headStyles: {
+                    fillColor: [103, 126, 234],
+                    textColor: 255,
+                    fontStyle: 'bold'
+                }
+            });
+        }
+    }
+    
+    // PDF'i indir
+    const fileName = `Maas_Hesaplama_${new Date().toISOString().split('T')[0]}.pdf`;
+    doc.save(fileName);
+}
+
+// Excel Export Fonksiyonu
+function exportToExcel() {
+    const wb = XLSX.utils.book_new();
+    
+    // Ana tablo için worksheet oluştur
+    const table = document.getElementById('annualTable');
+    const ws = XLSX.utils.table_to_sheet(table);
+    
+    // Sütun genişliklerini ayarla
+    ws['!cols'] = [
+        { wch: 10 },  // Ay
+        { wch: 12 },  // Brüt Maaş
+        { wch: 12 },  // Prim
+        { wch: 20 },  // Vergi Dilimi
+        { wch: 12 },  // SGK İşçi
+        { wch: 12 },  // İşsizlik İşçi
+        { wch: 12 },  // Gelir Vergisi
+        { wch: 14 },  // Kümülatif Vergi
+        { wch: 12 },  // Damga Vergisi
+        { wch: 12 },  // AGİ
+        { wch: 14 },  // Net Maaş
+        { wch: 12 },  // Net USD
+        { wch: 12 },  // Net EUR
+        { wch: 12 },  // Kıdem Net
+        { wch: 12 }   // İhbar Net
+    ];
+    
+    XLSX.utils.book_append_sheet(wb, ws, 'Yıllık Hesaplama');
+    
+    // Zam senaryoları için worksheet
+    const zamBrutMaas = parseFloat(document.getElementById('mevcutBrutMaas').value) || 0;
+    if (zamBrutMaas > 0) {
+        const zamData = [
+            ['Senaryo', 'Zam Oranı (%)', 'Zam Ayı', 'Yeni Brüt Maaş', 'Yeni Net Maaş (Ort.)', 'USD', 'EUR']
+        ];
+        
+        for (let i = 1; i <= 3; i++) {
+            const zamOran = document.getElementById(`zam${i}Oran`).value || '';
+            const zamAy = document.getElementById(`zam${i}Ay`).selectedOptions[0]?.text || '';
+            const zamBrut = document.getElementById(`zam${i}Brut`).textContent;
+            const zamNet = document.getElementById(`zam${i}Net`).textContent;
+            const zamUSD = document.getElementById(`zam${i}USD`).textContent;
+            const zamEUR = document.getElementById(`zam${i}EUR`).textContent;
+            
+            if (zamOran) {
+                zamData.push([`Senaryo ${i}`, zamOran, zamAy, zamBrut, zamNet, zamUSD, zamEUR]);
+            }
+        }
+        
+        if (zamData.length > 1) {
+            const wsZam = XLSX.utils.aoa_to_sheet(zamData);
+            wsZam['!cols'] = [
+                { wch: 12 },
+                { wch: 15 },
+                { wch: 12 },
+                { wch: 18 },
+                { wch: 20 },
+                { wch: 12 },
+                { wch: 12 }
+            ];
+            XLSX.utils.book_append_sheet(wb, wsZam, 'Zam Senaryoları');
+        }
+    }
+    
+    // Özet bilgiler için worksheet
+    const brutMaas = parseFloat(document.getElementById('salary').value) || 0;
+    const netMaas = document.getElementById('netMaas').textContent;
+    const calisanDurumu = document.getElementById('calisanDurumu').value === 'emekli' ? 'Emekli Çalışan' : 'Normal Çalışan';
+    const toplamMaliyet = document.getElementById('toplamMaliyet').textContent;
+    
+    const ozet = [
+        ['Maaş Hesaplama Özeti', ''],
+        ['', ''],
+        ['Rapor Tarihi:', new Date().toLocaleDateString('tr-TR')],
+        ['Çalışan Durumu:', calisanDurumu],
+        ['Brüt Maaş:', formatCurrency(brutMaas)],
+        ['Net Maaş:', netMaas],
+        ['Toplam İşveren Maliyeti:', toplamMaliyet],
+        ['', ''],
+        ['Kesintiler', ''],
+        ['SGK İşçi Primi:', document.getElementById('sgkIsci').textContent],
+        ['İşsizlik İşçi Primi:', document.getElementById('issizlikIsci').textContent],
+        ['Gelir Vergisi:', document.getElementById('gelirVergisi').textContent],
+        ['Damga Vergisi:', document.getElementById('damgaVergisi').textContent],
+        ['AGİ:', document.getElementById('agi').textContent]
+    ];
+    
+    const wsOzet = XLSX.utils.aoa_to_sheet(ozet);
+    wsOzet['!cols'] = [{ wch: 30 }, { wch: 20 }];
+    XLSX.utils.book_append_sheet(wb, wsOzet, 'Özet');
+    
+    // Excel dosyasını indir
+    const fileName = `Maas_Hesaplama_${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(wb, fileName);
 }
 
 // Sayfa yüklendiğinde tabloyu oluştur ve mevcut yılı seç
