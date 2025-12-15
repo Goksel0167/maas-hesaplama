@@ -544,7 +544,10 @@ function calculateNetToBrut() {
 
 // Bağımsız Tahmini Zam Hesaplaması (yeni - kendi input alanından)
 function calculateIndependentProjections() {
+    console.log('calculateIndependentProjections çağrıldı');
+    
     const mevcutBrutMaas = parseFloat(document.getElementById('mevcutBrutMaas').value) || 0;
+    console.log('Mevcut Brüt Maaş:', mevcutBrutMaas);
     
     if (mevcutBrutMaas === 0) {
         // Maaş girilmemişse tüm sonuçları sıfırla
@@ -563,10 +566,13 @@ function calculateIndependentProjections() {
         const zamAyValue = document.getElementById(`zam${i}Ay`).value;
         const zamAy = zamAyValue ? parseInt(zamAyValue) : null;
         
+        console.log(`Senaryo ${i}: Zam Oranı=${zamOran}%, Zam Ayı=${zamAyValue}`);
+        
         // Eğer ay seçilmemişse ama zam oranı girilmişse, varsayılan olarak Ocak kabul et
         const effectiveZamAy = zamAy || 1;
         
         const yeniBrutMaas = mevcutBrutMaas * (1 + zamOran / 100);
+        console.log(`Senaryo ${i}: Yeni Brüt=${yeniBrutMaas}`);
         
         // Basit net hesaplama (ortalama)
         let yillikNet = 0;
@@ -587,6 +593,7 @@ function calculateIndependentProjections() {
         }
         
         const ortalamaNetMaas = yillikNet / 12;
+        console.log(`Senaryo ${i}: Ortalama Net=${ortalamaNetMaas}`);
         
         // Döviz karşılıkları
         const netUSD = ortalamaNetMaas / exchangeRates.USD;
