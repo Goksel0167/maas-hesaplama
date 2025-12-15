@@ -351,7 +351,10 @@ function calculateSeverance() {
     document.getElementById('paketNetMaas').textContent = formatCurrency(paketNetMaas);
     document.getElementById('paketToplam').textContent = formatCurrency(paketToplam);
     
-    // Toplamlar
+    // Toplamlar - Kalem kalem
+    document.getElementById('toplamKidem').textContent = formatCurrency(kidemNet);
+    document.getElementById('toplamIhbar').textContent = formatCurrency(ihbarNet);
+    document.getElementById('toplamIzin').textContent = formatCurrency(izinNet);
     document.getElementById('toplamVergi').textContent = formatCurrency(toplamVergi);
     document.getElementById('toplamPaket').textContent = formatCurrency(paketToplam);
     document.getElementById('toplamTazminat').textContent = formatCurrency(toplamTazminat);

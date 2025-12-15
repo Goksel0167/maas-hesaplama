@@ -256,17 +256,29 @@
                 <div class="result-section total-section">
                     <h2>Toplamlar</h2>
                     <div class="result-card">
-                        <div class="result-item">
-                            <span class="label">Toplam Vergi</span>
-                            <span class="value" id="toplamVergi">0,00 ₺</span>
+                        <div class="result-item" style="background: #e8f5e9; border-left: 4px solid #4caf50;">
+                            <span class="label">Kıdem Tazminatı (Net)</span>
+                            <span class="value" id="toplamKidem" style="color: #2e7d32; font-weight: 600;">0,00 ₺</span>
+                        </div>
+                        <div class="result-item" style="background: #e3f2fd; border-left: 4px solid #2196f3;">
+                            <span class="label">İhbar Tazminatı (Net)</span>
+                            <span class="value" id="toplamIhbar" style="color: #1565c0; font-weight: 600;">0,00 ₺</span>
+                        </div>
+                        <div class="result-item" style="background: #fff3e0; border-left: 4px solid #ff9800;">
+                            <span class="label">Yıllık İzin Ücreti (Net)</span>
+                            <span class="value" id="toplamIzin" style="color: #e65100; font-weight: 600;">0,00 ₺</span>
                         </div>
                         <div class="result-item" style="background: #f3e5f5; border-left: 4px solid #9c27b0;">
-                            <span class="label" style="color: #6a1b9a;">Paket Tutarı (Net)</span>
+                            <span class="label">Paket Tutarı (Net)</span>
                             <span class="value" id="toplamPaket" style="color: #6a1b9a; font-weight: 700;">0,00 ₺</span>
                         </div>
-                        <div class="result-item highlight-total">
-                            <span class="label">Toplam Tazminat + Paket (Net)</span>
-                            <span class="value" id="toplamTazminat">0,00 ₺</span>
+                        <div class="result-item" style="background: #fce4ec; border-top: 3px solid #e91e63; margin-top: 10px;">
+                            <span class="label" style="color: #880e4f;">Toplam Vergi</span>
+                            <span class="value" id="toplamVergi" style="color: #c2185b; font-weight: 600;">0,00 ₺</span>
+                        </div>
+                        <div class="result-item highlight-total" style="margin-top: 15px; background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%); color: white; padding: 20px; border-radius: 10px;">
+                            <span class="label" style="color: white; font-size: 1.2em; font-weight: 700;">GENEL TOPLAM (Net)</span>
+                            <span class="value" style="color: #ffeb3b; font-size: 1.5em; font-weight: 800;" id="toplamTazminat">0,00 ₺</span>
                         </div>
                         <div class="result-item" style="background: #f8f9fa;">
                             <span class="label" style="font-size: 0.9em;">USD Karşılığı</span>
