@@ -1,7 +1,7 @@
 // Döviz kurları için global değişkenler
 let exchangeRates = { USD: 34.50, EUR: 37.80 }; // Varsayılan değerler
 
-console.log('🚀 Script.js yüklendi - Versiyon: 2025121504');
+console.log('🚀 Script.js yüklendi - Versiyon: 2025121505');
 
 // Döviz kurlarını çek (Alternatif API)
 async function fetchExchangeRates() {
@@ -793,7 +793,17 @@ function exportToPDF() {
             .replace(/ö/g, 'o').replace(/Ö/g, 'O')
             .replace(/ç/g, 'c').replace(/Ç/g, 'C')
             .replace(/ı/g, 'i').replace(/İ/g, 'I')
-            .replace(/₺/g, 'TL');
+            .replace(/₺/g, 'TL')
+            .replace(/→/g, '->')  // Ok işareti
+            .replace(/►/g, '->')  // Üçgen ok
+            .replace(/•/g, '*')   // Bullet point
+            .replace(/–/g, '-')   // En dash
+            .replace(/—/g, '-')   // Em dash
+            .replace(/…/g, '...') // Ellipsis
+            .replace(/'/g, "'")   // Smart quote
+            .replace(/'/g, "'")   // Smart quote
+            .replace(/"/g, '"')   // Smart quote
+            .replace(/"/g, '"');  // Smart quote
     };
     
     // Tablo verilerini topla
