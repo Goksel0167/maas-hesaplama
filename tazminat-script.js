@@ -473,12 +473,100 @@ function exportTazminatToPDF() {
         }
     });
     
-    // Toplam
+    // Yıllık İzin Tablosu
     const finalY2 = doc.lastAutoTable.finalY + 10;
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Yillik Izin', 14, finalY2);
+    
+    const izinData = [
+        ['Yillik Izin Hakki', fixTurkishChars(document.getElementById('izinHakki').value + ' gun')],
+        ['Kullanilan Izin', fixTurkishChars(document.getElementById('kullanilanIzin').value + ' gun')],
+        ['Kalan Izin Gunu', fixTurkishChars(document.getElementById('kalanIzin').textContent)],
+        ['Gunluk Brut Ucret', fixTurkishChars(document.getElementById('gunlukUcret').textContent)],
+        ['Izin Brut Tutari', fixTurkishChars(document.getElementById('izinBrut').textContent)],
+        ['SGK Isci Primi (%15)', fixTurkishChars(document.getElementById('izinSGK').textContent)],
+        ['Gelir Vergisi', fixTurkishChars(document.getElementById('izinGelirVergisi').textContent)],
+        ['Damga Vergisi (%0.759)', fixTurkishChars(document.getElementById('izinDamga').textContent)],
+        ['IZIN NET', fixTurkishChars(document.getElementById('izinNet').textContent)]
+    ];
+    
+    doc.autoTable({
+        body: izinData,
+        startY: finalY2 + 4,
+        styles: {
+            fontSize: 10,
+            cellPadding: 3
+        },
+        columnStyles: {
+            0: { fontStyle: 'bold', cellWidth: 80 },
+            1: { halign: 'right', cellWidth: 60 }
+        }
+    });
+    
+    // Paket Teklifi
+    const finalY3 = doc.lastAutoTable.finalY + 10;
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Paket Teklifi (Dava Onleme)', 14, finalY3);
+    
+    const paketData = [
+        ['Paket Icin Brut Maas', fixTurkishChars(document.getElementById('paketBrutMaas').value + ' TL')],
+        ['Paket Icin Net Maas', fixTurkishChars(document.getElementById('paketNetMaas').textContent)],
+        ['Paket Sayisi', fixTurkishChars(document.getElementById('paketSayisi').value + ' ay')],
+        ['TOPLAM PAKET TUTARI (NET)', fixTurkishChars(document.getElementById('paketToplam').textContent)]
+    ];
+    
+    doc.autoTable({
+        body: paketData,
+        startY: finalY3 + 4,
+        styles: {
+            fontSize: 10,
+            cellPadding: 3
+        },
+        columnStyles: {
+            0: { fontStyle: 'bold', cellWidth: 80 },
+            1: { halign: 'right', cellWidth: 60 }
+        }
+    });
+    
+    // Genel Toplam
+    const finalY4 = doc.lastAutoTable.finalY + 10;
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
-    const toplamPaket = fixTurkishChars(document.getElementById('toplamPaket').textContent);
-    doc.text(`TOPLAM PAKET: ${toplamPaket}`, 14, finalY2);
+    
+    const toplamData = [
+        ['Kidem Tazminati (Net)', fixTurkishChars(document.getElementById('toplamKidem').textContent)],
+        ['Ihbar Tazminati (Net)', fixTurkishChars(document.getElementById('toplamIhbar').textContent)],
+        ['Yillik Izin Ucreti (Net)', fixTurkishChars(document.getElementById('toplamIzin').textContent)],
+        ['Paket Tutari (Net)', fixTurkishChars(document.getElementById('toplamPaket').textContent)]
+    ];
+    
+    doc.autoTable({
+        body: toplamData,
+        startY: finalY4,
+        styles: {
+            fontSize: 11,
+            cellPadding: 4,
+            fontStyle: 'bold'
+        },
+        columnStyles: {
+            0: { cellWidth: 80 },
+            1: { halign: 'right', cellWidth: 60 }
+        }
+    });
+    
+    // Toplam Vergi ve Genel Toplam
+    const finalY5 = doc.lastAutoTable.finalY + 5;
+    const toplamVergi = fixTurkishChars(document.getElementById('toplamVergi').textContent);
+    const genelToplam = fixTurkishChars(document.getElementById('toplamTazminat').textContent);
+    
+    doc.setFontSize(12);
+    doc.text(`Toplam Vergi: ${toplamVergi}`, 14, finalY5);
+    
+    doc.setFontSize(16);
+    doc.setTextColor(220, 53, 69);
+    doc.text(`GENEL TOPLAM (NET): ${genelToplam}`, 14, finalY5 + 8);
     
     // PDF'i indir
     const fileName = `Tazminat_Hesaplama_${new Date().toISOString().split('T')[0]}.pdf`;
@@ -529,16 +617,43 @@ function exportTazminatToExcel() {
         ['EUR Karsiligi', document.getElementById('ihbarEUR').textContent]
     ];
     
-    // Toplam
-    const toplamData = [
+    // Yıllık İzin
+    const izinBaslik = [['', ''], ['YILLIK IZIN', '']];
+    const izinData = [
+        ['Yillik Izin Hakki', document.getElementById('izinHakki').value + ' gun'],
+        ['Kullanilan Izin', document.getElementById('kullanilanIzin').value + ' gun'],
+        ['Kalan Izin Gunu', document.getElementById('kalanIzin').textContent],
+        ['Gunluk Brut Ucret', document.getElementById('gunlukUcret').textContent],
+        ['Izin Brut Tutari', document.getElementById('izinBrut').textContent],
+        ['SGK Isci Primi (%15)', document.getElementById('izinSGK').textContent],
+        ['Gelir Vergisi', document.getElementById('izinGelirVergisi').textContent],
+        ['Damga Vergisi (%0.759)', document.getElementById('izinDamga').textContent],
+        ['IZIN NET', document.getElementById('izinNet').textContent]
+    ];
+    
+    // Paket Teklifi
+    const paketBaslik = [['', ''], ['PAKET TEKLIFI (DAVA ONLEME)', '']];
+    const paketTeklifData = [
+        ['Paket Icin Brut Maas', document.getElementById('paketBrutMaas').value + ' TL'],
+        ['Paket Icin Net Maas', document.getElementById('paketNetMaas').textContent],
+        ['Paket Sayisi', document.getElementById('paketSayisi').value + ' ay'],
+        ['TOPLAM PAKET TUTARI (NET)', document.getElementById('paketToplam').textContent]
+    ];
+    
+    // Genel Toplam
+    const genelToplamBaslik = [['', ''], ['TOPLAM OZET', '']];
+    const genelToplamData = [
+        ['Kidem Tazminati (Net)', document.getElementById('toplamKidem').textContent],
+        ['Ihbar Tazminati (Net)', document.getElementById('toplamIhbar').textContent],
+        ['Yillik Izin Ucreti (Net)', document.getElementById('toplamIzin').textContent],
+        ['Paket Tutari (Net)', document.getElementById('toplamPaket').textContent],
+        ['Toplam Vergi', document.getElementById('toplamVergi').textContent],
         ['', ''],
-        ['TOPLAM PAKET (NET)', document.getElementById('toplamPaket').textContent],
-        ['USD Karsiligi', document.getElementById('toplamUSD').textContent],
-        ['EUR Karsiligi', document.getElementById('toplamEUR').textContent]
+        ['GENEL TOPLAM (NET)', document.getElementById('toplamTazminat').textContent]
     ];
     
     // Tüm verileri birleştir
-    const allData = [...genelBilgiler, ...kidemBaslik, ...kidemData, ...ihbarBaslik, ...ihbarData, ...toplamData];
+    const allData = [...genelBilgiler, ...kidemBaslik, ...kidemData, ...ihbarBaslik, ...ihbarData, ...izinBaslik, ...izinData, ...paketBaslik, ...paketTeklifData, ...genelToplamBaslik, ...genelToplamData];
     
     const ws = XLSX.utils.aoa_to_sheet(allData);
     
