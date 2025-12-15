@@ -1,29 +1,21 @@
 // Döviz kurları için global değişkenler
 let exchangeRates = { USD: 34.50, EUR: 37.80 }; // Varsayılan değerler
 
-// TCMB'den döviz kurlarını çek
+// Döviz kurlarını çek (Alternatif API)
 async function fetchExchangeRates() {
     try {
-        const response = await fetch('https://www.tcmb.gov.tr/kurlar/today.xml');
-        const text = await response.text();
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(text, 'text/xml');
+        // Önce free API dene
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        const data = await response.json();
         
-        // USD Satış kuru
-        const usdNode = xml.querySelector('Currency[CurrencyCode="USD"] BanknoteSelling');
-        if (usdNode) {
-            exchangeRates.USD = parseFloat(usdNode.textContent);
+        if (data && data.rates && data.rates.TRY) {
+            exchangeRates.USD = data.rates.TRY;
+            exchangeRates.EUR = data.rates.TRY / data.rates.EUR;
+            console.log('Döviz Kurları Güncellendi:', exchangeRates);
         }
-        
-        // EUR Satış kuru
-        const eurNode = xml.querySelector('Currency[CurrencyCode="EUR"] BanknoteSelling');
-        if (eurNode) {
-            exchangeRates.EUR = parseFloat(eurNode.textContent);
-        }
-        
-        console.log('TCMB Kurları:', exchangeRates);
     } catch (error) {
-        console.log('TCMB kurları yüklenemedi, varsayılan değerler kullanılıyor:', error);
+        console.log('Döviz kurları yüklenemedi, varsayılan değerler kullanılıyor:', error);
+        console.log('Varsayılan kurlar:', exchangeRates);
     }
 }
 
