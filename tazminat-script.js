@@ -270,18 +270,22 @@ function calculateSeverance() {
     const paketBrutMaas = parseFloat(document.getElementById('paketBrutMaas').value) || 0;
     const paketSayisi = parseFloat(document.getElementById('paketSayisi').value) || 0;
     
-    // Paket için net maaş hesaplama (basitleştirilmiş - SGK ve vergiler düşülmüş)
-    const paketSGK = paketBrutMaas * 0.15;
-    const paketIssizlik = paketBrutMaas * 0.01;
-    const paketDamga = paketBrutMaas * 0.00759;
+    let paketNetMaas = 0;
+    let paketToplam = 0;
     
-    // Paket için gelir vergisi (basit hesaplama - ortalama %20 varsayımı)
-    // Gerçek hesaplama için yıllık kümülatif hesap gerekir
-    const paketMatrah = paketBrutMaas - paketSGK - paketIssizlik;
-    const paketGelirVergisi = paketMatrah * 0.20; // Ortalama oran
-    
-    const paketNetMaas = paketBrutMaas - paketSGK - paketIssizlik - paketGelirVergisi - paketDamga;
-    const paketToplam = paketNetMaas * paketSayisi;
+    if (paketBrutMaas > 0) {
+        // Paket için net maaş hesaplama (kesintiler düşülmüş)
+        const paketSGK = paketBrutMaas * 0.15;
+        const paketIssizlik = paketBrutMaas * 0.01;
+        const paketDamga = paketBrutMaas * 0.00759;
+        
+        // Paket için gelir vergisi (matrah üzerinden ortalama %25 varsayımı)
+        const paketMatrah = paketBrutMaas - paketSGK - paketIssizlik;
+        const paketGelirVergisi = paketMatrah * 0.25; // Ortalama oran
+        
+        paketNetMaas = paketBrutMaas - paketSGK - paketIssizlik - paketGelirVergisi - paketDamga;
+        paketToplam = paketNetMaas * paketSayisi;
+    }
     
     // TOPLAMLAR
     const toplamVergi = kidemDamga + ihbarSGK + ihbarGelirVergisi + ihbarDamga + izinSGK + izinGelirVergisi + izinDamga;
