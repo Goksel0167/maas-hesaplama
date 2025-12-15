@@ -239,4 +239,10 @@ function escapeHtml(text) {
 window.addEventListener('load', function() {
     trackVisitor();
     loadComments();
+    
+    // Form submit event listener
+    const form = document.getElementById('feedbackForm');
+    if (form) {
+        form.addEventListener('submit', submitFeedback);
+    }
 });
