@@ -276,6 +276,11 @@ function calculateSeverance() {
     document.getElementById('kidemEsasTutar').textContent = formatCurrency(aylikBrutMaas / 30);
     document.getElementById('kidemGun').textContent = kidemGun + ' gün';
     document.getElementById('kidemBrutHesaplanan').textContent = formatCurrency(kidemBrutHesaplanan);
+    
+    // Kıdem Brüt Hesaplanan'ın net karşılığı (damga vergisi düşülmüş)
+    const kidemBrutHesaplananNet = kidemBrutHesaplanan * (1 - 0.00759);
+    document.getElementById('kidemBrutHesaplananNet').textContent = formatCurrency(kidemBrutHesaplananNet);
+    
     document.getElementById('kidemTavan').textContent = formatCurrency(KIDEM_TAVAN);
     document.getElementById('kidemBrut').textContent = formatCurrency(kidemBrut);
     document.getElementById('kidemDamga').textContent = formatCurrency(kidemDamga);
