@@ -542,7 +542,69 @@ function calculateNetToBrut() {
     calculate();
 }
 
-// Tahmini zam hesaplamaları
+// Bağımsız Tahmini Zam Hesaplaması (yeni - kendi input alanından)
+function calculateIndependentProjections() {
+    const mevcutBrutMaas = parseFloat(document.getElementById('mevcutBrutMaas').value) || 0;
+    
+    if (mevcutBrutMaas === 0) {
+        // Maaş girilmemişse tüm sonuçları sıfırla
+        for (let i = 1; i <= 3; i++) {
+            document.getElementById(`zam${i}Brut`).textContent = '0,00 ₺';
+            document.getElementById(`zam${i}Net`).textContent = '0,00 ₺';
+            document.getElementById(`zam${i}USD`).textContent = '$0.00';
+            document.getElementById(`zam${i}EUR`).textContent = '€0.00';
+        }
+        return;
+    }
+    
+    // Basit hesaplama - AGI ve prim olmadan
+    for (let i = 1; i <= 3; i++) {
+        const zamOran = parseFloat(document.getElementById(`zam${i}Oran`).value) || 0;
+        const zamAy = parseInt(document.getElementById(`zam${i}Ay`).value);
+        
+        if (!zamAy) {
+            // Ay seçilmemişse bu senaryoyu atla
+            document.getElementById(`zam${i}Brut`).textContent = '0,00 ₺';
+            document.getElementById(`zam${i}Net`).textContent = '0,00 ₺';
+            document.getElementById(`zam${i}USD`).textContent = '$0.00';
+            document.getElementById(`zam${i}EUR`).textContent = '€0.00';
+            continue;
+        }
+        
+        const yeniBrutMaas = mevcutBrutMaas * (1 + zamOran / 100);
+        
+        // Basit net hesaplama (ortalama)
+        let yillikNet = 0;
+        
+        for (let ay = 1; ay <= 12; ay++) {
+            const brutMaas = ay >= zamAy ? yeniBrutMaas : mevcutBrutMaas;
+            
+            const sgkIsci = brutMaas * 0.14;
+            const issizlikIsci = brutMaas * 0.01;
+            const damgaVergisi = brutMaas * 0.00759;
+            
+            // Basit gelir vergisi tahmini (%20 ortalama)
+            const gelirVergisiMatrahi = brutMaas - sgkIsci - issizlikIsci;
+            const gelirVergisi = gelirVergisiMatrahi * 0.20;
+            
+            const netMaas = brutMaas - sgkIsci - issizlikIsci - gelirVergisi - damgaVergisi;
+            yillikNet += netMaas;
+        }
+        
+        const ortalamaNetMaas = yillikNet / 12;
+        
+        // Döviz karşılıkları
+        const netUSD = ortalamaNetMaas / exchangeRates.USD;
+        const netEUR = ortalamaNetMaas / exchangeRates.EUR;
+        
+        document.getElementById(`zam${i}Brut`).textContent = formatCurrency(yeniBrutMaas);
+        document.getElementById(`zam${i}Net`).textContent = formatCurrency(ortalamaNetMaas);
+        document.getElementById(`zam${i}USD`).textContent = '$' + netUSD.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        document.getElementById(`zam${i}EUR`).textContent = '€' + netEUR.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+}
+
+// Tahmini zam hesaplamaları (eski - ana formdan çağrılıyor)
 function calculateProjections(currentBrutMaas, medeniDurum, cocukSayisi, primTutarlari) {
     for (let i = 1; i <= 3; i++) {
         const zamOran = parseFloat(document.getElementById(`zam${i}Oran`).value) || 0;
