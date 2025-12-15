@@ -382,3 +382,172 @@ window.addEventListener('load', function() {
     updateWorkDuration();
     calculateSeverance();
 });
+
+// PDF Export Fonksiyonu
+function exportTazminatToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', 'a4');
+    
+    // Türkçe karakter düzeltme
+    const fixTurkishChars = (text) => {
+        if (!text) return '';
+        return text.toString()
+            .replace(/ş/g, 's').replace(/Ş/g, 'S')
+            .replace(/ğ/g, 'g').replace(/Ğ/g, 'G')
+            .replace(/ü/g, 'u').replace(/Ü/g, 'U')
+            .replace(/ö/g, 'o').replace(/Ö/g, 'O')
+            .replace(/ç/g, 'c').replace(/Ç/g, 'C')
+            .replace(/ı/g, 'i').replace(/İ/g, 'I')
+            .replace(/₺/g, 'TL');
+    };
+    
+    // Başlık
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Kidem ve Ihbar Tazminati Hesaplama Raporu', 14, 15);
+    
+    // Tarih
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Rapor Tarihi: ${new Date().toLocaleDateString('tr-TR')}`, 14, 22);
+    
+    // Çalışma Süresi
+    const toplamSure = document.getElementById('toplamSure').textContent;
+    doc.text(`Toplam Calisma Suresi: ${fixTurkishChars(toplamSure)}`, 14, 28);
+    
+    // Kıdem Tazminatı Tablosu
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Kidem Tazminati', 14, 38);
+    
+    const kidemData = [
+        ['Calisma Suresi', fixTurkishChars(document.getElementById('kidemCalismaYili').textContent)],
+        ['Hesaplamaya Esas Tutar', fixTurkishChars(document.getElementById('kidemEsasTutar').textContent)],
+        ['Kidem Gunu', fixTurkishChars(document.getElementById('kidemGun').textContent)],
+        ['Kidem Brut (Hesaplanan)', fixTurkishChars(document.getElementById('kidemBrutHesaplanan').textContent)],
+        ['Kidem Tazminati Tavani', fixTurkishChars(document.getElementById('kidemTavan').textContent)],
+        ['Kidem Brut (Tavan Uygulanmis)', fixTurkishChars(document.getElementById('kidemBrut').textContent)],
+        ['Damga Vergisi (%0.759)', fixTurkishChars(document.getElementById('kidemDamga').textContent)],
+        ['KIDEM NET', fixTurkishChars(document.getElementById('kidemNet').textContent)]
+    ];
+    
+    doc.autoTable({
+        body: kidemData,
+        startY: 42,
+        styles: {
+            fontSize: 10,
+            cellPadding: 3
+        },
+        columnStyles: {
+            0: { fontStyle: 'bold', cellWidth: 80 },
+            1: { halign: 'right', cellWidth: 60 }
+        }
+    });
+    
+    // İhbar Tazminatı Tablosu
+    const finalY = doc.lastAutoTable.finalY + 10;
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Ihbar Tazminati', 14, finalY);
+    
+    const ihbarData = [
+        ['Hesaplamaya Esas Tutar', fixTurkishChars(document.getElementById('ihbarEsasTutar').textContent)],
+        ['Ihbar Suresi', fixTurkishChars(document.getElementById('ihbarSure').textContent)],
+        ['Ihbar Brut', fixTurkishChars(document.getElementById('ihbarBrut').textContent)],
+        ['SGK Isci Primi (%15)', fixTurkishChars(document.getElementById('ihbarSGK').textContent)],
+        ['Gelir Vergisi', fixTurkishChars(document.getElementById('ihbarGelirVergisi').textContent)],
+        ['Damga Vergisi', fixTurkishChars(document.getElementById('ihbarDamga').textContent)],
+        ['IHBAR NET', fixTurkishChars(document.getElementById('ihbarNet').textContent)]
+    ];
+    
+    doc.autoTable({
+        body: ihbarData,
+        startY: finalY + 4,
+        styles: {
+            fontSize: 10,
+            cellPadding: 3
+        },
+        columnStyles: {
+            0: { fontStyle: 'bold', cellWidth: 80 },
+            1: { halign: 'right', cellWidth: 60 }
+        }
+    });
+    
+    // Toplam
+    const finalY2 = doc.lastAutoTable.finalY + 10;
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    const toplamPaket = fixTurkishChars(document.getElementById('toplamPaket').textContent);
+    doc.text(`TOPLAM PAKET: ${toplamPaket}`, 14, finalY2);
+    
+    // PDF'i indir
+    const fileName = `Tazminat_Hesaplama_${new Date().toISOString().split('T')[0]}.pdf`;
+    doc.save(fileName);
+}
+
+// Excel Export Fonksiyonu
+function exportTazminatToExcel() {
+    const wb = XLSX.utils.book_new();
+    
+    // Genel Bilgiler
+    const genelBilgiler = [
+        ['KIDEM VE IHBAR TAZMINATI HESAPLAMA RAPORU', ''],
+        ['', ''],
+        ['Rapor Tarihi:', new Date().toLocaleDateString('tr-TR')],
+        ['Is Giris Tarihi:', document.getElementById('isGirisTarihi').value],
+        ['Isten Cikis Tarihi:', document.getElementById('istenCikisTarihi').value],
+        ['Toplam Calisma Suresi:', document.getElementById('toplamSure').textContent],
+        ['', '']
+    ];
+    
+    // Kıdem Tazminatı
+    const kidemBaslik = [['KIDEM TAZMINATI', '']];
+    const kidemData = [
+        ['Calisma Suresi', document.getElementById('kidemCalismaYili').textContent],
+        ['Hesaplamaya Esas Tutar', document.getElementById('kidemEsasTutar').textContent],
+        ['Kidem Gunu', document.getElementById('kidemGun').textContent],
+        ['Kidem Brut (Hesaplanan)', document.getElementById('kidemBrutHesaplanan').textContent],
+        ['Kidem Tazminati Tavani', document.getElementById('kidemTavan').textContent],
+        ['Kidem Brut (Tavan Uygulanmis)', document.getElementById('kidemBrut').textContent],
+        ['Damga Vergisi (%0.759)', document.getElementById('kidemDamga').textContent],
+        ['KIDEM NET', document.getElementById('kidemNet').textContent],
+        ['USD Karsiligi', document.getElementById('kidemUSD').textContent],
+        ['EUR Karsiligi', document.getElementById('kidemEUR').textContent]
+    ];
+    
+    // İhbar Tazminatı
+    const ihbarBaslik = [['', ''], ['IHBAR TAZMINATI', '']];
+    const ihbarData = [
+        ['Hesaplamaya Esas Tutar', document.getElementById('ihbarEsasTutar').textContent],
+        ['Ihbar Suresi', document.getElementById('ihbarSure').textContent],
+        ['Ihbar Brut', document.getElementById('ihbarBrut').textContent],
+        ['SGK Isci Primi (%15)', document.getElementById('ihbarSGK').textContent],
+        ['Gelir Vergisi', document.getElementById('ihbarGelirVergisi').textContent],
+        ['Damga Vergisi', document.getElementById('ihbarDamga').textContent],
+        ['IHBAR NET', document.getElementById('ihbarNet').textContent],
+        ['USD Karsiligi', document.getElementById('ihbarUSD').textContent],
+        ['EUR Karsiligi', document.getElementById('ihbarEUR').textContent]
+    ];
+    
+    // Toplam
+    const toplamData = [
+        ['', ''],
+        ['TOPLAM PAKET (NET)', document.getElementById('toplamPaket').textContent],
+        ['USD Karsiligi', document.getElementById('toplamUSD').textContent],
+        ['EUR Karsiligi', document.getElementById('toplamEUR').textContent]
+    ];
+    
+    // Tüm verileri birleştir
+    const allData = [...genelBilgiler, ...kidemBaslik, ...kidemData, ...ihbarBaslik, ...ihbarData, ...toplamData];
+    
+    const ws = XLSX.utils.aoa_to_sheet(allData);
+    
+    // Sütun genişlikleri
+    ws['!cols'] = [{ wch: 30 }, { wch: 25 }];
+    
+    XLSX.utils.book_append_sheet(wb, ws, 'Tazminat Hesaplama');
+    
+    // Excel dosyasını indir
+    const fileName = `Tazminat_Hesaplama_${new Date().toISOString().split('T')[0]}.xlsx`;
+    XLSX.writeFile(wb, fileName);
+}

@@ -77,6 +77,15 @@
             </div>
 
             <div class="results-panel">
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 20px;">
+                    <button onclick="exportTazminatToPDF()" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                        <span>📄</span> PDF İndir
+                    </button>
+                    <button onclick="exportTazminatToExcel()" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                        <span>📊</span> Excel İndir
+                    </button>
+                </div>
+
                 <div class="result-section kidem-section">
                     <h2>Kıdem Tazminatı</h2>
                     <div class="result-card">
@@ -305,6 +314,11 @@
             </ol>
         </div>
     </div>
+
+    <!-- PDF ve Excel export kütüphaneleri -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script src="tazminat-script.js"></script>
 </body>
