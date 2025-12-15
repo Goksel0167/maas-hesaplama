@@ -225,6 +225,34 @@
                     </div>
                 </div>
 
+                <div class="result-section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; padding: 20px; margin-top: 20px;">
+                    <h2 style="color: white; margin-bottom: 15px;">💼 Paket Teklifi (Dava Önleme)</h2>
+                    <div class="result-card" style="background: rgba(255,255,255,0.95);">
+                        <div class="result-item">
+                            <span class="label">Paket İçin Brüt Maaş</span>
+                            <div style="display: inline-flex; align-items: center; gap: 10px;">
+                                <input type="number" id="paketBrutMaas" value="0" min="0" step="0.01" style="width: 150px; padding: 8px; border: 2px solid #667eea; border-radius: 6px; font-weight: 600;" onchange="calculateSeverance()">
+                                <span style="font-size: 0.9em; color: #6c757d;">₺</span>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Paket İçin Net Maaş</span>
+                            <span class="value" id="paketNetMaas" style="color: #667eea; font-weight: 700;">0,00 ₺</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">Paket Sayısı (Ay)</span>
+                            <div style="display: inline-flex; align-items: center; gap: 10px;">
+                                <input type="number" id="paketSayisi" value="0" min="0" max="36" style="width: 100px; padding: 8px; border: 2px solid #667eea; border-radius: 6px; font-weight: 600;" onchange="calculateSeverance()">
+                                <span style="font-size: 0.9em; color: #6c757d;">ay</span>
+                            </div>
+                        </div>
+                        <div class="result-item highlight" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 8px;">
+                            <span class="label" style="color: white; font-size: 1.1em;">Toplam Paket Tutarı (Net)</span>
+                            <span class="value" style="color: #ffeb3b; font-size: 1.3em; font-weight: 700;" id="paketToplam">0,00 ₺</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="result-section total-section">
                     <h2>Toplamlar</h2>
                     <div class="result-card">
@@ -232,8 +260,12 @@
                             <span class="label">Toplam Vergi</span>
                             <span class="value" id="toplamVergi">0,00 ₺</span>
                         </div>
+                        <div class="result-item" style="background: #f3e5f5; border-left: 4px solid #9c27b0;">
+                            <span class="label" style="color: #6a1b9a;">Paket Tutarı (Net)</span>
+                            <span class="value" id="toplamPaket" style="color: #6a1b9a; font-weight: 700;">0,00 ₺</span>
+                        </div>
                         <div class="result-item highlight-total">
-                            <span class="label">Toplam Tazminat (Net)</span>
+                            <span class="label">Toplam Tazminat + Paket (Net)</span>
                             <span class="value" id="toplamTazminat">0,00 ₺</span>
                         </div>
                         <div class="result-item" style="background: #f8f9fa;">

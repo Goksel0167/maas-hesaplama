@@ -266,9 +266,26 @@ function calculateSeverance() {
     const izinDamga = izinBrut * 0.00759;
     const izinNet = izinBrut - izinSGK - izinGelirVergisi - izinDamga;
     
+    // PAKET TEKLİFİ HESAPLAMA
+    const paketBrutMaas = parseFloat(document.getElementById('paketBrutMaas').value) || 0;
+    const paketSayisi = parseFloat(document.getElementById('paketSayisi').value) || 0;
+    
+    // Paket için net maaş hesaplama (basitleştirilmiş - SGK ve vergiler düşülmüş)
+    const paketSGK = paketBrutMaas * 0.15;
+    const paketIssizlik = paketBrutMaas * 0.01;
+    const paketDamga = paketBrutMaas * 0.00759;
+    
+    // Paket için gelir vergisi (basit hesaplama - ortalama %20 varsayımı)
+    // Gerçek hesaplama için yıllık kümülatif hesap gerekir
+    const paketMatrah = paketBrutMaas - paketSGK - paketIssizlik;
+    const paketGelirVergisi = paketMatrah * 0.20; // Ortalama oran
+    
+    const paketNetMaas = paketBrutMaas - paketSGK - paketIssizlik - paketGelirVergisi - paketDamga;
+    const paketToplam = paketNetMaas * paketSayisi;
+    
     // TOPLAMLAR
     const toplamVergi = kidemDamga + ihbarSGK + ihbarGelirVergisi + ihbarDamga + izinSGK + izinGelirVergisi + izinDamga;
-    const toplamTazminat = kidemNet + ihbarNet + izinNet;
+    const toplamTazminat = kidemNet + ihbarNet + izinNet + paketToplam;
     
     // Sonuçları göster
     // Kıdem
@@ -310,8 +327,13 @@ function calculateSeverance() {
     document.getElementById('izinDamga').textContent = formatCurrency(izinDamga);
     document.getElementById('izinNet').textContent = formatCurrency(izinNet);
     
+    // Paket Teklifi
+    document.getElementById('paketNetMaas').textContent = formatCurrency(paketNetMaas);
+    document.getElementById('paketToplam').textContent = formatCurrency(paketToplam);
+    
     // Toplamlar
     document.getElementById('toplamVergi').textContent = formatCurrency(toplamVergi);
+    document.getElementById('toplamPaket').textContent = formatCurrency(paketToplam);
     document.getElementById('toplamTazminat').textContent = formatCurrency(toplamTazminat);
     document.getElementById('toplamUSD').textContent = '$' + (toplamTazminat / exchangeRates.USD).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     document.getElementById('toplamEUR').textContent = '€' + (toplamTazminat / exchangeRates.EUR).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
