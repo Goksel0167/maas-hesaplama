@@ -4,14 +4,20 @@ import { collection, addDoc, getDocs, query, orderBy, limit } from 'https://www.
 // Yorum ekleme
 export async function addComment(commentData) {
     try {
+        console.log('Firestore: Veritabanı bağlantısı:', window.db);
+        console.log('Firestore: Kaydedilecek veri:', commentData);
+        
         const docRef = await addDoc(collection(window.db, 'comments'), {
             ...commentData,
             timestamp: new Date().toISOString()
         });
-        console.log('Firestore: Yorum eklendi, ID:', docRef.id);
+        console.log('Firestore: Yorum başarıyla eklendi, ID:', docRef.id);
         return { success: true, id: docRef.id };
     } catch (error) {
-        console.error('Firestore: Yorum eklenemedi:', error);
+        console.error('Firestore: Yorum eklenemedi - Detaylı hata:', error);
+        console.error('Hata kodu:', error.code);
+        console.error('Hata mesajı:', error.message);
+        alert('Firestore hatası: ' + error.message);
         return { success: false, error: error.message };
     }
 }
