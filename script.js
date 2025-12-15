@@ -637,11 +637,13 @@ for (let i = 1; i <= 3; i++) {
 function updateTaxBracketTable() {
     const year = parseInt(document.getElementById('taxBracketYear').value);
     const yearData = TAX_DATA[year];
+    const currentYear = new Date().getFullYear();
     
     if (!yearData) return;
     
-    // Başlığı güncelle
-    document.getElementById('taxBracketTitle').textContent = `${year} Gelir Vergisi Dilimleri${year === 2026 ? ' (Tahmini)' : ''}`;
+    // Başlığı güncelle - 2026 ve öncesi için tahmini etiketi kaldır
+    const isFuture = year > currentYear;
+    document.getElementById('taxBracketTitle').textContent = `${year} Gelir Vergisi Dilimleri${isFuture ? ' (Tahmini)' : ''}`;
     document.getElementById('agiTitle').textContent = `Asgari Geçim İndirimi Oranları (${year})`;
     
     // Tablo gövdesini güncelle
@@ -661,7 +663,15 @@ function updateTaxBracketTable() {
     });
 }
 
-// Sayfa yüklendiğinde tabloyu oluştur
+// Sayfa yüklendiğinde tabloyu oluştur ve mevcut yılı seç
 window.addEventListener('load', function() {
+    const currentYear = new Date().getFullYear();
+    const taxBracketYearSelect = document.getElementById('taxBracketYear');
+    
+    // Mevcut yıl 2026 veya sonrasıysa, 2026'yı seç
+    if (currentYear >= 2026) {
+        taxBracketYearSelect.value = '2026';
+    }
+    
     updateTaxBracketTable();
 });
