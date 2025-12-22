@@ -358,8 +358,8 @@ function fillAnnualTable(brutMaas, medeniDurum, cocukSayisi, primTutarlari, cali
     tfoot.innerHTML = '';
 
     const aylar = [
-        'Ocak', 'Ãƒâ€¦â‚¬Âubat', 'Mart', 'Nisan', 'MayÃƒâ€â‚¬Â±s', 'Haziran',
-        'Temmuz', 'AÃƒâ€Ã…Â¸ustos', 'EylÃƒÆ’â‚¬Â¼l', 'Ekim', 'KasÃƒâ€â‚¬Â±m', 'AralÃƒâ€â‚¬Â±k'
+        'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+        'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
     ];
 
     // Prim ÃƒÆ’â‚¬Â¶deme aylarÃƒâ€â‚¬Â± ve tutarlarÃƒâ€â‚¬Â±
