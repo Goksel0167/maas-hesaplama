@@ -1,4 +1,4 @@
-// Current tax year
+﻿// Current tax year
 let currentYear = 2025;
 
 // Tax data limits for current year
@@ -40,10 +40,10 @@ function updateTaxYear() {
     const limits = taxLimits[currentYear];
     
     // Update helper texts
-    document.getElementById('meal-limit-gross').textContent = `Vergiden muaf limit: ${limits.meal}₺/gün`;
-    document.getElementById('meal-limit-net').textContent = `Vergiden muaf limit: ${limits.meal}₺/gün`;
-    document.getElementById('benefits-limit-gross').textContent = `Vergiden muaf limit: ${formatNumber(limits.benefits)}₺/ay`;
-    document.getElementById('benefits-limit-net').textContent = `Vergiden muaf limit: ${formatNumber(limits.benefits)}₺/ay`;
+    document.getElementById('meal-limit-gross').textContent = `Vergiden muaf limit: ${limits.meal}‚º/gÃ¼n`;
+    document.getElementById('meal-limit-net').textContent = `Vergiden muaf limit: ${limits.meal}‚º/gÃ¼n`;
+    document.getElementById('benefits-limit-gross').textContent = `Vergiden muaf limit: ${formatNumber(limits.benefits)}‚º/ay`;
+    document.getElementById('benefits-limit-net').textContent = `Vergiden muaf limit: ${formatNumber(limits.benefits)}‚º/ay`;
 }
 
 // Update children options based on marital status
@@ -106,7 +106,7 @@ function displayBracketDetails(brackets, tableId) {
         
         // max null ise sonsuz demektir
         const minDisplay = formatNumber(bracket.min) + ' TL';
-        const maxDisplay = bracket.max === null || bracket.max === undefined ? '∞' : formatNumber(bracket.max) + ' TL';
+        const maxDisplay = bracket.max === null || bracket.max === undefined ? 'ˆ' : formatNumber(bracket.max) + ' TL';
         
         row.innerHTML = `
             <td>Dilim ${bracket.bracket}</td>
@@ -125,7 +125,7 @@ function displayBracketDetails(brackets, tableId) {
     totalRow.style.fontWeight = 'bold';
     totalRow.style.background = '#f0f0f0';
     totalRow.innerHTML = `
-        <td colspan="4" style="text-align: right;">TOPLAM VERGİ:</td>
+        <td colspan="4" style="text-align: right;">TOPLAM VERGÄ°:</td>
         <td>${formatCurrency(totalTax)}</td>
     `;
     tbody.appendChild(totalRow);
@@ -141,7 +141,7 @@ async function calculateNetFromGross() {
     const otherBenefits = parseFloat(document.getElementById('other-benefits-gross').value) || 0;
     
     if (!grossSalary || grossSalary <= 0) {
-        showError('Lütfen geçerli bir brüt maaş giriniz');
+        showError('LÃ¼tfen geÃ§erli bir brÃ¼t maaÅŸ giriniz');
         return;
     }
     
@@ -165,7 +165,7 @@ async function calculateNetFromGross() {
         
         if (!response.ok) {
             const error = await response.json();
-            showError(error.error || 'Hesaplama sırasında bir hata oluştu');
+            showError(error.error || 'Hesaplama sÄ±rasÄ±nda bir hata oluÅŸtu');
             return;
         }
         
@@ -173,7 +173,7 @@ async function calculateNetFromGross() {
         displayNetFromGrossResults(data);
         
     } catch (error) {
-        showError('Sunucuya bağlanırken bir hata oluştu');
+        showError('Sunucuya baÄŸlanÄ±rken bir hata oluÅŸtu');
         console.error('Error:', error);
     }
 }
@@ -231,7 +231,7 @@ async function calculateGrossFromNet() {
     const otherBenefits = parseFloat(document.getElementById('other-benefits-net').value) || 0;
     
     if (!netSalary || netSalary <= 0) {
-        showError('Lütfen geçerli bir net maaş giriniz');
+        showError('LÃ¼tfen geÃ§erli bir net maaÅŸ giriniz');
         return;
     }
     
@@ -255,7 +255,7 @@ async function calculateGrossFromNet() {
         
         if (!response.ok) {
             const error = await response.json();
-            showError(error.error || 'Hesaplama sırasında bir hata oluştu');
+            showError(error.error || 'Hesaplama sÄ±rasÄ±nda bir hata oluÅŸtu');
             return;
         }
         
@@ -263,7 +263,7 @@ async function calculateGrossFromNet() {
         displayGrossFromNetResults(data);
         
     } catch (error) {
-        showError('Sunucuya bağlanırken bir hata oluştu');
+        showError('Sunucuya baÄŸlanÄ±rken bir hata oluÅŸtu');
         console.error('Error:', error);
     }
 }
@@ -321,11 +321,11 @@ async function calculateAnnualPlan() {
     const otherBenefits = parseFloat(document.getElementById('annual-benefits').value) || 0;
     
     if (!initialGross || initialGross <= 0) {
-        showError('Lütfen geçerli bir başlangıç brüt maaş giriniz');
+        showError('LÃ¼tfen geÃ§erli bir baÅŸlangÄ±Ã§ brÃ¼t maaÅŸ giriniz');
         return;
     }
     
-    // Zam planını hazırla
+    // Zam planÄ±nÄ± hazÄ±rla
     const raiseSchedule = [];
     for (let i = 1; i <= 3; i++) {
         const month = parseInt(document.getElementById(`raise-month-${i}`).value);
@@ -334,7 +334,7 @@ async function calculateAnnualPlan() {
         if (month > 0 && rate > 0) {
             raiseSchedule.push({
                 month: month,
-                rate: rate / 100  // Yüzdeyi ondalığa çevir
+                rate: rate / 100  // YÃ¼zdeyi ondalÄ±ÄŸa Ã§evir
             });
         }
     }
@@ -360,7 +360,7 @@ async function calculateAnnualPlan() {
         
         if (!response.ok) {
             const error = await response.json();
-            showError(error.error || 'Hesaplama sırasında bir hata oluştu');
+            showError(error.error || 'Hesaplama sÄ±rasÄ±nda bir hata oluÅŸtu');
             return;
         }
         
@@ -368,7 +368,7 @@ async function calculateAnnualPlan() {
         displayAnnualPlan(data);
         
     } catch (error) {
-        showError('Sunucuya bağlanırken bir hata oluştu');
+        showError('Sunucuya baÄŸlanÄ±rken bir hata oluÅŸtu');
         console.error('Error:', error);
     }
 }
@@ -377,14 +377,14 @@ async function calculateAnnualPlan() {
 function displayAnnualPlan(data) {
     document.getElementById('result-year-annual').textContent = currentYear;
     
-    // Aylık tablo
+    // AylÄ±k tablo
     const monthlyTable = document.getElementById('monthly-table');
     monthlyTable.innerHTML = '';
     
     data.monthly.forEach(month => {
         const row = document.createElement('tr');
         
-        // Prim ödenen ayları vurgula (Nisan, Temmuz, Ekim)
+        // Prim Ã¶denen aylarÄ± vurgula (Nisan, Temmuz, Ekim)
         if (month.quarterly_bonus > 0) {
             row.classList.add('raise-applied');
         }
@@ -409,7 +409,7 @@ function displayAnnualPlan(data) {
         monthlyTable.appendChild(row);
     });
     
-    // Toplam satırı ekle
+    // Toplam satÄ±rÄ± ekle
     const totalRow = document.createElement('tr');
     totalRow.innerHTML = `
         <td><strong>TOPLAM</strong></td>
@@ -422,12 +422,12 @@ function displayAnnualPlan(data) {
     `;
     monthlyTable.appendChild(totalRow);
     
-    // 3 Aylık özetler
+    // 3 AylÄ±k Ã¶zetler
     data.quarterly.forEach((q, index) => {
         document.getElementById(`q${index + 1}-net`).textContent = formatCurrency(q.total_net);
     });
     
-    // Yıllık özet
+    // YÄ±llÄ±k Ã¶zet
     document.getElementById('annual-total-gross').textContent = formatCurrency(data.annual.total_gross);
     document.getElementById('annual-total-net').textContent = formatCurrency(data.annual.total_net);
     document.getElementById('annual-total-sgk').textContent = formatCurrency(data.annual.total_sgk);
@@ -443,18 +443,18 @@ function displayAnnualPlan(data) {
 
 // Calculate Independent Projections (if needed)
 function calculateIndependentProjections() {
-    // Bu fonksiyon gelecekte kullanılmak üzere eklendi
+    // Bu fonksiyon gelecekte kullanÄ±lmak Ã¼zere eklendi
     const mevcutBrutMaas = document.getElementById('mevcutBrutMaas');
     if (!mevcutBrutMaas) return;
     
     const brutMaas = parseFloat(mevcutBrutMaas.value);
     if (!brutMaas || brutMaas <= 0) return;
     
-    // Şimdilik basit bir net hesaplama yapıyoruz
-    console.log('Mevcut Brüt Maaş:', brutMaas);
+    // Åimdilik basit bir net hesaplama yapÄ±yoruz
+    console.log('Mevcut BrÃ¼t MaaÅŸ:', brutMaas);
     
-    // Burada projeksiyon hesaplamaları yapılabilir
-    // Örneğin: gelecek yıl tahminleri, zam senaryoları vs.
+    // Burada projeksiyon hesaplamalarÄ± yapÄ±labilir
+    // Ã–rneÄŸin: gelecek yÄ±l tahminleri, zam senaryolarÄ± vs.
 }
 
 // Initialize on page load
@@ -474,4 +474,66 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('annual-gross-salary').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') calculateAnnualPlan();
     });
+});
+// Vergi dilimi tablosunu güncelle
+function updateTaxBracketTable() {
+    console.log('updateTaxBracketTable çağrıldı');
+    
+    const year = parseInt(document.getElementById('taxBracketYear').value);
+    console.log('Seçilen yıl:', year);
+    
+    const yearData = TAX_DATA[year];
+    console.log('Yıl verisi:', yearData);
+    
+    const currentYear = new Date().getFullYear();
+    
+    if (!yearData) {
+        console.error('Yıl verisi bulunamadı!');
+        return;
+    }
+    
+    // Başlığı güncelle
+    const isFuture = year > currentYear;
+    const titleText = `${year} Gelir Vergisi Dilimleri${isFuture ? ' (Tahmini)' : ''}`;
+    console.log('Başlık:', titleText);
+    
+    document.getElementById('taxBracketTitle').textContent = titleText;
+    document.getElementById('agiTitle').textContent = `Asgari Geçim İndirimi Oranları (${year})`;
+    
+    // Tablo gövdesini güncelle
+    const tbody = document.getElementById('taxBracketTableBody');
+    if (!tbody) {
+        console.error('Tablo gövdesi bulunamadı!');
+        return;
+    }
+    
+    tbody.innerHTML = '';
+    console.log('Dilim sayısı:', yearData.brackets.length);
+    
+    yearData.brackets.forEach((bracket, index) => {
+        const row = document.createElement('tr');
+        const minFormatted = bracket.min === 0 ? '0' : formatCurrency(bracket.min).replace(' ₺', '');
+        const maxFormatted = bracket.max === Infinity ? 've üzeri' : formatCurrency(bracket.max).replace(' ₺', '');
+        
+        row.innerHTML = `
+            <td>${minFormatted} ₺ ${bracket.max === Infinity ? '' : '- ' + maxFormatted + ' ₺'}</td>
+            <td>%${(bracket.rate * 100).toFixed(0)}</td>
+        `;
+        tbody.appendChild(row);
+        console.log(`Satır ${index + 1} eklendi: ${minFormatted} - ${maxFormatted}`);
+    });
+    
+    console.log('Tablo güncellendi');
+}
+
+// Sayfa yüklendiğinde tabloyu oluştur
+window.addEventListener('load', function() {
+    const currentYear = new Date().getFullYear();
+    const taxBracketYearSelect = document.getElementById('taxBracketYear');
+    
+    if (taxBracketYearSelect && currentYear >= 2026) {
+        taxBracketYearSelect.value = '2026';
+    }
+    
+    updateTaxBracketTable();
 });
